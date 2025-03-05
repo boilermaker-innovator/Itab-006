@@ -130,57 +130,44 @@
             <input type="text" id="reaction4" value="🎉 Worth celebrating">
         </div>
         
-        <button id="generateBtn">Generate Widget</button>
+        <button onclick="generateWidget()">Generate Widget</button>
         
         <div id="output">Generated code will appear here...</div>
         
-        <button id="copyBtn">Copy Code</button>
+        <button onclick="copyCode()">Copy Code</button>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get elements
-            const generateBtn = document.getElementById('generateBtn');
-            const copyBtn = document.getElementById('copyBtn');
-            const outputDiv = document.getElementById('output');
+        // Function to generate widget code
+        function generateWidget() {
+            // Get form values
+            const position = document.getElementById('position').value;
+            const reaction1 = document.getElementById('reaction1').value;
+            const reaction2 = document.getElementById('reaction2').value;
+            const reaction3 = document.getElementById('reaction3').value;
+            const reaction4 = document.getElementById('reaction4').value;
             
-            // Event listeners
-            generateBtn.addEventListener('click', generateWidget);
-            copyBtn.addEventListener('click', copyCode);
+            // Extract first emoji
+            const emoji1 = reaction1.split(' ')[0];
             
-            // Generate widget on page load
-            generateWidget();
+            // Position CSS
+            let positionCSS = '';
+            switch(position) {
+                case 'bottom-left':
+                    positionCSS = 'bottom: 20px; left: 20px;';
+                    break;
+                case 'top-right':
+                    positionCSS = 'top: 20px; right: 20px;';
+                    break;
+                case 'top-left':
+                    positionCSS = 'top: 20px; left: 20px;';
+                    break;
+                default: // bottom-right
+                    positionCSS = 'bottom: 20px; right: 20px;';
+            }
             
-            // Function to generate widget code
-            function generateWidget() {
-                // Get form values
-                const position = document.getElementById('position').value;
-                const reaction1 = document.getElementById('reaction1').value;
-                const reaction2 = document.getElementById('reaction2').value;
-                const reaction3 = document.getElementById('reaction3').value;
-                const reaction4 = document.getElementById('reaction4').value;
-                
-                // Extract first emoji
-                const emoji1 = reaction1.split(' ')[0];
-                
-                // Position CSS
-                let positionCSS = '';
-                switch(position) {
-                    case 'bottom-left':
-                        positionCSS = 'bottom: 20px; left: 20px;';
-                        break;
-                    case 'top-right':
-                        positionCSS = 'top: 20px; right: 20px;';
-                        break;
-                    case 'top-left':
-                        positionCSS = 'top: 20px; left: 20px;';
-                        break;
-                    default: // bottom-right
-                        positionCSS = 'bottom: 20px; right: 20px;';
-                }
-                
-                // Build widget code
-                const code = `<!-- Reaction Widget -->
+            // Build widget code
+            const code = `<!-- Reaction Widget -->
 <style>
 .reaction-widget {
   position: fixed;
@@ -348,28 +335,33 @@
     document.getElementById('stats-content').innerHTML = statsHtml;
   }
 </script>`;
-                
-                // Update output
-                outputDiv.textContent = code;
+            
+            // Update output
+            document.getElementById('output').textContent = code;
+        }
+        
+        // Function to copy code
+        function copyCode() {
+            const outputDiv = document.getElementById('output');
+            const range = document.createRange();
+            range.selectNode(outputDiv);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            
+            try {
+                const successful = document.execCommand('copy');
+                alert(successful ? 'Code copied to clipboard!' : 'Unable to copy code');
+            } catch (err) {
+                alert('Failed to copy: ' + err);
             }
             
-            // Function to copy code
-            function copyCode() {
-                const range = document.createRange();
-                range.selectNode(outputDiv);
-                window.getSelection().removeAllRanges();
-                window.getSelection().addRange(range);
-                
-                try {
-                    const successful = document.execCommand('copy');
-                    alert(successful ? 'Code copied to clipboard!' : 'Unable to copy code');
-                } catch (err) {
-                    alert('Failed to copy: ' + err);
-                }
-                
-                window.getSelection().removeAllRanges();
-            }
-        });
+            window.getSelection().removeAllRanges();
+        }
+        
+        // Generate code on page load
+        window.onload = function() {
+            generateWidget();
+        };
     </script>
 </body>
 </html>
