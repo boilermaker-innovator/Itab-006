@@ -1,321 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Reaction Widget</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        h1, h2 {
-            margin-top: 30px;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        
-        button {
-            background: #4361ee;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 20px;
-        }
-        
-        #output {
-            margin-top: 30px;
-            background: #f5f5f5;
-            padding: 20px;
-            border-radius: 4px;
-            white-space: pre-wrap;
-            font-family: monospace;
-            overflow-x: auto;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Simple Reaction Widget</h1>
-        
-        <h2>Widget Design</h2>
-        <div class="form-group">
-            <label for="position">Position:</label>
-            <select id="position">
-                <option value="bottom-right">Bottom Right</option>
-                <option value="bottom-left">Bottom Left</option>
-                <option value="top-right">Top Right</option>
-                <option value="top-left">Top Left</option>
-            </select>
-        </div>
-        
-        <h2>Reactions</h2>
-        <div class="form-group">
-            <label for="reaction1">Reaction 1:</label>
-            <input type="text" id="reaction1" value="👍 This is helpful">
-        </div>
-        
-        <div class="form-group">
-            <label for="reaction2">Reaction 2:</label>
-            <input type="text" id="reaction2" value="❤️ I love this">
-        </div>
-        
-        <div class="form-group">
-            <label for="reaction3">Reaction 3:</label>
-            <input type="text" id="reaction3" value="🔥 This is amazing">
-        </div>
-        
-        <div class="form-group">
-            <label for="reaction4">Reaction 4:</label>
-            <input type="text" id="reaction4" value="🎉 Worth celebrating">
-        </div>
-        
-        <h2>Settings</h2>
-        <div class="form-group">
-            <label for="storage">Storage Type:</label>
-            <select id="storage">
-                <option value="local">Local Storage</option>
-                <option value="session">Session Storage</option>
-            </select>
-        </div>
-        
-        <button onclick="generateWidget()">Generate Widget</button>
-        
-        <div id="output">Generated code will appear here</div>
-        
-        <button onclick="copyCode()">Copy Code</button>
-    </div>
+<!-- HTML -->
+<h1>Simple Reaction Widget</h1>
 
-    <script>
-        function generateWidget() {
-            // Get form values
-            var position = document.getElementById('position').value;
-            var reaction1 = document.getElementById('reaction1').value;
-            var reaction2 = document.getElementById('reaction2').value;
-            var reaction3 = document.getElementById('reaction3').value;
-            var reaction4 = document.getElementById('reaction4').value;
-            var storage = document.getElementById('storage').value;
-            
-            // Position CSS
-            var positionCSS = '';
-            switch(position) {
-                case 'bottom-right':
-                    positionCSS = 'bottom: 20px; right: 20px;';
-                    break;
-                case 'bottom-left':
-                    positionCSS = 'bottom: 20px; left: 20px;';
-                    break;
-                case 'top-right':
-                    positionCSS = 'top: 20px; right: 20px;';
-                    break;
-                case 'top-left':
-                    positionCSS = 'top: 20px; left: 20px;';
-                    break;
-            }
-            
-            var code = `<!-- Reaction Widget Code -->
-<style>
-  #reaction-widget {
-    position: fixed;
-    ${positionCSS}
-    background: white;
-    border-radius: 50px;
-    padding: 10px;
-    display: flex;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    z-index: 9999;
-  }
-  
-  .widget-icon {
-    font-size: 24px;
-    cursor: pointer;
-    margin: 0 5px;
-  }
-  
-  .popup {
-    position: fixed;
-    ${positionCSS.replace(/20px/, '80px')}
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    width: 250px;
-    display: none;
-    z-index: 9999;
-  }
-  
-  .reaction-btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 8px;
-    margin: 5px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background: white;
-    cursor: pointer;
-  }
-  
-  .close-btn {
-    display: inline-block;
-    margin-top: 10px;
-    color: blue;
-    cursor: pointer;
-  }
-</style>
-
-<div id="reaction-widget">
-  <div class="widget-icon" onclick="togglePopup('reaction-popup')">👍</div>
-  <div class="widget-icon" onclick="togglePopup('info-popup')">ℹ️</div>
+<div class="form-section">
+  <label for="position">Position:</label>
+  <select id="position">
+    <option value="bottom-right">Bottom Right</option>
+    <option value="bottom-left">Bottom Left</option>
+    <option value="top-right">Top Right</option>
+    <option value="top-left">Top Left</option>
+  </select>
 </div>
 
-<div id="reaction-popup" class="popup">
-  <h4>Share your reaction</h4>
-  <button class="reaction-btn" onclick="recordReaction(0)">${reaction1}</button>
-  <button class="reaction-btn" onclick="recordReaction(1)">${reaction2}</button>
-  <button class="reaction-btn" onclick="recordReaction(2)">${reaction3}</button>
-  <button class="reaction-btn" onclick="recordReaction(3)">${reaction4}</button>
-  <div class="close-btn" onclick="closePopups()">Close</div>
+<div class="form-section">
+  <label for="reaction1">Reaction 1:</label>
+  <input type="text" id="reaction1" value="👍 This is helpful">
 </div>
 
-<div id="info-popup" class="popup">
-  <h4>Reaction Stats</h4>
-  <div id="stats-container">Loading stats...</div>
-  <div class="close-btn" onclick="closePopups()">Close</div>
+<div class="form-section">
+  <label for="reaction2">Reaction 2:</label>
+  <input type="text" id="reaction2" value="❤️ I love this">
 </div>
 
-<script>
-// Store reaction data
-var reactions = [0, 0, 0, 0];
-var hasReacted = false;
-var reactionLabels = [
-  "${reaction1}",
-  "${reaction2}",
-  "${reaction3}",
-  "${reaction4}"
-];
+<div class="form-section">
+  <label for="reaction3">Reaction 3:</label>
+  <input type="text" id="reaction3" value="🔥 This is amazing">
+</div>
 
-// Check if user has already reacted
-function loadData() {
-  var storedReactions = ${storage}Storage.getItem('reactionCounts');
-  if (storedReactions) {
-    reactions = JSON.parse(storedReactions);
-  }
-  
-  hasReacted = ${storage}Storage.getItem('hasReacted') === 'true';
-  updateStats();
-}
+<div class="form-section">
+  <label for="reaction4">Reaction 4:</label>
+  <input type="text" id="reaction4" value="🎉 Worth celebrating">
+</div>
 
-// Toggle popup visibility
-function togglePopup(popupId) {
-  closePopups();
-  document.getElementById(popupId).style.display = 'block';
-  
-  if (popupId === 'info-popup') {
-    updateStats();
-  }
-}
+<button id="generateBtn">Generate Widget Code</button>
 
-// Close all popups
-function closePopups() {
-  var popups = document.getElementsByClassName('popup');
-  for (var i = 0; i < popups.length; i++) {
-    popups[i].style.display = 'none';
-  }
-}
+<div id="output"></div>
 
-// Record reaction
-function recordReaction(index) {
-  if (hasReacted) {
-    alert('You have already reacted. Thank you!');
-    return;
-  }
-  
-  reactions[index]++;
-  hasReacted = true;
-  
-  // Store in localStorage
-  ${storage}Storage.setItem('reactionCounts', JSON.stringify(reactions));
-  ${storage}Storage.setItem('hasReacted', 'true');
-  
-  closePopups();
-  togglePopup('info-popup');
-}
-
-// Update stats display
-function updateStats() {
-  var total = reactions.reduce(function(a, b) { return a + b; }, 0);
-  var html = '<p><strong>Total reactions:</strong> ' + total + '</p>';
-  
-  if (total > 0) {
-    for (var i = 0; i < reactions.length; i++) {
-      var percent = Math.round((reactions[i] / total) * 100) || 0;
-      html += '<p>' + reactionLabels[i] + ': ' + reactions[i] + ' (' + percent + '%)</p>';
-    }
-  } else {
-    html = '<p>No reactions yet. Be the first to react!</p>';
-  }
-  
-  document.getElementById('stats-container').innerHTML = html;
-}
-
-// Initialize on page load
-window.addEventListener('load', loadData);
-</script>
-<!-- End Reaction Widget Code -->`;
-            
-            // Display the code
-            document.getElementById('output').textContent = code;
-        }
-        
-        function copyCode() {
-            var codeElement = document.getElementById('output');
-            
-            // Create a temporary textarea
-            var tempTextArea = document.createElement('textarea');
-            tempTextArea.value = codeElement.textContent;
-            document.body.appendChild(tempTextArea);
-            
-            // Select and copy
-            tempTextArea.select();
-            document.execCommand('copy');
-            
-            // Clean up and alert
-            document.body.removeChild(tempTextArea);
-            alert('Code copied to clipboard!');
-        }
-        
-        // Generate code on page load
-        window.onload = function() {
-            generateWidget();
-        };
-    </script>
-</body>
-</html>
+<button id="copyBtn">Copy Code</button>
