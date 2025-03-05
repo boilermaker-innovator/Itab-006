@@ -87,10 +87,10 @@ function generateWidget() {
 
 <div id="reaction-popup" class="widget-popup">
   <h4>Share your reaction</h4>
-  <button class="reaction-btn" onclick="recordReaction(1)">${reaction1.replace(/"/g, '&quot;')}</button>
-  <button class="reaction-btn" onclick="recordReaction(2)">${reaction2.replace(/"/g, '&quot;')}</button>
-  <button class="reaction-btn" onclick="recordReaction(3)">${reaction3.replace(/"/g, '&quot;')}</button>
-  <button class="reaction-btn" onclick="recordReaction(4)">${reaction4.replace(/"/g, '&quot;')}</button>
+  <button class="reaction-btn" onclick="recordReaction(1)">${reaction1}</button>
+  <button class="reaction-btn" onclick="recordReaction(2)">${reaction2}</button>
+  <button class="reaction-btn" onclick="recordReaction(3)">${reaction3}</button>
+  <button class="reaction-btn" onclick="recordReaction(4)">${reaction4}</button>
   <div class="close-btn" onclick="closePopups()">Close</div>
 </div>
 
