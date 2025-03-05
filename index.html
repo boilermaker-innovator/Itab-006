@@ -1,44 +1,536 @@
-<!-- HTML -->
-<h1>Simple Reaction Widget</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Simple Reaction Widget</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        h1, h2 {
+            margin-top: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        /* Tab navigation - displayed as flat buttons for better touch */
+        .tab-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            background: #e9ecef;
+            color: #495057;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.2s;
+            -webkit-appearance: none; /* Fix for iOS buttons */
+        }
+        
+        .tab-btn.active {
+            background: #4361ee;
+            color: white;
+        }
+        
+        /* Form elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 16px;
+            -webkit-appearance: none; /* Fix for iOS inputs */
+        }
+        
+        select {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23343a40' d='M4.646 6.646a.5.5 0 01.708 0L8 9.293l2.646-2.647a.5.5 0 01.708.708l-3 3a.5.5 0 01-.708 0l-3-3a.5.5 0 010-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+            padding-right: 2.5rem;
+        }
+        
+        button {
+            padding: 12px 24px;
+            background: #4361ee;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            -webkit-appearance: none; /* Fix for iOS buttons */
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        /* Output area */
+        #output {
+            margin-top: 30px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        pre {
+            white-space: pre-wrap;
+            word-break: break-word;
+            margin: 0;
+        }
+        
+        .copy-btn {
+            margin-top: 10px;
+            background: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simple Reaction Widget</h1>
+        
+        <div class="tab-nav">
+            <button class="tab-btn active" id="designBtn">Design</button>
+            <button class="tab-btn" id="reactionsBtn">Reactions</button>
+            <button class="tab-btn" id="settingsBtn">Settings</button>
+        </div>
+        
+        <div class="section" id="designSection">
+            <h2>Widget Design</h2>
+            <div class="form-group">
+                <label for="position">Position:</label>
+                <select id="position">
+                    <option value="bottom-right">Bottom Right</option>
+                    <option value="bottom-left">Bottom Left</option>
+                    <option value="top-right">Top Right</option>
+                    <option value="top-left">Top Left</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="buttonColor">Button Color:</label>
+                <input type="text" id="buttonColor" value="#ffffff" placeholder="e.g. #ffffff or white">
+            </div>
+        </div>
+        
+        <div class="section" id="reactionsSection" style="display: none;">
+            <h2>Reactions</h2>
+            <div class="form-group">
+                <label for="reaction1">Reaction 1:</label>
+                <input type="text" id="reaction1" value="👍 This is helpful">
+            </div>
+            
+            <div class="form-group">
+                <label for="reaction2">Reaction 2:</label>
+                <input type="text" id="reaction2" value="❤️ I love this">
+            </div>
+            
+            <div class="form-group">
+                <label for="reaction3">Reaction 3:</label>
+                <input type="text" id="reaction3" value="🔥 This is amazing">
+            </div>
+            
+            <div class="form-group">
+                <label for="reaction4">Reaction 4:</label>
+                <input type="text" id="reaction4" value="🎉 Worth celebrating">
+            </div>
+        </div>
+        
+        <div class="section" id="settingsSection" style="display: none;">
+            <h2>Settings</h2>
+            <div class="form-group">
+                <label for="storage">Storage Type:</label>
+                <select id="storage">
+                    <option value="local">Local Storage</option>
+                    <option value="session">Session Storage</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="buttonSize">Button Size (px):</label>
+                <input type="text" id="buttonSize" value="50">
+            </div>
+        </div>
+        
+        <button id="generateBtn">Generate Widget</button>
+        
+        <div id="output">
+            <h3>Generated code will appear here</h3>
+        </div>
+        
+        <button id="copyBtn" class="copy-btn">Copy Code</button>
+    </div>
+    
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            document.getElementById('designBtn').addEventListener('click', function() {
+                switchTab('designSection');
+            });
+            
+            document.getElementById('reactionsBtn').addEventListener('click', function() {
+                switchTab('reactionsSection');
+            });
+            
+            document.getElementById('settingsBtn').addEventListener('click', function() {
+                switchTab('settingsSection');
+            });
+            
+            // Generate widget code
+            document.getElementById('generateBtn').addEventListener('click', generateWidget);
+            
+            // Copy code
+            document.getElementById('copyBtn').addEventListener('click', copyCode);
+        });
+        
+        function switchTab(tabId) {
+            // Hide all sections
+            var sections = document.querySelectorAll('.section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].style.display = 'none';
+            }
+            
+            // Deactivate all buttons
+            var buttons = document.querySelectorAll('.tab-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            
+            // Show selected section
+            document.getElementById(tabId).style.display = 'block';
+            
+            // Activate corresponding button
+            if (tabId === 'designSection') document.getElementById('designBtn').classList.add('active');
+            if (tabId === 'reactionsSection') document.getElementById('reactionsBtn').classList.add('active');
+            if (tabId === 'settingsSection') document.getElementById('settingsBtn').classList.add('active');
+        }
+        
+        function generateWidget() {
+            // Get form values
+            var position = document.getElementById('position').value;
+            var buttonColor = document.getElementById('buttonColor').value;
+            var buttonSize = document.getElementById('buttonSize').value;
+            var storage = document.getElementById('storage').value;
+            var reaction1 = document.getElementById('reaction1').value;
+            var reaction2 = document.getElementById('reaction2').value;
+            var reaction3 = document.getElementById('reaction3').value;
+            var reaction4 = document.getElementById('reaction4').value;
+            
+            // Set position CSS
+            var positionCSS = '';
+            switch(position) {
+                case 'bottom-right':
+                    positionCSS = 'bottom: 20px; right: 20px;';
+                    break;
+                case 'bottom-left':
+                    positionCSS = 'bottom: 20px; left: 20px;';
+                    break;
+                case 'top-right':
+                    positionCSS = 'top: 20px; right: 20px;';
+                    break;
+                case 'top-left':
+                    positionCSS = 'top: 20px; left: 20px;';
+                    break;
+            }
+            
+            // Generate the widget code
+            var code = `<!-- Reaction Widget Code -->
+<style>
+  /* Widget and Popup Styles */
+  #reaction-widget {
+    position: fixed;
+    ${positionCSS}
+    width: ${buttonSize}px;
+    height: ${buttonSize}px;
+    background: ${buttonColor};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 9999;
+    cursor: pointer;
+  }
+  
+  .widget-icon {
+    font-size: ${Math.floor(parseInt(buttonSize) * 0.6)}px;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  .widget-popup {
+    position: fixed;
+    ${positionCSS.replace(/20px/, '80px')}
+    width: 280px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+    z-index: 9999;
+    display: none;
+    padding: 16px;
+  }
+  
+  .popup-title {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .reaction-button {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    margin: 8px 0;
+    text-align: left;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .reaction-button:hover, .reaction-button:active {
+    background: #e9ecef;
+  }
+  
+  .popup-close {
+    display: inline-block;
+    margin-top: 12px;
+    color: #4361ee;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .popup-close:hover {
+    text-decoration: underline;
+  }
+</style>
 
-<!-- Tab Navigation -->
-<div class="tab-buttons">
-  <button class="tab-btn active" onclick="openTab(event, 'tab1')">Design</button>
-  <button class="tab-btn" onclick="openTab(event, 'tab2')">Reactions</button>
-  <button class="tab-btn" onclick="openTab(event, 'tab3')">Settings</button>
+<!-- Widget Element -->
+<div id="reaction-widget">
+  <div class="widget-icon">👍</div>
 </div>
 
-<!-- Tab Contents -->
-<div id="tab1" class="tab-content active">
-  <h2>Widget Design</h2>
-  <label>Position:</label>
-  <select id="position">
-    <option>Bottom Right</option>
-    <option>Bottom Left</option>
-    <option>Top Right</option>
-    <option>Top Left</option>
-  </select>
+<!-- Reaction Popup -->
+<div id="reaction-popup" class="widget-popup">
+  <h4 class="popup-title">Share your reaction</h4>
+  <button class="reaction-button" onclick="recordReaction(0)">${reaction1}</button>
+  <button class="reaction-button" onclick="recordReaction(1)">${reaction2}</button>
+  <button class="reaction-button" onclick="recordReaction(2)">${reaction3}</button>
+  <button class="reaction-button" onclick="recordReaction(3)">${reaction4}</button>
+  <div class="popup-close" onclick="closePopup()">Close</div>
 </div>
 
-<div id="tab2" class="tab-content">
-  <h2>Reactions</h2>
-  <label>Reaction 1:</label>
-  <input type="text" value="👍 This is helpful">
-  <label>Reaction 2:</label>
-  <input type="text" value="❤️ I love this">
+<!-- Stats Popup -->
+<div id="stats-popup" class="widget-popup">
+  <h4 class="popup-title">Reaction Statistics</h4>
+  <div id="stats-content">No reactions yet</div>
+  <div class="popup-close" onclick="closePopup()">Close</div>
 </div>
 
-<div id="tab3" class="tab-content">
-  <h2>Settings</h2>
-  <label>Storage Type:</label>
-  <select>
-    <option>Local Storage</option>
-    <option>Session Storage</option>
-  </select>
-</div>
-
-<button onclick="generateWidget()">Generate Widget</button>
-
-<div id="output">
-  <h3>Generated Code will appear here</h3>
-</div>
+<script>
+  // Initialize variables
+  var reactions = [0,0,0,0];
+  var currentPopup = null;
+  var hasReacted = false;
+  var reactionLabels = [
+    "${reaction1}",
+    "${reaction2}",
+    "${reaction3}",
+    "${reaction4}"
+  ];
+  
+  // Set up event listeners
+  document.addEventListener("DOMContentLoaded", function() {
+    // Check if user has already reacted
+    hasReacted = ${storage}Storage.getItem("hasReacted") === "true";
+    
+    // Load saved reactions
+    var savedReactions = ${storage}Storage.getItem("reactions");
+    if (savedReactions) {
+      reactions = JSON.parse(savedReactions);
+    }
+    
+    // Setup click handlers with touch support
+    var widget = document.getElementById("reaction-widget");
+    
+    // Toggle between reaction and stats popups on tap/click
+    widget.addEventListener("click", function(e) {
+      e.preventDefault();
+      
+      if (hasReacted) {
+        showPopup("stats-popup");
+        updateStats();
+      } else {
+        showPopup("reaction-popup");
+      }
+    });
+    
+    // Long press to show stats even if not reacted
+    var pressTimer;
+    
+    widget.addEventListener("touchstart", function(e) {
+      pressTimer = setTimeout(function() {
+        showPopup("stats-popup");
+        updateStats();
+      }, 500);
+    });
+    
+    widget.addEventListener("touchend", function(e) {
+      clearTimeout(pressTimer);
+    });
+  });
+  
+  // Show a popup
+  function showPopup(popupId) {
+    // Close any open popup
+    if (currentPopup) {
+      document.getElementById(currentPopup).style.display = "none";
+    }
+    
+    // Show the requested popup
+    var popup = document.getElementById(popupId);
+    popup.style.display = "block";
+    currentPopup = popupId;
+  }
+  
+  // Close the current popup
+  function closePopup() {
+    if (currentPopup) {
+      document.getElementById(currentPopup).style.display = "none";
+      currentPopup = null;
+    }
+  }
+  
+  // Record a reaction
+  function recordReaction(index) {
+    if (hasReacted) {
+      alert("You have already reacted. Thank you!");
+      return;
+    }
+    
+    // Update reaction count
+    reactions[index]++;
+    
+    // Save to storage
+    ${storage}Storage.setItem("reactions", JSON.stringify(reactions));
+    ${storage}Storage.setItem("hasReacted", "true");
+    hasReacted = true;
+    
+    // Update widget icon to match selection
+    var icon = reactionLabels[index].split(" ")[0];
+    document.querySelector(".widget-icon").innerText = icon;
+    
+    // Close popup and show stats
+    closePopup();
+    showPopup("stats-popup");
+    updateStats();
+  }
+  
+  // Update stats display
+  function updateStats() {
+    var total = reactions.reduce(function(a, b) { return a + b; }, 0);
+    var html = "<p><strong>Total reactions:</strong> " + total + "</p>";
+    
+    if (total > 0) {
+      for (var i = 0; i < reactions.length; i++) {
+        var percent = Math.round((reactions[i] / total) * 100) || 0;
+        html += "<p>" + reactionLabels[i] + ": " + reactions[i] + " (" + percent + "%)</p>";
+      }
+    } else {
+      html = "<p>No reactions yet. Be the first to react!</p>";
+    }
+    
+    document.getElementById("stats-content").innerHTML = html;
+  }
+</script>
+<!-- End Reaction Widget Code -->`;
+            
+            // Display the code
+            var output = document.getElementById('output');
+            output.innerHTML = `<h3>Generated Code:</h3><pre>${escapeHtml(code)}</pre>`;
+        }
+        
+        function copyCode() {
+            var pre = document.querySelector('pre');
+            if (!pre) return;
+            
+            // Create temporary textarea to copy from
+            var textArea = document.createElement('textarea');
+            textArea.value = pre.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                var successful = document.execCommand('copy');
+                if (successful) {
+                    alert('Code copied to clipboard!');
+                } else {
+                    alert('Copy failed. Please try selecting and copying manually.');
+                }
+            } catch (err) {
+                alert('Copy failed: ' + err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
