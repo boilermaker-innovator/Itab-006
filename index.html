@@ -1,0 +1,44 @@
+<!-- HTML -->
+<h1>Simple Reaction Widget</h1>
+
+<!-- Tab Navigation -->
+<div class="tab-buttons">
+  <button class="tab-btn active" onclick="openTab(event, 'tab1')">Design</button>
+  <button class="tab-btn" onclick="openTab(event, 'tab2')">Reactions</button>
+  <button class="tab-btn" onclick="openTab(event, 'tab3')">Settings</button>
+</div>
+
+<!-- Tab Contents -->
+<div id="tab1" class="tab-content active">
+  <h2>Widget Design</h2>
+  <label>Position:</label>
+  <select id="position">
+    <option>Bottom Right</option>
+    <option>Bottom Left</option>
+    <option>Top Right</option>
+    <option>Top Left</option>
+  </select>
+</div>
+
+<div id="tab2" class="tab-content">
+  <h2>Reactions</h2>
+  <label>Reaction 1:</label>
+  <input type="text" value="👍 This is helpful">
+  <label>Reaction 2:</label>
+  <input type="text" value="❤️ I love this">
+</div>
+
+<div id="tab3" class="tab-content">
+  <h2>Settings</h2>
+  <label>Storage Type:</label>
+  <select>
+    <option>Local Storage</option>
+    <option>Session Storage</option>
+  </select>
+</div>
+
+<button onclick="generateWidget()">Generate Widget</button>
+
+<div id="output">
+  <h3>Generated Code will appear here</h3>
+</div>
