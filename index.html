@@ -1,3 +1,250 @@
+
+<!-- 👍i Widget with Reactions and Stats -->
+<style>
+#thumbs-widget {
+    position: fixed;
+    bottom: 20px; 
+    right: 20px;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+}
+
+#thumbs-button {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    position: relative;
+}
+
+#i-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: #4361ee;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.thumbs-popup {
+    position: absolute;
+    bottom: 60px;
+    right: 0;
+    background: white;
+    width: 250px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    display: none;
+}
+
+.popup-title {
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.reaction-option {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reaction-option:hover {
+    background: #e9ecef;
+}
+
+.emoji {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.close-button {
+    color: #4361ee;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.stats-item {
+    margin: 10px 0;
+}
+
+.progress-bar {
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: #4361ee;
+    width: 0%;
+}
+</style>
+
+<div id="thumbs-widget">
+    <div id="thumbs-button" onclick="toggleThumbs()">
+        👍
+        <div id="i-indicator">i</div>
+    </div>
+    
+    <div id="reactions-popup" class="thumbs-popup">
+        <div class="popup-title">What do you think?</div>
+        
+        <div class="reaction-option" onclick="saveReaction('helpful')">
+            <span class="emoji">👍</span> This is helpful
+        </div>
+        
+        <div class="reaction-option" onclick="saveReaction('love')">
+            <span class="emoji">❤️</span> I love this
+        </div>
+        
+        <div class="reaction-option" onclick="saveReaction('amazing')">
+            <span class="emoji">🔥</span> This is amazing
+        </div>
+        
+        <div class="close-button" onclick="closePopups()">
+            Close
+        </div>
+    </div>
+    
+    <div id="stats-popup" class="thumbs-popup">
+        <div class="popup-title">Reaction Statistics</div>
+        <div id="stats-content">
+            <p>No reactions yet</p>
+        </div>
+        <div class="close-button" onclick="closePopups()">
+            Close
+        </div>
+    </div>
+</div>
+
+<script>
+// Widget data
+var reactions = {
+    helpful: 0,
+    love: 0,
+    amazing: 0
+};
+var hasReacted = false;
+
+// Try to load saved data
+try {
+    var savedReactions = localStorage.getItem('thumbs-widget-reactions');
+    if (savedReactions) {
+        reactions = JSON.parse(savedReactions);
+    }
+    hasReacted = localStorage.getItem('thumbs-widget-user') === 'true';
+} catch(e) {
+    console.log('Could not load saved reactions');
+}
+
+// Toggle between reactions and stats
+function toggleThumbs() {
+    closePopups();
+    if (hasReacted) {
+        updateStats();
+        document.getElementById('stats-popup').style.display = 'block';
+    } else {
+        document.getElementById('reactions-popup').style.display = 'block';
+    }
+}
+
+// Save reaction and show stats
+function saveReaction(type) {
+    if (!hasReacted) {
+        reactions[type]++;
+        hasReacted = true;
+        
+        // Save to localStorage
+        try {
+            localStorage.setItem('thumbs-widget-reactions', JSON.stringify(reactions));
+            localStorage.setItem('thumbs-widget-user', 'true');
+        } catch(e) {
+            console.log('Could not save reaction');
+        }
+    }
+    
+    closePopups();
+    updateStats();
+    document.getElementById('stats-popup').style.display = 'block';
+}
+
+// Close all popups
+function closePopups() {
+    document.getElementById('reactions-popup').style.display = 'none';
+    document.getElementById('stats-popup').style.display = 'none';
+}
+
+// Update statistics display
+function updateStats() {
+    var total = reactions.helpful + reactions.love + reactions.amazing;
+    var statsContent = document.getElementById('stats-content');
+    
+    if (total === 0) {
+        statsContent.innerHTML = '<p>No reactions yet</p>';
+        return;
+    }
+    
+    var helpfulPercent = Math.round((reactions.helpful / total) * 100) || 0;
+    var lovePercent = Math.round((reactions.love / total) * 100) || 0;
+    var amazingPercent = Math.round((reactions.amazing / total) * 100) || 0;
+    
+    var html = '<p><strong>Total reactions:</strong> ' + total + '</p>';
+    
+    html += '<div class="stats-item">';
+    html += '<div>👍 This is helpful: ' + reactions.helpful + ' (' + helpfulPercent + '%)</div>';
+    html += '<div class="progress-bar"><div class="progress" style="width:' + helpfulPercent + '%"></div></div>';
+    html += '</div>';
+    
+    html += '<div class="stats-item">';
+    html += '<div>❤️ I love this: ' + reactions.love + ' (' + lovePercent + '%)</div>';
+    html += '<div class="progress-bar"><div class="progress" style="width:' + lovePercent + '%"></div></div>';
+    html += '</div>';
+    
+    html += '<div class="stats-item">';
+    html += '<div>🔥 This is amazing: ' + reactions.amazing + ' (' + amazingPercent + '%)</div>';
+    html += '<div class="progress-bar"><div class="progress" style="width:' + amazingPercent + '%"></div></div>';
+    html += '</div>';
+    
+    statsContent.innerHTML = html;
+}
+
+// Close when clicking outside
+document.addEventListener('click', function(event) {
+    var widget = document.getElementById('thumbs-widget');
+    if (widget && !widget.contains(event.target)) {
+        closePopups();
+    }
+});
+</script>
+<br>
+<br>
+<br>
+<br>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
