@@ -1,41 +1,187 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>👍i Demo and Code</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>👍i Mobile Demo</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
-        h1 {
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .demo-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .demo-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
             color: #333;
         }
         
-        p {
-            text-align: center;
-            margin-bottom: 40px;
-            color: #555;
-            font-size: 18px;
+        .demo-subtitle {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* 👍i Widget Styles */
+        #thumbs-widget {
+            position: relative;
+            z-index: 1000;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        #thumbs-button {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+            transition: transform 0.2s;
         }
         
-        .code-button {
-            display: block;
-            width: 200px;
-            margin: 40px auto;
+        #thumbs-button:active {
+            transform: scale(0.95);
+        }
+
+        #i-indicator {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            background: #4361ee;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        .thumbs-popup {
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 20px auto;
+            background: white;
+            width: 100%;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .popup-title {
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .reaction-option {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reaction-option:active {
+            background: #e9ecef;
+        }
+
+        .emoji {
+            font-size: 30px;
+            margin-right: 15px;
+        }
+
+        .thumbs-close-button {
+            color: #4361ee;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 10px;
+            font-weight: 600;
+        }
+
+        .stats-item {
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #4361ee;
+            width: 0%;
+            transition: width 0.5s ease-out;
+        }
+        
+        .stats-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .stats-code-button {
             background: #4361ee;
             color: white;
             border: none;
-            padding: 12px 0;
-            border-radius: 6px;
+            padding: 14px 20px;
+            border-radius: 10px;
+            cursor: pointer;
             font-size: 16px;
             font-weight: 600;
-            cursor: pointer;
-            text-align: center;
+            flex: 1;
+            margin-right: 10px;
         }
         
         /* Code Popup */
@@ -46,19 +192,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 10000;
-            justify-content: center;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
             align-items: center;
+            justify-content: center;
         }
         
         .popup-content {
             background: white;
-            border-radius: 10px;
             width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            max-width: 90%;
+            height: 90%;
+            max-height: 90%;
+            border-radius: 16px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -76,192 +222,120 @@
         .popup-title {
             font-weight: bold;
             font-size: 18px;
-            color: #333;
+            text-align: left;
+            margin-bottom: 0;
         }
         
         .close-button {
-            font-size: 24px;
+            font-size: 28px;
+            line-height: 1;
             cursor: pointer;
-            color: #777;
+            color: #666;
+            padding: 5px;
         }
         
         .popup-body {
-            padding: 0;
-            overflow-y: auto;
             flex-grow: 1;
+            overflow: hidden;
         }
         
         #code-content {
             width: 100%;
-            height: 500px;
+            height: 100%;
             border: none;
             resize: none;
             padding: 20px;
             font-family: monospace;
             font-size: 14px;
             box-sizing: border-box;
-            white-space: pre-wrap;
+            overflow-y: auto;
         }
         
         .popup-footer {
             padding: 15px 20px;
             background: #f8f9fa;
             border-top: 1px solid #eee;
-            text-align: right;
+            display: flex;
+            align-items: center;
         }
         
         .copy-button {
             background: #4361ee;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 20px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: 600;
+            margin-left: auto;
         }
         
         .success-message {
             display: none;
             background: #d4edda;
             color: #155724;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-right: 10px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-right: 15px;
+            font-weight: 600;
         }
         
-        /* 👍i Widget Styles */
-        #thumbs-widget {
-            position: fixed;
-            bottom: 20px; 
-            right: 20px;
-            z-index: 9999;
-            font-family: Arial, sans-serif;
+        /* Instructions */
+        .instructions {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 400px;
         }
-
-        #thumbs-button {
-            width: 70px;
-            height: 70px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            cursor: pointer;
-            position: relative;
+        
+        .instructions h2 {
+            margin-bottom: 15px;
+            color: #333;
         }
-
-        #i-indicator {
-            position: absolute;
-            top: 0;
-            right: 0;
+        
+        .step {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .step-number {
+            display: inline-block;
             width: 28px;
             height: 28px;
             background: #4361ee;
             color: white;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-style: italic;
-            font-weight: bold;
-        }
-
-        .thumbs-popup {
-            position: absolute;
-            bottom: 80px;
-            right: 0;
-            background: white;
-            width: 320px;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
-            display: none;
-        }
-
-        .popup-title {
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 18px;
-        }
-
-        .reaction-option {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            margin-bottom: 12px;
-            background: #f8f9fa;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .reaction-option:hover {
-            background: #e9ecef;
-            transform: translateY(-2px);
-            transition: all 0.2s ease;
-        }
-
-        .emoji {
-            font-size: 28px;
-            margin-right: 15px;
-        }
-
-        .thumbs-close-button {
-            color: #4361ee;
             text-align: center;
-            cursor: pointer;
-            margin-top: 15px;
-            font-size: 16px;
-        }
-
-        .stats-item {
-            margin: 15px 0;
-            font-size: 16px;
-        }
-
-        .progress-bar {
-            height: 10px;
-            background: #e9ecef;
-            border-radius: 5px;
-            margin-top: 8px;
-            overflow: hidden;
-        }
-
-        .progress {
-            height: 100%;
-            background: #4361ee;
-            width: 0%;
+            line-height: 28px;
+            margin-right: 10px;
+            font-weight: bold;
         }
         
-        .stats-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        
-        .stats-code-button {
-            background: #4361ee;
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
             color: white;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 6px;
-            cursor: pointer;
+            padding: 12px 20px;
+            border-radius: 8px;
             font-size: 16px;
-            font-weight: 600;
+            z-index: 3000;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <h1>👍i Widget Demo</h1>
-    
-    <p>Try out the 👍i widget in the bottom-right corner</p>
-    
-    <button class="code-button" onclick="openCodePopup()">Get the Code</button>
+    <div class="demo-header">
+        <h1 class="demo-title">👍i Interactive Demo</h1>
+        <p class="demo-subtitle">Tap the button below to try it out</p>
+    </div>
     
     <!-- 👍i Widget Implementation -->
     <div id="thumbs-widget">
@@ -306,6 +380,22 @@
         </div>
     </div>
     
+    <div class="instructions">
+        <h2>How it works</h2>
+        <div class="step">
+            <span class="step-number">1</span>
+            Tap the 👍i button to open reaction options
+        </div>
+        <div class="step">
+            <span class="step-number">2</span>
+            Choose a reaction to register your feedback
+        </div>
+        <div class="step">
+            <span class="step-number">3</span>
+            View statistics and get the code to use on your site
+        </div>
+    </div>
+    
     <!-- Code Popup -->
     <div id="code-popup">
         <div class="popup-content">
@@ -323,6 +413,8 @@
         </div>
     </div>
     
+    <div id="toast" class="toast"></div>
+    
     <script>
         // 👍i Widget Functionality
         var reactions = {
@@ -331,7 +423,6 @@
             amazing: 0,
             informative: 0
         };
-        var hasReacted = false;
 
         // Try to load saved data
         try {
@@ -339,31 +430,29 @@
             if (savedReactions) {
                 reactions = JSON.parse(savedReactions);
             }
-            hasReacted = localStorage.getItem('thumbs-widget-user') === 'true';
         } catch(e) {
             console.log('Could not load saved reactions');
         }
 
-        // Toggle between reactions and stats
+        // Toggle reactions popup
         function toggleThumbs() {
             closeThumbsPopups();
-            // Always show reactions popup
             document.getElementById('reactions-popup').style.display = 'block';
         }
 
         // Save reaction and show stats
         function saveReaction(type) {
-            // Always increment the selected reaction type
+            // Increment the selected reaction type
             reactions[type]++;
             
             // Save to localStorage
             try {
                 localStorage.setItem('thumbs-widget-reactions', JSON.stringify(reactions));
-                localStorage.setItem('thumbs-widget-user', 'true');
             } catch(e) {
                 console.log('Could not save reaction');
             }
             
+            showToast("Thank you for your feedback!");
             closeThumbsPopups();
             updateStats();
             document.getElementById('stats-popup').style.display = 'block';
@@ -377,7 +466,7 @@
 
         // Update statistics display
         function updateStats() {
-            var total = reactions.helpful + reactions.love + reactions.amazing;
+            var total = reactions.helpful + reactions.love + reactions.amazing + reactions.informative;
             var statsContent = document.getElementById('stats-content');
             
             if (total === 0) {
@@ -413,18 +502,21 @@
             html += '</div>';
             
             statsContent.innerHTML = html;
+            
+            // Animate progress bars
+            setTimeout(function() {
+                var bars = document.querySelectorAll('.progress');
+                bars.forEach(function(bar) {
+                    var width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(function() {
+                        bar.style.width = width;
+                    }, 50);
+                });
+            }, 50);
         }
 
-        // Close when clicking outside
-        document.addEventListener('click', function(event) {
-            var widget = document.getElementById('thumbs-widget');
-            if (widget && !widget.contains(event.target)) {
-                closeThumbsPopups();
-            }
-        });
-        
         // Code Popup Functionality
-        // The widget code to display
         const thumbsWidgetCode = `<!-- 👍i Widget with Reactions and Stats -->
 <style>
 #thumbs-widget {
@@ -432,7 +524,7 @@
     bottom: 20px; 
     right: 20px;
     z-index: 9999;
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 #thumbs-button {
@@ -533,6 +625,7 @@
     height: 100%;
     background: #4361ee;
     width: 0%;
+    transition: width 0.5s ease-out;
 }
 
 .stats-buttons {
@@ -550,6 +643,21 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
+}
+
+/* Mobile Optimization */
+@media (max-width: 480px) {
+    .thumbs-popup {
+        width: 280px;
+    }
+    
+    .reaction-option {
+        padding: 10px 14px;
+    }
+    
+    .emoji {
+        font-size: 24px;
+    }
 }
 </style>
 
@@ -603,7 +711,6 @@ var reactions = {
     amazing: 0,
     informative: 0
 };
-var hasReacted = false;
 
 // Try to load saved data
 try {
@@ -611,27 +718,24 @@ try {
     if (savedReactions) {
         reactions = JSON.parse(savedReactions);
     }
-    hasReacted = localStorage.getItem('thumbs-widget-user') === 'true';
 } catch(e) {
     console.log('Could not load saved reactions');
 }
 
-// Toggle between reactions and stats
+// Toggle reactions popup
 function toggleThumbs() {
     closeThumbsPopups();
-    // Always show reactions popup
     document.getElementById('reactions-popup').style.display = 'block';
 }
 
 // Save reaction and show stats
 function saveReaction(type) {
-    // Always increment the selected reaction type
+    // Increment the selected reaction type
     reactions[type]++;
     
     // Save to localStorage
     try {
         localStorage.setItem('thumbs-widget-reactions', JSON.stringify(reactions));
-        localStorage.setItem('thumbs-widget-user', 'true');
     } catch(e) {
         console.log('Could not save reaction');
     }
@@ -649,7 +753,7 @@ function closeThumbsPopups() {
 
 // Update statistics display
 function updateStats() {
-    var total = reactions.helpful + reactions.love + reactions.amazing;
+    var total = reactions.helpful + reactions.love + reactions.amazing + reactions.informative;
     var statsContent = document.getElementById('stats-content');
     
     if (total === 0) {
@@ -697,12 +801,11 @@ document.addEventListener('click', function(event) {
 
 // Code popup functions
 function openCodePopup() {
-    // Implement this function in your page to show the code
-    alert("This is where you would show the widget code");
+    // Add your code display functionality here
+    alert("Get the code implementation from the demo page");
 }
 <\/script>`;
 
-        // Code popup functions
         function openCodePopup() {
             document.getElementById('code-popup').style.display = 'flex';
             document.getElementById('code-content').value = thumbsWidgetCode;
@@ -725,11 +828,19 @@ function openCodePopup() {
             }, 2000);
         }
         
-        // Close code popup when clicking outside
-        document.getElementById('code-popup').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeCodePopup();
-            }
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            
+            setTimeout(function() {
+                toast.style.display = 'none';
+            }, 2000);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
         });
     </script>
 </body>
