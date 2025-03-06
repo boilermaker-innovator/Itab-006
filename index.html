@@ -1,66 +1,44 @@
-Absolutely! Let's create a 👍i button that, when clicked, shows the full code for the 👍i widget. This is a clever meta-approach:
-
-```html
 <!DOCTYPE html>
 <html>
 <head>
-    <title>👍i Code</title>
+    <title>👍i Demo and Code</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            text-align: center;
         }
         
         h1 {
+            text-align: center;
             margin-bottom: 30px;
             color: #333;
         }
         
-        .thumbs-container {
-            display: flex;
-            justify-content: center;
-            margin: 40px 0;
+        p {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #555;
+            font-size: 18px;
         }
         
-        #thumbs-button {
-            width: 80px;
-            height: 80px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.2s;
-        }
-        
-        #thumbs-button:hover {
-            transform: scale(1.05);
-        }
-        
-        #i-indicator {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 30px;
-            height: 30px;
+        .code-button {
+            display: block;
+            width: 200px;
+            margin: 40px auto;
             background: #4361ee;
             color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-style: italic;
-            font-weight: bold;
+            border: none;
+            padding: 12px 0;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
         }
         
+        /* Code Popup */
         #code-popup {
             display: none;
             position: fixed;
@@ -69,7 +47,7 @@ Absolutely! Let's create a 👍i button that, when clicked, shows the full code 
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
-            z-index: 9999;
+            z-index: 10000;
             justify-content: center;
             align-items: center;
         }
@@ -150,20 +128,178 @@ Absolutely! Let's create a 👍i button that, when clicked, shows the full code 
             border-radius: 5px;
             margin-right: 10px;
         }
+        
+        /* 👍i Widget Styles */
+        #thumbs-widget {
+            position: fixed;
+            bottom: 20px; 
+            right: 20px;
+            z-index: 9999;
+            font-family: Arial, sans-serif;
+        }
+
+        #thumbs-button {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            position: relative;
+        }
+
+        #i-indicator {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            background: #4361ee;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        .thumbs-popup {
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            background: white;
+            width: 250px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .popup-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .reaction-option {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            background: #f8f9fa;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .reaction-option:hover {
+            background: #e9ecef;
+        }
+
+        .emoji {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .thumbs-close-button {
+            color: #4361ee;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .stats-item {
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #4361ee;
+            width: 0%;
+        }
+        
+        .stats-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .stats-code-button {
+            background: #4361ee;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
-    <h1>Get the 👍i Widget Code</h1>
+    <h1>👍i Widget Demo</h1>
     
-    <p>Click the 👍i button below to see the full code for creating your own 👍i widget with reaction options and statistics</p>
+    <p>Try out the 👍i widget in the bottom-right corner</p>
     
-    <div class="thumbs-container">
-        <div id="thumbs-button" onclick="openCodePopup()">
+    <button class="code-button" onclick="openCodePopup()">Get the Code</button>
+    
+    <!-- 👍i Widget Implementation -->
+    <div id="thumbs-widget">
+        <div id="thumbs-button" onclick="toggleThumbs()">
             👍
             <div id="i-indicator">i</div>
         </div>
+        
+        <div id="reactions-popup" class="thumbs-popup">
+            <div class="popup-title">What do you think?</div>
+            
+            <div class="reaction-option" onclick="saveReaction('helpful')">
+                <span class="emoji">👍</span> This is helpful
+            </div>
+            
+            <div class="reaction-option" onclick="saveReaction('love')">
+                <span class="emoji">❤️</span> I love this
+            </div>
+            
+            <div class="reaction-option" onclick="saveReaction('amazing')">
+                <span class="emoji">🔥</span> This is amazing
+            </div>
+            
+            <div class="reaction-option" onclick="saveReaction('informative')">
+                <span class="emoji">💡</span> Very informative
+            </div>
+            
+            <div class="thumbs-close-button" onclick="closeThumbsPopups()">
+                Close
+            </div>
+        </div>
+        
+        <div id="stats-popup" class="thumbs-popup">
+            <div class="popup-title">Reaction Statistics</div>
+            <div id="stats-content">
+                <p>No reactions yet</p>
+            </div>
+            <div class="stats-buttons">
+                <button class="stats-code-button" onclick="openCodePopup()">Get Code</button>
+                <div class="thumbs-close-button" onclick="closeThumbsPopups()">Close</div>
+            </div>
+        </div>
     </div>
     
+    <!-- Code Popup -->
     <div id="code-popup">
         <div class="popup-content">
             <div class="popup-header">
@@ -181,7 +317,107 @@ Absolutely! Let's create a 👍i button that, when clicked, shows the full code 
     </div>
     
     <script>
-        // Code for the 👍i widget
+        // 👍i Widget Functionality
+        var reactions = {
+            helpful: 0,
+            love: 0,
+            amazing: 0,
+            informative: 0
+        };
+        var hasReacted = false;
+
+        // Try to load saved data
+        try {
+            var savedReactions = localStorage.getItem('thumbs-widget-reactions');
+            if (savedReactions) {
+                reactions = JSON.parse(savedReactions);
+            }
+            hasReacted = localStorage.getItem('thumbs-widget-user') === 'true';
+        } catch(e) {
+            console.log('Could not load saved reactions');
+        }
+
+        // Toggle between reactions and stats
+        function toggleThumbs() {
+            closeThumbsPopups();
+            // Always show reactions popup
+            document.getElementById('reactions-popup').style.display = 'block';
+        }
+
+        // Save reaction and show stats
+        function saveReaction(type) {
+            // Always increment the selected reaction type
+            reactions[type]++;
+            
+            // Save to localStorage
+            try {
+                localStorage.setItem('thumbs-widget-reactions', JSON.stringify(reactions));
+                localStorage.setItem('thumbs-widget-user', 'true');
+            } catch(e) {
+                console.log('Could not save reaction');
+            }
+            
+            closeThumbsPopups();
+            updateStats();
+            document.getElementById('stats-popup').style.display = 'block';
+        }
+
+        // Close all popups
+        function closeThumbsPopups() {
+            document.getElementById('reactions-popup').style.display = 'none';
+            document.getElementById('stats-popup').style.display = 'none';
+        }
+
+        // Update statistics display
+        function updateStats() {
+            var total = reactions.helpful + reactions.love + reactions.amazing;
+            var statsContent = document.getElementById('stats-content');
+            
+            if (total === 0) {
+                statsContent.innerHTML = '<p>No reactions yet</p>';
+                return;
+            }
+            
+            var helpfulPercent = Math.round((reactions.helpful / total) * 100) || 0;
+            var lovePercent = Math.round((reactions.love / total) * 100) || 0;
+            var amazingPercent = Math.round((reactions.amazing / total) * 100) || 0;
+            var informativePercent = Math.round((reactions.informative / total) * 100) || 0;
+            
+            var html = '<p><strong>Total reactions:</strong> ' + total + '</p>';
+            
+            html += '<div class="stats-item">';
+            html += '<div>👍 This is helpful: ' + reactions.helpful + ' (' + helpfulPercent + '%)</div>';
+            html += '<div class="progress-bar"><div class="progress" style="width:' + helpfulPercent + '%"></div></div>';
+            html += '</div>';
+            
+            html += '<div class="stats-item">';
+            html += '<div>❤️ I love this: ' + reactions.love + ' (' + lovePercent + '%)</div>';
+            html += '<div class="progress-bar"><div class="progress" style="width:' + lovePercent + '%"></div></div>';
+            html += '</div>';
+            
+            html += '<div class="stats-item">';
+            html += '<div>🔥 This is amazing: ' + reactions.amazing + ' (' + amazingPercent + '%)</div>';
+            html += '<div class="progress-bar"><div class="progress" style="width:' + amazingPercent + '%"></div></div>';
+            html += '</div>';
+            
+            html += '<div class="stats-item">';
+            html += '<div>💡 Very informative: ' + reactions.informative + ' (' + informativePercent + '%)</div>';
+            html += '<div class="progress-bar"><div class="progress" style="width:' + informativePercent + '%"></div></div>';
+            html += '</div>';
+            
+            statsContent.innerHTML = html;
+        }
+
+        // Close when clicking outside
+        document.addEventListener('click', function(event) {
+            var widget = document.getElementById('thumbs-widget');
+            if (widget && !widget.contains(event.target)) {
+                closeThumbsPopups();
+            }
+        });
+        
+        // Code Popup Functionality
+        // The widget code to display
         const thumbsWidgetCode = `<!-- 👍i Widget with Reactions and Stats -->
 <style>
 #thumbs-widget {
@@ -261,7 +497,7 @@ Absolutely! Let's create a 👍i button that, when clicked, shows the full code 
     margin-right: 10px;
 }
 
-.close-button {
+.thumbs-close-button {
     color: #4361ee;
     text-align: center;
     cursor: pointer;
@@ -284,6 +520,22 @@ Absolutely! Let's create a 👍i button that, when clicked, shows the full code 
     height: 100%;
     background: #4361ee;
     width: 0%;
+}
+
+.stats-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.stats-code-button {
+    background: #4361ee;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
 }
 </style>
 
@@ -308,7 +560,11 @@ Absolutely! Let's create a 👍i button that, when clicked, shows the full code 
             <span class="emoji">🔥</span> This is amazing
         </div>
         
-        <div class="close-button" onclick="closePopups()">
+        <div class="reaction-option" onclick="saveReaction('informative')">
+            <span class="emoji">💡</span> Very informative
+        </div>
+        
+        <div class="thumbs-close-button" onclick="closeThumbsPopups()">
             Close
         </div>
     </div>
@@ -318,8 +574,9 @@ Absolutely! Let's create a 👍i button that, when clicked, shows the full code 
         <div id="stats-content">
             <p>No reactions yet</p>
         </div>
-        <div class="close-button" onclick="closePopups()">
-            Close
+        <div class="stats-buttons">
+            <button class="stats-code-button" onclick="openCodePopup()">Get Code</button>
+            <div class="thumbs-close-button" onclick="closeThumbsPopups()">Close</div>
         </div>
     </div>
 </div>
@@ -329,7 +586,8 @@ Absolutely! Let's create a 👍i button that, when clicked, shows the full code 
 var reactions = {
     helpful: 0,
     love: 0,
-    amazing: 0
+    amazing: 0,
+    informative: 0
 };
 var hasReacted = false;
 
@@ -346,37 +604,31 @@ try {
 
 // Toggle between reactions and stats
 function toggleThumbs() {
-    closePopups();
-    if (hasReacted) {
-        updateStats();
-        document.getElementById('stats-popup').style.display = 'block';
-    } else {
-        document.getElementById('reactions-popup').style.display = 'block';
-    }
+    closeThumbsPopups();
+    // Always show reactions popup
+    document.getElementById('reactions-popup').style.display = 'block';
 }
 
 // Save reaction and show stats
 function saveReaction(type) {
-    if (!hasReacted) {
-        reactions[type]++;
-        hasReacted = true;
-        
-        // Save to localStorage
-        try {
-            localStorage.setItem('thumbs-widget-reactions', JSON.stringify(reactions));
-            localStorage.setItem('thumbs-widget-user', 'true');
-        } catch(e) {
-            console.log('Could not save reaction');
-        }
+    // Always increment the selected reaction type
+    reactions[type]++;
+    
+    // Save to localStorage
+    try {
+        localStorage.setItem('thumbs-widget-reactions', JSON.stringify(reactions));
+        localStorage.setItem('thumbs-widget-user', 'true');
+    } catch(e) {
+        console.log('Could not save reaction');
     }
     
-    closePopups();
+    closeThumbsPopups();
     updateStats();
     document.getElementById('stats-popup').style.display = 'block';
 }
 
 // Close all popups
-function closePopups() {
+function closeThumbsPopups() {
     document.getElementById('reactions-popup').style.display = 'none';
     document.getElementById('stats-popup').style.display = 'none';
 }
@@ -394,6 +646,7 @@ function updateStats() {
     var helpfulPercent = Math.round((reactions.helpful / total) * 100) || 0;
     var lovePercent = Math.round((reactions.love / total) * 100) || 0;
     var amazingPercent = Math.round((reactions.amazing / total) * 100) || 0;
+    var informativePercent = Math.round((reactions.informative / total) * 100) || 0;
     
     var html = '<p><strong>Total reactions:</strong> ' + total + '</p>';
     
@@ -412,6 +665,11 @@ function updateStats() {
     html += '<div class="progress-bar"><div class="progress" style="width:' + amazingPercent + '%"></div></div>';
     html += '</div>';
     
+    html += '<div class="stats-item">';
+    html += '<div>💡 Very informative: ' + reactions.informative + ' (' + informativePercent + '%)</div>';
+    html += '<div class="progress-bar"><div class="progress" style="width:' + informativePercent + '%"></div></div>';
+    html += '</div>';
+    
     statsContent.innerHTML = html;
 }
 
@@ -419,12 +677,18 @@ function updateStats() {
 document.addEventListener('click', function(event) {
     var widget = document.getElementById('thumbs-widget');
     if (widget && !widget.contains(event.target)) {
-        closePopups();
+        closeThumbsPopups();
     }
 });
+
+// Code popup functions
+function openCodePopup() {
+    // Implement this function in your page to show the code
+    alert("This is where you would show the widget code");
+}
 <\/script>`;
 
-        // Functions for this page
+        // Code popup functions
         function openCodePopup() {
             document.getElementById('code-popup').style.display = 'flex';
             document.getElementById('code-content').value = thumbsWidgetCode;
@@ -447,7 +711,7 @@ document.addEventListener('click', function(event) {
             }, 2000);
         }
         
-        // Close when clicking outside
+        // Close code popup when clicking outside
         document.getElementById('code-popup').addEventListener('click', function(event) {
             if (event.target === this) {
                 closeCodePopup();
@@ -456,13 +720,3 @@ document.addEventListener('click', function(event) {
     </script>
 </body>
 </html>
-```
-
-This is perfect! Now we have:
-
-1. A beautiful 👍i button at the center of the page
-2. When clicked, it opens a popup with the full code for the 👍i widget
-3. Users can easily copy the code with a copy button
-4. The code includes both the reaction and stats popups
-
-This meta approach shows off the 👍i concept while providing the code to implement it - the perfect demonstration of your idea!​​​​​​​​​​​​​​​​
