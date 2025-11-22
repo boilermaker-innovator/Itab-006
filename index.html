@@ -1934,7 +1934,7 @@
 <cr>
 <cr>
 <cr>
-      <!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1986,24 +1986,26 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 20px;
-            height: 20px;
-            background: #3498db;
-            color: white;
+            width: 16px;
+            height: 16px;
+            background: transparent;
+            color: inherit;
+            border: 1.5px solid currentColor;
             border-radius: 50%;
-            font-size: 14px;
+            font-size: 11px;
             font-weight: bold;
             cursor: pointer;
-            margin-left: 8px;
+            margin-left: 4px;
             transition: all 0.3s ease;
             vertical-align: middle;
-            border: none;
             font-family: serif;
         }
 
         .itab-inline:hover {
-            background: #2980b9;
-            transform: scale(1.15);
+            background: rgba(52, 152, 219, 0.1);
+            border-color: #3498db;
+            color: #3498db;
+            transform: scale(1.1);
         }
 
         .itabs-help-popup {
@@ -2368,6 +2370,7 @@
             font-size: 1.05em;
             max-height: 400px;
             overflow-y: auto;
+            color: #333;
         }
 
         .code-section {
@@ -2421,15 +2424,16 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 18px;
-            height: 18px;
-            background: #3498db;
-            color: white;
+            width: 15px;
+            height: 15px;
+            background: transparent;
+            color: inherit;
+            border: 1.5px solid currentColor;
             border-radius: 50%;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: bold;
             cursor: pointer;
-            margin: 0 2px;
+            margin: 0 3px;
             border: none;
             vertical-align: middle;
             font-family: serif;
@@ -2437,7 +2441,9 @@
         }
         
         .itab-btn:hover {
-            background: #2980b9;
+            background: rgba(52, 152, 219, 0.1);
+            border-color: #3498db;
+            color: #3498db;
             transform: scale(1.15);
         }
         
@@ -2477,8 +2483,25 @@
         
         .itab-popup-content p {
             color: #4a5568;
-            line-height: 1.6;
+            line-height: 1.7;
             font-size: 1.05em;
+            margin-bottom: 20px;
+        }
+
+        .itab-learn-more {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border: 2px solid #3498db;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .itab-learn-more:hover {
+            background: #3498db;
+            color: white;
         }
         
         .itab-close {
@@ -2517,10 +2540,10 @@
             <ol>
                 <li>Paste any article or text below</li>
                 <li>Click "Enhance with iTabs" to see the magic</li>
-                <li>Get educational content with blue [i] buttons</li>
+                <li>Look for subtle hollow circle buttons - click them!</li>
                 <li>Copy the HTML code to use anywhere</li>
             </ol>
-            <div class="demo-note">💡 This is a working prototype - click the blue "i" buttons to see how they work!</div>
+            <div class="demo-note">💡 This prototype adds ~5 iTabs to the most complex terms</div>
         </div>
 
         <div class="form-section ai-section">
@@ -2533,7 +2556,7 @@
 The platform works as educational infrastructure. When you encounter jargon or terminology, clicking an iTabs button provides instant context. This creates micro-learning moments that compound as you read. Students learn advanced concepts while studying, professionals understand industry language, and general audiences access complex topics previously gatekept by specialized knowledge.
 
 The ecosystem approach makes iTabs scalable. Tools are freely available. Content creators use AI-powered generators to add iTabs to any content. This crowdsourced model means the entire internet can become educational. Whether reading about cryptocurrency, climate science, or medical research, iTabs buttons explain blockchain technology, carbon sequestration, or clinical trials in plain language.</textarea>
-                <small><span style="color: #28a745; font-weight: 600;">✅ Pre-filled with sample about iTabs - try it now!</span></small>
+                <small><span style="color: #28a745; font-weight: 600;">✅ Pre-filled with sample - try it now!</span></small>
             </div>
 
             <div class="form-group">
@@ -2549,19 +2572,6 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
                 </select>
             </div>
 
-            <div class="form-group">
-                <label>
-                    🎯 Create iTabs For
-                    <button class="itab-inline" onclick="showHelp('terms')">i</button>
-                </label>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" id="techTerms" checked><span>Technical terms & jargon</span></label>
-                    <label><input type="checkbox" id="concepts" checked><span>Complex concepts</span></label>
-                    <label><input type="checkbox" id="acronyms" checked><span>Acronyms</span></label>
-                    <label><input type="checkbox" id="names"><span>Names & places (optional)</span></label>
-                </div>
-            </div>
-
             <div class="button-group">
                 <button class="btn-enhance" onclick="enhanceContent()">✨ Enhance with iTabs</button>
                 <button class="btn-clear" onclick="clearForm()">🔄 Clear</button>
@@ -2569,7 +2579,7 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
 
             <div class="loading" id="loading">
                 <div class="loading-spinner"></div>
-                <p id="loadingText">Processing your content...</p>
+                <p id="loadingText">Finding the most complex terms...</p>
             </div>
 
             <div class="error-message" id="errorMessage"></div>
@@ -2584,7 +2594,7 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
             </div>
 
             <div class="preview-box">
-                <h3>👀 Preview (click the "i" buttons):</h3>
+                <h3>👀 Preview (look for subtle hollow circles - click them!):</h3>
                 <div class="enhanced-content" id="previewContent"></div>
             </div>
 
@@ -2610,110 +2620,72 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
                 <strong>High School:</strong> Balanced explanations<br>
                 <strong>College:</strong> More technical depth<br>
                 <strong>Experts:</strong> Minimal explanations</p>
-                <p>This helps iTabs create explanations at the right level for your readers.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="itabs-help-popup" id="helpPopupTerms">
-        <div class="itabs-help-content">
-            <div class="itabs-help-header">
-                <h3>🎯 What to Explain</h3>
-                <button class="itabs-help-close" onclick="closeHelp('terms')">&times;</button>
-            </div>
-            <div class="itabs-help-body">
-                <p><strong>Choose what needs explanation:</strong></p>
-                <p>✅ <strong>Technical terms:</strong> Industry jargon and specialized vocabulary<br>
-                ✅ <strong>Complex concepts:</strong> Ideas that need breaking down<br>
-                ✅ <strong>Acronyms:</strong> Abbreviations like "API" or "SEO"<br>
-                □ <strong>Names:</strong> People, places, organizations (optional)</p>
             </div>
         </div>
     </div>
 
     <script>
-        console.log('iTabs Story Enhancer loaded - Prototype Version');
+        console.log('iTabs Story Enhancer - Subtle Design Version');
         
-        // Knowledge database for common terms
+        // Top 5 most complex terms only - prioritized database
         const termDatabase = {
-            'revolutionizing': {
-                term: 'revolutionizing',
-                explanation: 'Making dramatic, transformative changes that fundamentally alter how something works or is understood.'
-            },
-            'jargon': {
-                term: 'jargon',
-                explanation: 'Specialized language used by a particular profession or group that can be confusing to outsiders.'
-            },
-            'tooltips': {
-                term: 'tooltips',
-                explanation: 'Small popup messages that appear when you hover over something on a website, typically showing extra information.'
-            },
             'infrastructure': {
                 term: 'infrastructure',
-                explanation: 'The basic systems and services that support an organization, concept, or activity - like roads for transportation or platforms for technology.'
-            },
-            'terminology': {
-                term: 'terminology',
-                explanation: 'The specific words and phrases used in a particular field or subject area.'
-            },
-            'micro-learning': {
-                term: 'micro-learning',
-                explanation: 'Learning in small, focused chunks rather than long sessions - like understanding one concept at a time as you encounter it.'
-            },
-            'compound': {
-                term: 'compound',
-                explanation: 'When small effects add up over time to create a larger impact - like learning multiple small things that together build deep understanding.'
-            },
-            'gatekept': {
-                term: 'gatekept',
-                explanation: 'Information or access that has been deliberately kept exclusive or difficult to obtain, often requiring insider knowledge.'
+                explanation: 'The basic systems and services that support an organization or concept. Like how roads and bridges support transportation, infrastructure supports the main function. For example, cloud servers are the infrastructure that lets Netflix stream movies.',
+                wiki: 'https://en.wikipedia.org/wiki/Infrastructure',
+                priority: 1
             },
             'ecosystem': {
                 term: 'ecosystem',
-                explanation: 'A complex network of interconnected elements that support and depend on each other, like how plants, animals, and environment work together in nature.'
+                explanation: 'A complex network where different parts work together and depend on each other. In nature, plants, animals, and environment form an ecosystem. In business, it means all the connected pieces that make something work - like apps, developers, and users in the smartphone ecosystem.',
+                wiki: 'https://en.wikipedia.org/wiki/Digital_ecosystem',
+                priority: 2
             },
-            'scalable': {
-                term: 'scalable',
-                explanation: 'Able to grow and handle increasing amounts of work or users without breaking down or losing effectiveness.'
-            },
-            'crowdsourced': {
-                term: 'crowdsourced',
-                explanation: 'Created by many people contributing together, rather than a single company or organization - like Wikipedia or open-source software.'
-            },
-            'cryptocurrency': {
-                term: 'cryptocurrency',
-                explanation: 'Digital money that uses cryptography for security and operates independently of banks, like Bitcoin or Ethereum.'
-            },
-            'blockchain': {
+            'blockchain technology': {
                 term: 'blockchain technology',
-                explanation: 'A system of recording information in a way that makes it nearly impossible to change or hack - like a digital ledger that everyone can see but no one controls.'
+                explanation: 'A way of recording information that makes it nearly impossible to change or hack. Imagine a notebook that everyone can read, but nobody can erase or modify past entries. Each new entry (block) links to the previous one (chain), creating a permanent record. Bitcoin uses blockchain to track who owns what.',
+                wiki: 'https://en.wikipedia.org/wiki/Blockchain',
+                priority: 3
             },
             'carbon sequestration': {
                 term: 'carbon sequestration',
-                explanation: 'The process of capturing and storing carbon dioxide from the atmosphere to reduce climate change - like planting trees or using technology to trap CO2.'
+                explanation: 'The process of capturing and storing carbon dioxide from the atmosphere to fight climate change. Trees do this naturally through photosynthesis. Technology can do it too - by capturing CO2 from factories and storing it underground, or using machines that pull CO2 directly from the air.',
+                wiki: 'https://en.wikipedia.org/wiki/Carbon_sequestration',
+                priority: 4
             },
-            'clinical trials': {
-                term: 'clinical trials',
-                explanation: 'Research studies where new medical treatments are tested on volunteers to see if they are safe and effective before being approved for general use.'
+            'crowdsourced': {
+                term: 'crowdsourced',
+                explanation: 'When many people contribute small pieces to create something big, rather than one company doing all the work. Wikipedia is crowdsourced - millions of volunteers write and edit articles. Waze is crowdsourced - drivers report traffic conditions to help everyone.',
+                wiki: 'https://en.wikipedia.org/wiki/Crowdsourcing',
+                priority: 5
+            },
+            'gatekept': {
+                term: 'gatekept',
+                explanation: 'Information or access that has been deliberately kept exclusive or difficult to obtain. Like when you need insider knowledge to understand something, or when only certain people are "allowed" to participate. Universities used to gatekeep knowledge by requiring expensive tuition - the internet breaks down these gates.',
+                wiki: 'https://en.wikipedia.org/wiki/Gatekeeping_(communication)',
+                priority: 6
+            },
+            'micro-learning': {
+                term: 'micro-learning',
+                explanation: 'Learning in small, focused bursts rather than long study sessions. Like watching a 3-minute YouTube tutorial instead of a 2-hour lecture. Your brain retains more when information comes in bite-sized pieces you can understand one at a time.',
+                wiki: 'https://en.wikipedia.org/wiki/Microlearning',
+                priority: 7
             }
         };
 
         function showHelp(type) {
             const helpMap = {
-                'audience': 'helpPopupAudience',
-                'terms': 'helpPopupTerms'
+                'audience': 'helpPopupAudience'
             };
             const popup = document.getElementById(helpMap[type]);
             if (popup) {
-                console.log('Opening help popup:', type);
                 popup.classList.add('active');
             }
         }
 
         function closeHelp(type) {
             const helpMap = {
-                'audience': 'helpPopupAudience',
-                'terms': 'helpPopupTerms'
+                'audience': 'helpPopupAudience'
             };
             const popup = document.getElementById(helpMap[type]);
             if (popup) {
@@ -2721,7 +2693,6 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
             }
         }
 
-        // Close help on outside click
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('itabs-help-popup')) {
                 e.target.classList.remove('active');
@@ -2742,20 +2713,16 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
             const btn = document.querySelector('.btn-enhance');
             const errorMsg = document.getElementById('errorMessage');
             
-            // Hide any previous errors
             errorMsg.classList.remove('active');
-            
-            // Show loading
             loading.classList.add('active');
             btn.disabled = true;
             
-            // Process after short delay to show loading animation
             setTimeout(function() {
                 try {
-                    // Find terms in the text that we have explanations for
                     const foundTerms = [];
                     const storyLower = story.toLowerCase();
                     
+                    // Find terms and sort by priority
                     for (let key in termDatabase) {
                         const searchTerm = key.toLowerCase();
                         if (storyLower.includes(searchTerm)) {
@@ -2763,24 +2730,26 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
                         }
                     }
                     
-                    console.log('Found terms:', foundTerms.length);
+                    foundTerms.sort((a, b) => a.priority - b.priority);
                     
-                    if (foundTerms.length === 0) {
-                        showError('No recognizable terms found. Try the sample text or paste content about technology, education, or science.');
+                    // Limit to top 5
+                    const topTerms = foundTerms.slice(0, 5);
+                    
+                    console.log('Found terms:', topTerms.length);
+                    
+                    if (topTerms.length === 0) {
+                        showError('No complex terms found. Try the sample text or paste content about technology, science, or business.');
                         loading.classList.remove('active');
                         btn.disabled = false;
                         return;
                     }
                     
-                    // Generate the enhanced version
-                    generatePreview(story, foundTerms);
+                    generatePreview(story, topTerms);
                     
-                    // Hide loading and show results
                     loading.classList.remove('active');
                     btn.disabled = false;
                     document.getElementById('resultsSection').classList.add('active');
                     
-                    // Scroll to results
                     setTimeout(function() {
                         document.getElementById('resultsSection').scrollIntoView({
                             behavior: 'smooth',
@@ -2798,7 +2767,6 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
         }
 
         function clearForm() {
-            console.log('Clear button clicked');
             const defaultText = `iTabs is revolutionizing online learning by transforming confusing content into educational experiences. Think "Tooltips 2.0" - those question mark icons don't work on mobile and can't handle complex information. iTabs solves this with clickable buttons that open rich popups.
 
 The platform works as educational infrastructure. When you encounter jargon or terminology, clicking an iTabs button provides instant context. This creates micro-learning moments that compound as you read. Students learn advanced concepts while studying, professionals understand industry language, and general audiences access complex topics previously gatekept by specialized knowledge.
@@ -2823,60 +2791,45 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
             let enhanced = text;
             let count = 0;
             let popupHTML = '';
-            const processedTerms = new Set();
-            
-            // Sort terms by length (longest first) to avoid partial matches
-            terms.sort((a, b) => b.term.length - a.term.length);
             
             terms.forEach(function(termObj, i) {
                 const id = 'term_' + i;
                 const term = termObj.term;
                 
-                // Skip if we've already processed a term that contains this one
-                if (processedTerms.has(term.toLowerCase())) {
-                    return;
-                }
-                
-                // Create regex that finds whole words/phrases (case insensitive)
                 const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                 const regex = new RegExp('\\b(' + escapedTerm + ')\\b', 'i');
                 
                 const match = enhanced.match(regex);
                 if (match) {
-                    // Only replace the first occurrence
                     const matchedText = match[1];
                     enhanced = enhanced.replace(
                         regex,
                         matchedText + ' <button class="itab-btn" onclick="showTerm(\'' + id + '\')">i</button>'
                     );
                     
-                    // Create popup HTML
                     popupHTML += `
                         <div class="itab-popup" id="${id}">
                             <div class="itab-popup-content">
                                 <button class="itab-close" onclick="closeTerm('${id}')">&times;</button>
                                 <h3>${termObj.term}</h3>
                                 <p>${termObj.explanation}</p>
+                                <a href="${termObj.wiki}" target="_blank" class="itab-learn-more">Learn more →</a>
                             </div>
                         </div>
                     `;
                     
                     count++;
-                    processedTerms.add(term.toLowerCase());
                 }
             });
             
-            // Update stats
             document.getElementById('statsList').innerHTML = `
-                <li><strong>${count}</strong> iTabs buttons added</li>
-                <li><strong>${terms.length}</strong> relevant terms found</li>
+                <li><strong>${count}</strong> iTabs added (top ${count} most complex terms)</li>
                 <li><strong>${text.split(/\s+/).length}</strong> words processed</li>
+                <li><strong>Subtle design</strong> - hollow circles blend with text</li>
             `;
             
-            // Update preview
             document.getElementById('previewContent').innerHTML = enhanced + popupHTML;
             
-            // Generate full HTML code for copying
             const fullHTML = generateFullHTML(enhanced, popupHTML);
             document.getElementById('codeBox').textContent = fullHTML;
         }
@@ -2901,22 +2854,24 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 18px;
-            height: 18px;
-            background: #3498db;
-            color: white;
+            width: 15px;
+            height: 15px;
+            background: transparent;
+            color: inherit;
+            border: 1.5px solid currentColor;
             border-radius: 50%;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: bold;
             cursor: pointer;
-            margin: 0 2px;
-            border: none;
+            margin: 0 3px;
             vertical-align: middle;
             font-family: serif;
             transition: all 0.3s;
         }
         .itab-btn:hover {
-            background: #2980b9;
+            background: rgba(52, 152, 219, 0.1);
+            border-color: #3498db;
+            color: #3498db;
             transform: scale(1.15);
         }
         .itab-popup {
@@ -2951,8 +2906,23 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
         }
         .itab-popup-content p {
             color: #4a5568;
-            line-height: 1.6;
+            line-height: 1.7;
             font-size: 1.05em;
+            margin-bottom: 20px;
+        }
+        .itab-learn-more {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border: 2px solid #3498db;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        .itab-learn-more:hover {
+            background: #3498db;
+            color: white;
         }
         .itab-close {
             position: absolute;
@@ -2999,7 +2969,6 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
         }
 
         function showTerm(id) {
-            console.log('Showing term:', id);
             const popup = document.getElementById(id);
             if (popup) {
                 popup.classList.add('active');
@@ -3013,7 +2982,6 @@ The ecosystem approach makes iTabs scalable. Tools are freely available. Content
             }
         }
 
-        // Close popup on outside click
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('itab-popup')) {
                 e.target.classList.remove('active');
