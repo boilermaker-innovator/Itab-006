@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iTabs Generator - Create Your Interactive Product Display</title>
+    <title>iTabs Generator - Create & Preview Your Interactive Display</title>
     <style>
         * {
             margin: 0;
@@ -19,12 +19,32 @@
         }
         
         .container {
-            max-width: 900px;
+            max-width: 1400px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .form-panel, .preview-panel {
             background: white;
             border-radius: 20px;
             padding: 40px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .preview-panel {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
         }
         
         h1 {
@@ -37,6 +57,13 @@
             color: #718096;
             margin-bottom: 40px;
             font-size: 1.1em;
+        }
+        
+        .preview-title {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-align: center;
         }
         
         .form-section {
@@ -94,14 +121,14 @@
         }
         
         textarea {
-            min-height: 120px;
+            min-height: 100px;
             resize: vertical;
         }
         
         .upload-area {
             border: 3px dashed #cbd5e0;
             border-radius: 12px;
-            padding: 40px;
+            padding: 30px;
             text-align: center;
             background: #f7fafc;
             transition: all 0.3s;
@@ -114,25 +141,15 @@
             background: #edf2f7;
         }
         
-        .upload-area.dragging {
-            border-color: #667eea;
-            background: #e6f0ff;
-        }
-        
         .upload-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
+            font-size: 36px;
+            margin-bottom: 10px;
         }
         
         .upload-text {
             color: #4a5568;
-            font-size: 1.1em;
-            margin-bottom: 10px;
-        }
-        
-        .upload-subtext {
-            color: #718096;
-            font-size: 0.9em;
+            font-size: 1em;
+            margin-bottom: 5px;
         }
         
         #imageInput {
@@ -141,9 +158,9 @@
         
         .image-previews {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
         }
         
         .preview-item {
@@ -168,9 +185,9 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            font-size: 18px;
+            width: 25px;
+            height: 25px;
+            font-size: 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -178,70 +195,36 @@
             font-weight: bold;
         }
         
-        .remove-image:hover {
-            background: rgba(220, 38, 38, 1);
-        }
-        
         .image-count {
             text-align: center;
             color: #667eea;
             font-weight: 600;
             margin-top: 10px;
-        }
-        
-        .size-control {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .size-control input[type="number"] {
-            max-width: 100px;
-            margin-bottom: 0;
-        }
-        
-        .size-preview {
-            color: #718096;
             font-size: 0.9em;
         }
         
-        .generate-btn {
+        .generate-btn, .update-btn {
             width: 100%;
-            padding: 18px;
+            padding: 15px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
             border-radius: 12px;
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: bold;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         
-        .generate-btn:hover {
+        .generate-btn:hover, .update-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
         
-        .generate-btn:active {
-            transform: translateY(0);
-        }
-        
-        .generate-btn:disabled {
+        .generate-btn:disabled, .update-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-        }
-        
-        .output-section {
-            display: none;
-            margin-top: 40px;
-            padding-top: 40px;
-            border-top: 3px solid #667eea;
-        }
-        
-        .output-section.show {
-            display: block;
         }
         
         .code-output {
@@ -250,16 +233,17 @@
             padding: 20px;
             border-radius: 8px;
             font-family: 'Courier New', monospace;
-            font-size: 0.85em;
-            max-height: 400px;
+            font-size: 0.8em;
+            max-height: 300px;
             overflow-y: auto;
-            margin-bottom: 15px;
+            margin: 20px 0;
             white-space: pre-wrap;
             word-wrap: break-word;
         }
         
         .copy-btn {
-            padding: 12px 30px;
+            width: 100%;
+            padding: 12px;
             background: #48bb78;
             color: white;
             border: none;
@@ -278,20 +262,15 @@
             background: #2f855a;
         }
         
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+        
         .helper-text {
             color: #718096;
             font-size: 0.85em;
             margin-top: -15px;
             margin-bottom: 20px;
-        }
-        
-        .preview-note {
-            background: #fef5e7;
-            border-left: 4px solid #f39c12;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            color: #4a5568;
         }
         
         .security-note {
@@ -307,7 +286,7 @@
         .loading {
             display: none;
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             color: #667eea;
             font-weight: 600;
         }
@@ -320,199 +299,325 @@
             border: 4px solid #f3f4f6;
             border-top: 4px solid #667eea;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
+            margin: 0 auto 10px;
         }
         
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
+        .preview-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+        }
+        
+        .preview-placeholder h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .preview-placeholder p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        #livePreview {
+            display: none;
+        }
+        
+        #livePreview.show {
+            display: block;
+        }
+        
+        .ai-generate-box {
+            background: #e6f0ff;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .ai-generate-box p {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .ai-generate-box button {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .url-preview {
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .url-preview.show {
+            display: block;
+        }
+        
+        .url-preview img {
+            max-width: 120px;
+            max-height: 120px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .url-preview p {
+            color: #48bb78;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+        
+        .code-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 3px solid #667eea;
+        }
+        
+        .code-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎯 iTabs Generator</h1>
-        <p class="subtitle">Create beautiful interactive product displays in minutes</p>
+        <!-- LEFT PANEL: FORM -->
+        <div class="form-panel">
+            <h1>🎯 iTabs Generator</h1>
+            <p class="subtitle">Create beautiful interactive displays with live preview</p>
 
-        <!-- API Keys Section -->
-        <div class="form-section">
-            <div class="section-title">🔑 Setup - API Keys</div>
-            
-            <div class="security-note">
-                <strong>🔒 Privacy & Security:</strong> Your API keys are only used in your browser and never sent to any server except Google (for Gemini AI) and ImgBB (for image hosting). We never see or store your keys.
-            </div>
-            
-            <h3 style="color: #667eea; margin-bottom: 15px; font-size: 1.2em;">🤖 Gemini AI Key (Most Important!)</h3>
-            <p class="helper-text">This auto-generates all your product descriptions. <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #667eea; font-weight: bold;">Get your free Gemini key here →</a></p>
-            
-            <label>Your Google Gemini API Key</label>
-            <input type="text" id="geminiApiKey" placeholder="Paste your Gemini API key here" style="font-family: monospace; margin-bottom: 30px;">
-            
-            <h3 style="color: #667eea; margin-bottom: 15px; margin-top: 25px; font-size: 1.2em;">📸 ImgBB Key (For Image Uploads)</h3>
-            <p class="helper-text">This uploads your images to the web. <a href="https://api.imgbb.com/" target="_blank" style="color: #667eea; font-weight: bold;">Get your free ImgBB key here →</a></p>
-            
-            <label>Your ImgBB API Key</label>
-            <input type="text" id="apiKey" placeholder="Paste your ImgBB API key here" style="font-family: monospace;">
-            <p class="helper-text" style="margin-top: -15px;">Both keys are completely free and take 2 minutes each to get!</p>
-        </div>
-        
-        <!-- Images Section -->
-        <div class="form-section">
-            <div class="section-title">📸 Product Images</div>
-            
-            <p class="helper-text">Choose your preferred method: upload from device OR paste image URLs</p>
+            <!-- API Keys Section -->
+            <div class="form-section">
+                <div class="section-title">🔑 Setup - API Keys</div>
                 
-            <h3 style="color: #667eea; margin-bottom: 15px; font-size: 1.1em;">Option 1: Upload from Device</h3>
-            
-            <div class="upload-area" id="uploadArea" onclick="document.getElementById('imageInput').click()">
-                <div class="upload-icon">📷</div>
-                <div class="upload-text">Click to choose photos</div>
-                <div class="upload-subtext">or drag and drop them here (1-5 images)</div>
+                <div class="security-note">
+                    <strong>🔒 Privacy:</strong> Your API keys stay in your browser only. <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #667eea; font-weight: bold;">Get Gemini key →</a> <a href="https://api.imgbb.com/" target="_blank" style="color: #667eea; font-weight: bold;">Get ImgBB key →</a>
+                </div>
+                
+                <label>Gemini AI Key (for auto-descriptions)</label>
+                <input type="text" id="geminiApiKey" placeholder="Paste Gemini API key">
+                
+                <label>ImgBB Key (for image uploads)</label>
+                <input type="text" id="apiKey" placeholder="Paste ImgBB API key (or use URLs below)">
             </div>
             
-            <input type="file" id="imageInput" accept="image/*" multiple>
-            
-            <div class="image-previews" id="imagePreviews"></div>
-            <div class="image-count" id="imageCount"></div>
-            
-            <div style="text-align: center; margin: 25px 0; color: #718096; font-weight: 600;">- OR -</div>
-            
-            <h3 style="color: #667eea; margin-bottom: 15px; font-size: 1.1em;">Option 2: Paste Image URLs</h3>
-            <p class="helper-text" style="margin-bottom: 15px;">If your images are already online, just paste the URLs below</p>
-            
-            <div style="margin-bottom: 20px;">
-                <label>Image 1 URL</label>
-                <input type="url" id="imageUrl1" placeholder="https://example.com/image1.jpg" oninput="previewUrl(1)">
-                <div id="urlPreview1" style="margin-top: 10px; display: none;">
-                    <img id="urlPreviewImg1" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid #e2e8f0;">
-                    <p style="color: #48bb78; font-size: 0.9em; margin-top: 5px;">✓ Image loaded</p>
+            <!-- Images Section -->
+            <div class="form-section">
+                <div class="section-title">📸 Product Images</div>
+                
+                <p class="helper-text">Upload images OR paste URLs (1-5 images)</p>
+                    
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('imageInput').click()">
+                    <div class="upload-icon">📷</div>
+                    <div class="upload-text">Click to upload</div>
                 </div>
+                
+                <input type="file" id="imageInput" accept="image/*" multiple>
+                <div class="image-previews" id="imagePreviews"></div>
+                <div class="image-count" id="imageCount"></div>
+                
+                <div style="text-align: center; margin: 20px 0; color: #718096; font-weight: 600;">- OR -</div>
+                
+                <label>Image URLs</label>
+                <div id="urlFieldsContainer">
+                    <input type="url" id="imageUrl1" placeholder="https://example.com/image1.jpg" onchange="updatePreview()" style="margin-bottom: 10px;">
+                </div>
+                <button type="button" id="addUrlBtn" onclick="addUrlField()" style="width: 100%; padding: 10px; background: white; border: 2px solid #667eea; color: #667eea; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 5px;">+ Add Another Image</button>
+                <p class="helper-text" style="margin-top: 10px;" id="urlCounter">1 of 5 image fields shown</p>
             </div>
             
-            <div style="margin-bottom: 20px;">
-                <label>Image 2 URL (Optional)</label>
-                <input type="url" id="imageUrl2" placeholder="https://example.com/image2.jpg" oninput="previewUrl(2)">
-                <div id="urlPreview2" style="margin-top: 10px; display: none;">
-                    <img id="urlPreviewImg2" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid #e2e8f0;">
-                    <p style="color: #48bb78; font-size: 0.9em; margin-top: 5px;">✓ Image loaded</p>
+            <!-- Slideshow Settings Section -->
+            <div class="form-section">
+                <div class="section-title">⚙️ Slideshow Settings</div>
+                
+                <label>Enable Auto-Play?</label>
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <button type="button" id="autoplayYes" onclick="setAutoplay(true)" style="flex: 1; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">✅ Yes (Recommended)</button>
+                    <button type="button" id="autoplayNo" onclick="setAutoplay(false)" style="flex: 1; padding: 12px; background: white; color: #667eea; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-weight: 600;">❌ No</button>
                 </div>
+                
+                <label>Auto-Play Speed</label>
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    <input type="range" id="autoplaySpeed" min="2" max="10" value="5" oninput="updateSpeedDisplay()" style="flex: 1;">
+                    <span id="speedDisplay" style="min-width: 80px; font-weight: 600; color: #667eea;">5 seconds</span>
+                </div>
+                
+                <label>Overlay Text (optional - appears on first image)</label>
+                <input type="text" id="overlayText" placeholder="Leave empty for no overlay text" onchange="updatePreview()">
+                <p class="helper-text" style="margin-top: -15px;">Leave blank if you don't want any text on your images</p>
+                
+                <label>Text Size</label>
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    <input type="range" id="overlaySize" min="12" max="60" value="30" oninput="updateSizeDisplay()" style="flex: 1;">
+                    <span id="sizeDisplay" style="min-width: 60px; font-weight: 600; color: #667eea;">30px</span>
+                </div>
+                
+                <label>Text Color</label>
+                <input type="color" id="overlayColor" value="#FFFFFF" onchange="updatePreview()" style="width: 100%; height: 50px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer;">
             </div>
             
-            <div style="margin-bottom: 20px;">
-                <label>Image 3 URL (Optional)</label>
-                <input type="url" id="imageUrl3" placeholder="https://example.com/image3.jpg" oninput="previewUrl(3)">
-                <div id="urlPreview3" style="margin-top: 10px; display: none;">
-                    <img id="urlPreviewImg3" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid #e2e8f0;">
-                    <p style="color: #48bb78; font-size: 0.9em; margin-top: 5px;">✓ Image loaded</p>
-                </div>
+            <!-- Product Info Section -->
+            <div class="form-section">
+                <div class="section-title">🏷️ Product Information</div>
+                
+                <label>Product Name</label>
+                <input type="text" id="productName" placeholder="e.g., Premium Brake Pads" onchange="updatePreview()" required>
+                
+                <label>Your iTabs Generator URL (for the small iTabs button)</label>
+                <input type="url" id="generatorUrl" placeholder="https://yoursite.com/itabs-generator" value="https://yourgeneratorurl.com">
+                <p class="helper-text" style="margin-top: -15px;">This is where people go when they click the small iTabs button (viral marketing!)</p>
+                
+                <label>Product Website URL (optional)</label>
+                <input type="url" id="buttonUrl" placeholder="https://yourwebsite.com/product" oninput="autoFillButtonText()">
+                
+                <label>Button Text (optional)</label>
+                <input type="text" id="buttonText" placeholder="Auto-fills from URL">
             </div>
             
-            <div style="margin-bottom: 20px;">
-                <label>Image 4 URL (Optional)</label>
-                <input type="url" id="imageUrl4" placeholder="https://example.com/image4.jpg" oninput="previewUrl(4)">
-                <div id="urlPreview4" style="margin-top: 10px; display: none;">
-                    <img id="urlPreviewImg4" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid #e2e8f0;">
-                    <p style="color: #48bb78; font-size: 0.9em; margin-top: 5px;">✓ Image loaded</p>
+            <!-- Popup Content Section -->
+            <div class="form-section">
+                <div class="section-title">💬 Popup Information</div>
+                
+                <div class="ai-generate-box">
+                    <p>✨ Let AI write this for you!</p>
+                    <button type="button" onclick="generateWithAI(event)">🤖 Generate with Gemini AI</button>
                 </div>
+                
+                <label>What is it?</label>
+                <textarea id="whatIsIt" placeholder="Describe what this product is..."></textarea>
+                
+                <label>Why do I need it?</label>
+                <textarea id="whyNeedIt" placeholder="Explain the benefits..."></textarea>
+                
+                <label>How does it work?</label>
+                <textarea id="howWorks" placeholder="Explain how to use it..."></textarea>
+                
+                <label>What makes it different?</label>
+                <textarea id="whatDifferent" placeholder="What makes it unique..."></textarea>
             </div>
             
-            <div style="margin-bottom: 20px;">
-                <label>Image 5 URL (Optional)</label>
-                <input type="url" id="imageUrl5" placeholder="https://example.com/image5.jpg" oninput="previewUrl(5)">
-                <div id="urlPreview5" style="margin-top: 10px; display: none;">
-                    <img id="urlPreviewImg5" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid #e2e8f0;">
-                    <p style="color: #48bb78; font-size: 0.9em; margin-top: 5px;">✓ Image loaded</p>
-                </div>
+            <!-- Update & Generate Buttons -->
+            <button class="update-btn" onclick="updatePreview()">👁️ Update Live Preview</button>
+            <button class="generate-btn" id="generateBtn" onclick="generateCode()">📋 Generate Code to Copy</button>
+            
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+                <div>Uploading images...</div>
+            </div>
+            
+            <!-- Code Output -->
+            <div class="code-section" id="codeSection" style="display: none;">
+                <h3>📋 Copy Your Code</h3>
+                <div class="code-output" id="codeOutput"></div>
+                <button class="copy-btn" onclick="copyCode()">📋 Copy Code</button>
             </div>
         </div>
         
-        <!-- Product Info Section -->
-        <div class="form-section">
-            <div class="section-title">🏷️ Product Information</div>
-            <label>Product Name</label>
-            <input type="text" id="productName" placeholder="e.g., Premium Brake Pads" required>
+        <!-- RIGHT PANEL: LIVE PREVIEW -->
+        <div class="preview-panel">
+            <h2 class="preview-title">👁️ Live Preview</h2>
             
-            <label>Product Website URL (optional)</label>
-            <input type="url" id="buttonUrl" placeholder="https://yourwebsite.com/product" oninput="autoFillButtonText()">
-            <p class="helper-text" style="margin-top: -15px;">Button will automatically show this URL if you don't customize the text below</p>
-            
-            <label>Button Text (optional - auto-fills from URL)</label>
-            <input type="text" id="buttonText" placeholder="Will auto-fill from URL above">
-            
-            <label>Overlay Text (appears on first image)</label>
-            <input type="text" id="overlayText" placeholder="e.g., Click the i for more info" value="Click the i for more info">
-            
-            <label>Overlay Text Color</label>
-            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                <button type="button" onclick="event.preventDefault(); setTextColor('#FFFFFF')" style="flex: 1; padding: 12px; background: white; color: black; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-weight: 600;">⚪ White</button>
-                <button type="button" onclick="event.preventDefault(); setTextColor('#000000')" style="flex: 1; padding: 12px; background: black; color: white; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-weight: 600;">⚫ Black</button>
-                <button type="button" onclick="event.preventDefault(); setTextColor('#FFD700')" style="flex: 1; padding: 12px; background: #FFD700; color: black; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-weight: 600;">🟡 Yellow</button>
-            </div>
-            <input type="color" id="overlayColor" value="#FFFFFF" style="width: 100%; height: 50px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; margin-bottom: 20px;">
-            <p class="helper-text" style="margin-top: -15px;">Or choose any custom color above</p>
-            
-            <label>Overlay Text Size</label>
-            <div class="size-control">
-                <input type="number" id="overlaySize" value="18" min="12" max="48">
-                <span class="size-preview">px (12-48)</span>
-            </div>
-        </div>
-        
-        <!-- Popup Content Section -->
-        <div class="form-section">
-            <div class="section-title">💬 Popup Information</div>
-            <div style="background: #e6f0ff; border: 2px solid #667eea; border-radius: 12px; padding: 20px; margin-bottom: 25px; text-align: center;">
-                <p style="color: #2d3748; margin-bottom: 15px; font-weight: 600;">✨ Let AI write this for you!</p>
-                <button type="button" onclick="generateWithAI(event)" style="padding: 15px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer;">🤖 Generate Content with Gemini AI</button>
-                <p style="color: #718096; margin-top: 10px; font-size: 0.9em;">Automatically fills in all sections below based on your product name</p>
+            <div id="previewPlaceholder" class="preview-placeholder">
+                <h3>🎨 Your iTabs will appear here</h3>
+                <p>Fill in the form and click "Update Live Preview" to see your creation!</p>
             </div>
             
-            <label>What is it?</label>
-            <textarea id="whatIsIt" placeholder="Describe what this product is... (or click AI button above)"></textarea>
-            
-            <label>Why do I need it?</label>
-            <textarea id="whyNeedIt" placeholder="Explain the benefits and why customers need it... (or click AI button above)"></textarea>
-            
-            <label>How does it work?</label>
-            <textarea id="howWorks" placeholder="Explain how to use it or how it functions... (or click AI button above)"></textarea>
-            
-            <label>What makes it different?</label>
-            <textarea id="whatDifferent" placeholder="What makes this product unique or special... (or click AI button above)"></textarea>
-        </div>
-        
-        <!-- Generate Button -->
-        <button class="generate-btn" id="generateBtn" onclick="generateCode()">✨ Generate iTabs Code</button>
-        
-        <!-- Loading Indicator -->
-        <div class="loading" id="loadingIndicator">
-            <div class="spinner"></div>
-            <div>Uploading images and generating code...</div>
-        </div>
-        
-        <!-- Output Section -->
-        <div class="output-section" id="outputSection">
-            <h2>📋 Your iTabs Code</h2>
-            <div class="preview-note">
-                <strong>How to use:</strong> Copy the code below and paste it into your WordPress page editor (HTML mode) or Shopify product description.
+            <div id="livePreview">
+                <!-- iTabs preview will be injected here -->
             </div>
-            <div class="code-output" id="codeOutput"></div>
-            <button class="copy-btn" onclick="copyCode()">📋 Copy Code</button>
         </div>
     </div>
 
     <script>
         let selectedImages = [];
+        let urlFieldCount = 1;
+        let autoplayEnabled = true; // Default to Yes
         const uploadArea = document.getElementById('uploadArea');
         const imageInput = document.getElementById('imageInput');
         const imagePreviews = document.getElementById('imagePreviews');
         const imageCount = document.getElementById('imageCount');
         
-        // Set text color from quick buttons
-        function setTextColor(color) {
-            document.getElementById('overlayColor').value = color;
+        // Escape HTML to prevent injection
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Add URL field (up to 5)
+        function addUrlField() {
+            if (urlFieldCount >= 5) {
+                alert('Maximum 5 images allowed');
+                return;
+            }
+            
+            urlFieldCount++;
+            const container = document.getElementById('urlFieldsContainer');
+            const newField = document.createElement('input');
+            newField.type = 'url';
+            newField.id = 'imageUrl' + urlFieldCount;
+            newField.placeholder = 'https://example.com/image' + urlFieldCount + '.jpg';
+            newField.onchange = updatePreview;
+            newField.style.marginBottom = '10px';
+            container.appendChild(newField);
+            
+            document.getElementById('urlCounter').textContent = urlFieldCount + ' of 5 image fields shown';
+            
+            if (urlFieldCount >= 5) {
+                document.getElementById('addUrlBtn').style.display = 'none';
+            }
+        }
+        
+        // Set autoplay on/off
+        function setAutoplay(enabled) {
+            autoplayEnabled = enabled;
+            const yesBtn = document.getElementById('autoplayYes');
+            const noBtn = document.getElementById('autoplayNo');
+            
+            if (enabled) {
+                yesBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                yesBtn.style.color = 'white';
+                yesBtn.style.border = 'none';
+                noBtn.style.background = 'white';
+                noBtn.style.color = '#667eea';
+                noBtn.style.border = '2px solid #e2e8f0';
+            } else {
+                yesBtn.style.background = 'white';
+                yesBtn.style.color = '#667eea';
+                yesBtn.style.border = '2px solid #e2e8f0';
+                noBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                noBtn.style.color = 'white';
+                noBtn.style.border = 'none';
+            }
+        }
+        
+        // Update speed display
+        function updateSpeedDisplay() {
+            const speed = document.getElementById('autoplaySpeed').value;
+            document.getElementById('speedDisplay').textContent = speed + ' seconds';
+        }
+        
+        // Update size display
+        function updateSizeDisplay() {
+            const size = document.getElementById('overlaySize').value;
+            document.getElementById('sizeDisplay').textContent = size + 'px';
         }
         
         // Auto-fill button text from URL
@@ -520,7 +625,6 @@
             const url = document.getElementById('buttonUrl').value;
             const buttonTextField = document.getElementById('buttonText');
             
-            // Only auto-fill if button text field is empty or was previously auto-filled
             if (!buttonTextField.value || buttonTextField.placeholder.includes('auto-fill')) {
                 if (url) {
                     try {
@@ -529,13 +633,12 @@
                         buttonTextField.value = 'Visit ' + domain;
                         buttonTextField.placeholder = 'Visit ' + domain;
                     } catch (e) {
-                        // Invalid URL, clear the auto-fill
                         buttonTextField.value = '';
-                        buttonTextField.placeholder = 'Will auto-fill from URL above';
+                        buttonTextField.placeholder = 'Auto-fills from URL';
                     }
                 } else {
                     buttonTextField.value = '';
-                    buttonTextField.placeholder = 'Will auto-fill from URL above';
+                    buttonTextField.placeholder = 'Auto-fills from URL';
                 }
             }
         }
@@ -546,7 +649,7 @@
             const productName = document.getElementById('productName').value.trim();
             
             if (!geminiKey) {
-                alert('Please enter your Gemini API key in the Setup section first!\n\nGet a free key at: https://aistudio.google.com/app/apikey');
+                alert('Please enter your Gemini API key first!\n\nGet a free key at: https://aistudio.google.com/app/apikey');
                 return;
             }
             
@@ -555,36 +658,29 @@
                 return;
             }
             
-            // Show loading state
-            const btn = event ? event.target : document.querySelector('button[onclick*="generateWithAI"]');
+            const btn = event.target;
             const originalText = btn.textContent;
-            btn.textContent = '⏳ Generating with AI...';
+            btn.textContent = '⏳ Generating...';
             btn.disabled = true;
             
             try {
-                const prompt = `You are a helpful product marketing assistant. Generate compelling product information for: "${productName}"
+                const prompt = `Generate compelling product information for: "${productName}"
 
-Please provide 4 sections in JSON format:
+Provide 4 sections in JSON format:
 {
-    "whatIsIt": "A clear, simple description of what this product is (2-3 sentences)",
-    "whyNeedIt": "Benefits and reasons why customers need this product (2-3 sentences)",
-    "howWorks": "How to use it or how it functions (2-3 sentences)",
-    "whatDifferent": "What makes this product unique or special (2-3 sentences)"
+    "whatIsIt": "A clear description (2-3 sentences)",
+    "whyNeedIt": "Benefits and reasons (2-3 sentences)",
+    "howWorks": "How to use it (2-3 sentences)",
+    "whatDifferent": "What makes it unique (2-3 sentences)"
 }
 
-Keep each section concise, customer-focused, and easy to understand. Write in a friendly, helpful tone.`;
+Keep it concise and customer-focused.`;
 
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${geminiKey}`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: prompt
-                            }]
-                        }]
+                        contents: [{ parts: [{ text: prompt }] }]
                     })
                 });
                 
@@ -592,19 +688,15 @@ Keep each section concise, customer-focused, and easy to understand. Write in a 
                 
                 if (data.candidates && data.candidates[0] && data.candidates[0].content) {
                     const generatedText = data.candidates[0].content.parts[0].text;
-                    
-                    // Try to parse JSON from the response
                     let jsonMatch = generatedText.match(/\{[\s\S]*\}/);
                     if (jsonMatch) {
                         const content = JSON.parse(jsonMatch[0]);
-                        
-                        // Fill in the form fields
                         document.getElementById('whatIsIt').value = content.whatIsIt || '';
                         document.getElementById('whyNeedIt').value = content.whyNeedIt || '';
                         document.getElementById('howWorks').value = content.howWorks || '';
                         document.getElementById('whatDifferent').value = content.whatDifferent || '';
                         
-                        btn.textContent = '✅ Content Generated!';
+                        btn.textContent = '✅ Generated!';
                         setTimeout(() => {
                             btn.textContent = originalText;
                             btn.disabled = false;
@@ -612,73 +704,52 @@ Keep each section concise, customer-focused, and easy to understand. Write in a 
                     } else {
                         throw new Error('Could not parse AI response');
                     }
-                } else if (data.error) {
-                    throw new Error(data.error.message || 'API Error');
                 } else {
-                    throw new Error('Invalid API response');
+                    throw new Error(data.error?.message || 'Invalid API response');
                 }
                 
             } catch (error) {
-                console.error('Gemini API Error:', error);
-                let errorMsg = 'Error generating content with AI. Please check your Gemini API key and try again.';
-                if (error.message.includes('API_KEY_INVALID')) {
-                    errorMsg = 'Invalid Gemini API key. Please check your key and try again.';
-                } else if (error.message.includes('quota')) {
-                    errorMsg = 'API quota exceeded. Please try again later or use a different API key.';
-                }
-                alert(errorMsg + '\n\nError: ' + error.message);
+                alert('Error generating content: ' + error.message);
                 btn.textContent = originalText;
                 btn.disabled = false;
             }
         }
         
-        // Prevent default drag behaviors
+        // Handle file uploads
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            uploadArea.addEventListener(eventName, preventDefaults, false);
+            uploadArea.addEventListener(eventName, e => {
+                e.preventDefault();
+                e.stopPropagation();
+            });
         });
         
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        
-        // Highlight drop area when item is dragged over it
         ['dragenter', 'dragover'].forEach(eventName => {
-            uploadArea.addEventListener(eventName, () => {
-                uploadArea.classList.add('dragging');
-            }, false);
+            uploadArea.addEventListener(eventName, () => uploadArea.style.borderColor = '#667eea');
         });
         
         ['dragleave', 'drop'].forEach(eventName => {
-            uploadArea.addEventListener(eventName, () => {
-                uploadArea.classList.remove('dragging');
-            }, false);
+            uploadArea.addEventListener(eventName, () => uploadArea.style.borderColor = '#cbd5e0');
         });
         
-        // Handle dropped files
-        uploadArea.addEventListener('drop', (e) => {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            handleFiles(files);
-        }, false);
+        uploadArea.addEventListener('drop', e => {
+            handleFiles(e.dataTransfer.files);
+        });
         
-        // Handle selected files
-        imageInput.addEventListener('change', (e) => {
+        imageInput.addEventListener('change', e => {
             handleFiles(e.target.files);
         });
         
         function handleFiles(files) {
-            const fileArray = Array.from(files).slice(0, 5); // Max 5 images
-            selectedImages = fileArray;
+            selectedImages = Array.from(files).slice(0, 5);
             displayPreviews();
+            updatePreview();
         }
         
         function displayPreviews() {
             imagePreviews.innerHTML = '';
-            
             selectedImages.forEach((file, index) => {
                 const reader = new FileReader();
-                reader.onload = (e) => {
+                reader.onload = e => {
                     const div = document.createElement('div');
                     div.className = 'preview-item';
                     div.innerHTML = `
@@ -689,112 +760,219 @@ Keep each section concise, customer-focused, and easy to understand. Write in a 
                 };
                 reader.readAsDataURL(file);
             });
-            
-            imageCount.textContent = `${selectedImages.length} image${selectedImages.length !== 1 ? 's' : ''} selected (max 5)`;
+            imageCount.textContent = `${selectedImages.length} image${selectedImages.length !== 1 ? 's' : ''} selected`;
         }
         
         function removeImage(index) {
             selectedImages.splice(index, 1);
             displayPreviews();
+            updatePreview();
         }
         
-        // Handle URL input - clear uploaded files if URLs are being used
-        function handleUrlInput() {
-            const urlInputs = [
-                document.getElementById('imageUrl1'),
-                document.getElementById('imageUrl2'),
-                document.getElementById('imageUrl3'),
-                document.getElementById('imageUrl4'),
-                document.getElementById('imageUrl5')
-            ];
+        // Update live preview
+        function updatePreview() {
+            const productName = document.getElementById('productName').value || 'Your Product';
+            const overlayText = document.getElementById('overlayText').value || ''; // Now optional
+            const overlaySize = document.getElementById('overlaySize').value || '30';
+            const overlayColor = document.getElementById('overlayColor').value || '#FFFFFF';
             
-            const hasUrls = urlInputs.some(input => input.value.trim() !== '');
+            // Get images from either uploads or URLs (dynamic number of fields)
+            let imageUrls = [];
             
-            if (hasUrls && selectedImages.length > 0) {
-                if (confirm('You have uploaded files. Switch to using URLs instead?')) {
-                    selectedImages = [];
-                    displayPreviews();
+            // Check URL inputs - now dynamic
+            for (let i = 1; i <= urlFieldCount; i++) {
+                const urlField = document.getElementById('imageUrl' + i);
+                if (urlField) {
+                    const url = urlField.value.trim();
+                    if (url) imageUrls.push(url);
                 }
             }
-        }
-        
-        // Preview URL images
-        function previewUrl(index) {
-            const urlInput = document.getElementById('imageUrl' + index);
-            const previewDiv = document.getElementById('urlPreview' + index);
-            const previewImg = document.getElementById('urlPreviewImg' + index);
-            const url = urlInput.value.trim();
             
-            // Also call handleUrlInput to check if we should clear uploads
-            handleUrlInput();
-            
-            if (url === '') {
-                previewDiv.style.display = 'none';
+            // If no URLs, use uploaded images
+            if (imageUrls.length === 0 && selectedImages.length > 0) {
+                selectedImages.forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        imageUrls.push(e.target.result);
+                        if (imageUrls.length === selectedImages.length) {
+                            renderPreview(imageUrls, productName, overlayText, overlaySize, overlayColor);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
                 return;
             }
             
-            // Try to load the image
-            const testImg = new Image();
-            testImg.onload = function() {
-                previewImg.src = url;
-                previewDiv.innerHTML = `
-                    <img src="${url}" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid #e2e8f0;">
-                    <p style="color: #48bb78; font-size: 0.9em; margin-top: 5px;">✓ Image loaded</p>
+            if (imageUrls.length > 0) {
+                renderPreview(imageUrls, productName, overlayText, overlaySize, overlayColor);
+            }
+        }
+        
+        function renderPreview(images, productName, overlayText, overlaySize, overlayColor) {
+            if (images.length === 0) return;
+            
+            const whatIsIt = document.getElementById('whatIsIt').value;
+            const whyNeedIt = document.getElementById('whyNeedIt').value;
+            const howWorks = document.getElementById('howWorks').value;
+            const whatDifferent = document.getElementById('whatDifferent').value;
+            const buttonUrl = document.getElementById('buttonUrl').value;
+            const buttonText = document.getElementById('buttonText').value;
+            const generatorUrl = document.getElementById('generatorUrl').value || 'https://yourgeneratorurl.com';
+            
+            let slidesHTML = '';
+            let dotsHTML = '';
+            
+            images.forEach((url, index) => {
+                slidesHTML += `
+                    <div style="min-width: 100%; height: 100%;">
+                        <img src="${url}" alt="${productName} ${index + 1}" style="width: 100%; height: 100%; object-fit: cover;">
+                        ${index === 0 && overlayText ? `<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: ${overlayColor}; font-weight: bold; font-size: ${overlaySize}px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); padding: 10px; z-index: 10; text-align: center; width: 90%;">${overlayText}</div>` : ''}
+                    </div>
                 `;
-                previewDiv.style.display = 'block';
-            };
-            testImg.onerror = function() {
-                previewDiv.innerHTML = '<p style="color: #ef4444; font-size: 0.9em; margin-top: 5px;">❌ Invalid image URL</p>';
-                previewDiv.style.display = 'block';
-            };
-            testImg.src = url;
-        }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        async function uploadToImgBB(file) {
-            const formData = new FormData();
-            formData.append('image', file);
+                
+                const bgColor = index === 0 ? 'white' : 'rgba(255,255,255,0.5)';
+                dotsHTML += `<div class="itabs-dot-preview" data-slide="${index}" style="width: 10px; height: 10px; border-radius: 50%; background: ${bgColor}; cursor: pointer; transition: all 0.3s; border: 2px solid white;"></div>`;
+            });
             
-            // Get API key from form field
-            const apiKey = document.getElementById('apiKey').value.trim();
+            let popupHTML = '';
+            if (whatIsIt) popupHTML += `<h4 style="color: #667eea; font-size: 1.4em; margin-bottom: 15px;">What is it?</h4><p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin-bottom: 15px;">${whatIsIt}</p>`;
+            if (whyNeedIt) popupHTML += `<h4 style="color: #667eea; font-size: 1.4em; margin-bottom: 15px; margin-top: 25px;">Why do I need it?</h4><p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin-bottom: 15px;">${whyNeedIt}</p>`;
+            if (howWorks) popupHTML += `<h4 style="color: #667eea; font-size: 1.4em; margin-bottom: 15px; margin-top: 25px;">How does it work?</h4><p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin-bottom: 15px;">${howWorks}</p>`;
+            if (whatDifferent) popupHTML += `<h4 style="color: #667eea; font-size: 1.4em; margin-bottom: 15px; margin-top: 25px;">What makes it different?</h4><p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin-bottom: 15px;">${whatDifferent}</p>`;
             
-            if (!apiKey) {
-                throw new Error('Please enter your ImgBB API key first!');
+            let buttonHTML = '';
+            if (buttonText && buttonUrl) {
+                buttonHTML = `<a href="${buttonUrl}" target="_blank" style="display: block; margin: 25px 0; padding: 15px; background: #4CAF50; color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em;">${buttonText}</a>`;
             }
             
-            try {
-                const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
-                    method: 'POST',
-                    body: formData
+            const previewHTML = `
+                <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.1); max-width: 500px; margin: 0 auto;">
+                    <div style="position: relative; width: 100%; height: 350px; overflow: hidden; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+                            <div id="previewTrack" style="display: flex; transition: transform 0.4s ease; height: 100%;">
+                                ${slidesHTML}
+                            </div>
+                        </div>
+                        <div style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 15;">
+                            ${dotsHTML}
+                        </div>
+                        <div id="previewCounter" style="position: absolute; bottom: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; padding: 5px 12px; border-radius: 15px; font-size: 14px; font-weight: bold; z-index: 15;">1/${images.length}</div>
+                        <div style="position: absolute; top: 20px; right: 20px; width: 45px; height: 45px; background: rgba(255,255,255,0.95); color: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 24px; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.2); border: 3px solid white; z-index: 20;" onclick="document.getElementById('previewPopup').style.display='flex'">i</div>
+                    </div>
+                    <div style="padding: 25px; text-align: center; position: relative;">
+                        <!-- iTabs CREATE BUTTON - Upper Right Corner (35x35px) -->
+                        <a href="${generatorUrl}" target="_blank" style="position: absolute; top: 12px; right: 15px; width: 35px; height: 35px; background: rgba(255, 255, 255, 0.95); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border: 2px solid #667eea; transition: all 0.3s ease;">
+                            <div style="color: #667eea; font-size: 14px; font-weight: bold; line-height: 1; margin-bottom: 1px;">i</div>
+                            <div style="color: #667eea; font-size: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; line-height: 1;">iTabs</div>
+                        </a>
+                        <h3 style="font-size: 1.3em; color: #2d3748; margin-bottom: 10px; font-weight: 600;">${productName}</h3>
+                        <p style="color: #718096; font-size: 1em; line-height: 1.6;">${images.length > 1 ? 'Swipe to see more images!' : 'Click the i button for details'}</p>
+                    </div>
+                </div>
+                
+                <div id="previewPopup" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); align-items: center; justify-content: center; padding: 20px;">
+                    <div style="position: relative; background-color: white; border-radius: 20px; width: 90%; max-width: 600px; max-height: 80vh; box-shadow: 0 20px 60px rgba(0,0,0,0.4); overflow: hidden;">
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; display: flex; justify-content: space-between; align-items: center;">
+                            <h3 style="margin: 0; font-size: 1.8em;">${productName}</h3>
+                            <button onclick="document.getElementById('previewPopup').style.display='none'" style="color: white; font-size: 40px; font-weight: bold; cursor: pointer; background: none; border: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">&times;</button>
+                        </div>
+                        <div style="padding: 35px; max-height: calc(80vh - 120px); overflow-y: auto;">
+                            ${popupHTML}
+                            ${buttonHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('livePreview').innerHTML = previewHTML;
+            document.getElementById('livePreview').classList.add('show');
+            document.getElementById('previewPlaceholder').style.display = 'none';
+            
+            // Setup carousel for preview
+            setupPreviewCarousel(images.length);
+        }
+        
+        let previewCurrentSlide = 0;
+        let previewTotalSlides = 1;
+        let previewAutoplayInterval = null;
+        
+        function setupPreviewCarousel(totalSlides) {
+            previewCurrentSlide = 0;
+            previewTotalSlides = totalSlides;
+            
+            // Clear any existing autoplay
+            if (previewAutoplayInterval) {
+                clearInterval(previewAutoplayInterval);
+            }
+            
+            const dots = document.querySelectorAll('.itabs-dot-preview');
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    previewCurrentSlide = index;
+                    updatePreviewCarousel();
+                });
+            });
+            
+            // Touch swipe
+            const track = document.getElementById('previewTrack');
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            if (track) {
+                track.addEventListener('touchstart', e => {
+                    touchStartX = e.changedTouches[0].screenX;
                 });
                 
-                const data = await response.json();
-                
-                if (data.success) {
-                    return data.data.url;
-                } else {
-                    throw new Error('Upload failed - check your API key');
-                }
-            } catch (error) {
-                console.error('Error uploading image:', error);
-                throw error;
+                track.addEventListener('touchend', e => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    if (touchEndX < touchStartX - 50) {
+                        previewCurrentSlide++;
+                        if (previewCurrentSlide >= previewTotalSlides) previewCurrentSlide = 0;
+                        updatePreviewCarousel();
+                    }
+                    if (touchEndX > touchStartX + 50) {
+                        previewCurrentSlide--;
+                        if (previewCurrentSlide < 0) previewCurrentSlide = previewTotalSlides - 1;
+                        updatePreviewCarousel();
+                    }
+                });
+            }
+            
+            // Setup autoplay if enabled
+            if (autoplayEnabled && totalSlides > 1) {
+                const speed = document.getElementById('autoplaySpeed').value || 5;
+                previewAutoplayInterval = setInterval(() => {
+                    previewCurrentSlide++;
+                    if (previewCurrentSlide >= previewTotalSlides) previewCurrentSlide = 0;
+                    updatePreviewCarousel();
+                }, speed * 1000);
             }
         }
         
+        function updatePreviewCarousel() {
+            const track = document.getElementById('previewTrack');
+            const counter = document.getElementById('previewCounter');
+            const dots = document.querySelectorAll('.itabs-dot-preview');
+            
+            if (track) track.style.transform = `translateX(-${previewCurrentSlide * 100}%)`;
+            if (counter) counter.textContent = `${previewCurrentSlide + 1}/${previewTotalSlides}`;
+            
+            dots.forEach((dot, index) => {
+                dot.style.background = index === previewCurrentSlide ? 'white' : 'rgba(255,255,255,0.5)';
+            });
+        }
+        
+        // Generate code
         async function generateCode() {
-            // Check if using uploaded images or URLs
-            const urlInputs = [
-                document.getElementById('imageUrl1').value.trim(),
-                document.getElementById('imageUrl2').value.trim(),
-                document.getElementById('imageUrl3').value.trim(),
-                document.getElementById('imageUrl4').value.trim(),
-                document.getElementById('imageUrl5').value.trim()
-            ].filter(url => url !== '');
+            // Check if using uploaded images or URLs (dynamic fields)
+            const urlInputs = [];
+            for (let i = 1; i <= urlFieldCount; i++) {
+                const urlField = document.getElementById('imageUrl' + i);
+                if (urlField) {
+                    const url = urlField.value.trim();
+                    if (url) urlInputs.push(url);
+                }
+            }
             
             const usingUrls = urlInputs.length > 0;
             const usingUploads = selectedImages.length > 0;
@@ -806,151 +984,102 @@ Keep each section concise, customer-focused, and easy to understand. Write in a 
             
             let validUrls = [];
             
-            // If using URLs, use them directly (no upload needed)
             if (usingUrls) {
                 validUrls = urlInputs;
-                
-                // Show loading, hide button
                 document.getElementById('generateBtn').disabled = true;
                 document.getElementById('loadingIndicator').classList.add('show');
-                document.getElementById('loadingIndicator').querySelector('div:last-child').textContent = 'Generating code...';
-                document.getElementById('outputSection').classList.remove('show');
-                
             } else {
-                // Using uploads - need ImgBB API key
                 const apiKey = document.getElementById('apiKey').value.trim();
                 if (!apiKey) {
-                    alert('Please enter your ImgBB API key in the Setup section first!\n\nGet a free key at: https://api.imgbb.com/\n\nOR use the URL option instead (no API key needed).');
+                    alert('Please enter your ImgBB API key OR use the URL option instead!\n\nGet a free key at: https://api.imgbb.com/');
                     return;
                 }
                 
-                // Show loading, hide button
                 document.getElementById('generateBtn').disabled = true;
                 document.getElementById('loadingIndicator').classList.add('show');
-                document.getElementById('loadingIndicator').querySelector('div:last-child').textContent = 'Uploading images and generating code...';
-                document.getElementById('outputSection').classList.remove('show');
                 
                 try {
-                    // Upload all images to ImgBB
-                    const uploadPromises = selectedImages.map(file => uploadToImgBB(file));
-                    const imageUrls = await Promise.all(uploadPromises);
-                    
-                    // Filter out any failed uploads
-                    validUrls = imageUrls.filter(url => url !== null);
+                    const uploadPromises = selectedImages.map(file => uploadToImgBB(file, apiKey));
+                    validUrls = await Promise.all(uploadPromises);
+                    validUrls = validUrls.filter(url => url !== null);
                     
                     if (validUrls.length === 0) {
-                        alert('Image upload failed. Please check your API key and try again.\n\nMake sure you got your key from: https://api.imgbb.com/\n\nOR use the URL option instead.');
+                        alert('Image upload failed. Try using the URL option instead.');
                         document.getElementById('generateBtn').disabled = false;
                         document.getElementById('loadingIndicator').classList.remove('show');
                         return;
                     }
                 } catch (error) {
-                    alert('Error uploading images: ' + error.message + '\n\nTry using the URL option instead.');
+                    alert('Error uploading images: ' + error.message);
                     document.getElementById('generateBtn').disabled = false;
                     document.getElementById('loadingIndicator').classList.remove('show');
                     return;
                 }
             }
             
-            try {
-                // Get form values
-                const productName = escapeHtml(document.getElementById('productName').value || 'Your Product');
-                const overlayText = escapeHtml(document.getElementById('overlayText').value || 'Click the i for more info');
-                const overlaySize = document.getElementById('overlaySize').value || '18';
-                const overlayColor = document.getElementById('overlayColor').value || '#FFFFFF';
-                const whatIsIt = escapeHtml(document.getElementById('whatIsIt').value);
-                const whyNeedIt = escapeHtml(document.getElementById('whyNeedIt').value);
-                const howWorks = escapeHtml(document.getElementById('howWorks').value);
-                const whatDifferent = escapeHtml(document.getElementById('whatDifferent').value);
-                const buttonUrl = document.getElementById('buttonUrl').value;
-                
-                // Use custom button text if provided, otherwise use auto-filled text
-                let buttonText = document.getElementById('buttonText').value;
-                if (!buttonText && buttonUrl) {
-                    // Auto-generate button text from URL
-                    try {
-                        const urlObj = new URL(buttonUrl);
-                        let domain = urlObj.hostname.replace('www.', '');
-                        buttonText = 'Visit ' + domain;
-                    } catch (e) {
-                        buttonText = 'Learn More';
-                    }
-                }
-                buttonText = escapeHtml(buttonText);
-                
-                // Generate code using the uploaded image URLs
-                const code = buildITabsCode(validUrls, productName, overlayText, overlaySize, overlayColor,
-                                           whatIsIt, whyNeedIt, howWorks, whatDifferent, 
-                                           buttonText, buttonUrl);
-                
-                // Display the code
-                document.getElementById('codeOutput').textContent = code;
-                document.getElementById('outputSection').classList.add('show');
-                document.getElementById('loadingIndicator').classList.remove('show');
-                document.getElementById('generateBtn').disabled = false;
-                
-                // Scroll to output
-                document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
-                
-            } catch (error) {
-                alert('Error generating code: ' + error.message);
-                document.getElementById('generateBtn').disabled = false;
-                document.getElementById('loadingIndicator').classList.remove('show');
-            }
+            // Generate the code
+            const code = buildITabsCode(validUrls);
+            document.getElementById('codeOutput').textContent = code;
+            document.getElementById('codeSection').style.display = 'block';
+            document.getElementById('loadingIndicator').classList.remove('show');
+            document.getElementById('generateBtn').disabled = false;
+            
+            // Scroll to code
+            document.getElementById('codeSection').scrollIntoView({ behavior: 'smooth' });
         }
         
-        function buildITabsCode(images, productName, overlayText, overlaySize, overlayColor,
-                                whatIsIt, whyNeedIt, howWorks, whatDifferent, 
-                                buttonText, buttonUrl) {
+        async function uploadToImgBB(file, apiKey) {
+            const formData = new FormData();
+            formData.append('image', file);
             
-            // Generate image slides HTML
+            const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            return data.success ? data.data.url : null;
+        }
+        
+        function buildITabsCode(images) {
+            const productName = escapeHtml(document.getElementById('productName').value || 'Your Product');
+            const overlayText = escapeHtml(document.getElementById('overlayText').value || ''); // Now optional
+            const overlaySize = document.getElementById('overlaySize').value || '30'; // Default 30px
+            const overlayColor = document.getElementById('overlayColor').value || '#FFFFFF';
+            const whatIsIt = escapeHtml(document.getElementById('whatIsIt').value);
+            const whyNeedIt = escapeHtml(document.getElementById('whyNeedIt').value);
+            const howWorks = escapeHtml(document.getElementById('howWorks').value);
+            const whatDifferent = escapeHtml(document.getElementById('whatDifferent').value);
+            const buttonUrl = document.getElementById('buttonUrl').value;
+            const buttonText = escapeHtml(document.getElementById('buttonText').value || 'Learn More');
+            const generatorUrl = document.getElementById('generatorUrl').value || 'https://yourgeneratorurl.com';
+            
             let slidesHTML = '';
             let dotsHTML = '';
             
             images.forEach((url, index) => {
-                slidesHTML += '        <div style="min-width: 100%; height: 100%;">\n';
-                slidesHTML += '            <img src="' + url + '" alt="' + productName + ' ' + (index + 1) + '" style="width: 100%; height: 100%; object-fit: cover;">\n';
-                if (index === 0) {
-                    slidesHTML += '            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: ' + overlayColor + '; font-weight: bold; font-size: ' + overlaySize + 'px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); padding: 10px; z-index: 10; text-align: center; width: 90%;">' + overlayText + '</div>\n';
+                slidesHTML += `        <div style="min-width: 100%; height: 100%;">\n            <img src="${url}" alt="${productName} ${index + 1}" style="width: 100%; height: 100%; object-fit: cover;">\n`;
+                if (index === 0 && overlayText) {
+                    slidesHTML += `            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: ${overlayColor}; font-weight: bold; font-size: ${overlaySize}px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); padding: 10px; z-index: 10; text-align: center; width: 90%;">${overlayText}</div>\n`;
                 }
                 slidesHTML += '        </div>\n';
                 
-                const bgColor = (index === 0) ? 'white' : 'rgba(255,255,255,0.5)';
-                dotsHTML += '        <div class="itabs-dot" data-slide="' + index + '" style="width: 10px; height: 10px; border-radius: 50%; background: ' + bgColor + '; cursor: pointer; transition: all 0.3s; border: 2px solid white;"></div>\n';
+                const bgColor = index === 0 ? 'white' : 'rgba(255,255,255,0.5)';
+                dotsHTML += `        <div class="itabs-dot" data-slide="${index}" style="width: 10px; height: 10px; border-radius: 50%; background: ${bgColor}; cursor: pointer; transition: all 0.3s; border: 2px solid white;"></div>\n`;
             });
             
-            // Generate popup sections HTML
-            let popupSections = '';
+            let popupHTML = '';
+            if (whatIsIt) popupHTML += `            <h4 style="color: #667eea; font-size: 1.4em; margin-bottom: 15px;">What is it?</h4>\n            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin-bottom: 15px;">${whatIsIt}</p>\n\n`;
+            if (whyNeedIt) popupHTML += `            <h4 style="color: #667eea; font-size: 1.4em; margin-bottom: 15px; margin-top: 25px;">Why do I need it?</h4>\n            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin-bottom: 15px;">${whyNeedIt}</p>\n\n`;
+            if (howWorks) popupHTML += `            <h4 style="color: #667eea; font-size: 1.4em; margin-bottom: 15px; margin-top: 25px;">How does it work?</h4>\n            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin-bottom: 15px;">${howWorks}</p>\n\n`;
+            if (whatDifferent) popupHTML += `            <h4 style="color: #667eea; font-size: 1.4em; margin-bottom: 15px; margin-top: 25px;">What makes it different?</h4>\n            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin-bottom: 15px;">${whatDifferent}</p>\n\n`;
             
-            if (whatIsIt) {
-                popupSections += '            <h4 style="color: #667eea; font-size: 1.4em; margin-bottom: 15px;">What is it?</h4>\n';
-                popupSections += '            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin-bottom: 15px;">' + whatIsIt + '</p>\n\n';
-            }
-            
-            if (whyNeedIt) {
-                popupSections += '            <h4 style="color: #667eea; font-size: 1.4em; margin-bottom: 15px; margin-top: 25px;">Why do I need it?</h4>\n';
-                popupSections += '            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin-bottom: 15px;">' + whyNeedIt + '</p>\n\n';
-            }
-            
-            if (howWorks) {
-                popupSections += '            <h4 style="color: #667eea; font-size: 1.4em; margin-bottom: 15px; margin-top: 25px;">How does it work?</h4>\n';
-                popupSections += '            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin-bottom: 15px;">' + howWorks + '</p>\n\n';
-            }
-            
-            if (whatDifferent) {
-                popupSections += '            <h4 style="color: #667eea; font-size: 1.4em; margin-bottom: 15px; margin-top: 25px;">What makes it different?</h4>\n';
-                popupSections += '            <p style="color: #4a5568; font-size: 1.05em; line-height: 1.8; margin-bottom: 15px;">' + whatDifferent + '</p>\n\n';
-            }
-            
-            // Generate button HTML if provided
             let buttonHTML = '';
             if (buttonText && buttonUrl) {
-                buttonHTML = '            <a href="' + buttonUrl + '" target="_blank" style="display: block; margin: 25px 0; padding: 15px; background: #4CAF50; color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em;">' + buttonText + '</a>\n';
+                buttonHTML = `            <a href="${buttonUrl}" target="_blank" style="display: block; margin: 25px 0; padding: 15px; background: #4CAF50; color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em;">${buttonText}</a>\n`;
             }
             
-            // Build complete code
-            let code = '<!-- iTabs Code - Beautiful Interactive Product Display -->\n';
-            code += '<!-- Paste this code where you want your iTabs to appear -->\n\n';
+            let code = '<!-- iTabs Code - Paste this where you want your iTabs to appear -->\n\n';
             code += '<div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.1); max-width: 500px; margin: 20px auto;">\n';
             code += '    <div style="position: relative; width: 100%; height: 350px; overflow: hidden; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">\n';
             code += '        <div style="position: relative; width: 100%; height: 100%; overflow: hidden;">\n';
@@ -961,29 +1090,35 @@ Keep each section concise, customer-focused, and easy to understand. Write in a 
             code += '        <div style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 15;">\n';
             code += dotsHTML;
             code += '        </div>\n';
-            code += '        <div id="itabsCounter" style="position: absolute; bottom: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; padding: 5px 12px; border-radius: 15px; font-size: 14px; font-weight: bold; z-index: 15;">1/' + images.length + '</div>\n';
+            code += `        <div id="itabsCounter" style="position: absolute; bottom: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; padding: 5px 12px; border-radius: 15px; font-size: 14px; font-weight: bold; z-index: 15;">1/${images.length}</div>\n`;
             code += '        <div style="position: absolute; top: 20px; right: 20px; width: 45px; height: 45px; background: rgba(255,255,255,0.95); color: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 24px; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.2); border: 3px solid white; z-index: 20;" onclick="document.getElementById(\'itabsPopup\').style.display=\'flex\'">i</div>\n';
             code += '    </div>\n';
-            code += '    <div style="padding: 25px; text-align: center;">\n';
-            code += '        <h3 style="font-size: 1.3em; color: #2d3748; margin-bottom: 10px; font-weight: 600;">' + productName + '</h3>\n';
-            code += '        <p style="color: #718096; font-size: 1em; line-height: 1.6;">' + (images.length > 1 ? 'Swipe to see more images!' : 'Click the i button for details') + '</p>\n';
+            code += '    <div style="padding: 25px; text-align: center; position: relative;">\n';
+            code += '        <!-- iTabs CREATE BUTTON - Upper Right Corner (35x35px) -->\n';
+            code += '        <!-- REMOVE THIS ENTIRE <a> ELEMENT FOR PAID VERSION -->\n';
+            code += `        <a href="${generatorUrl}" target="_blank" style="position: absolute; top: 12px; right: 15px; width: 35px; height: 35px; background: rgba(255, 255, 255, 0.95); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border: 2px solid #667eea; transition: all 0.3s ease;">\n`;
+            code += '            <div style="color: #667eea; font-size: 14px; font-weight: bold; line-height: 1; margin-bottom: 1px;">i</div>\n';
+            code += '            <div style="color: #667eea; font-size: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; line-height: 1;">iTabs</div>\n';
+            code += '        </a>\n';
+            code += `        <h3 style="font-size: 1.3em; color: #2d3748; margin-bottom: 10px; font-weight: 600;">${productName}</h3>\n`;
+            code += `        <p style="color: #718096; font-size: 1em; line-height: 1.6;">${images.length > 1 ? 'Swipe to see more images!' : 'Click the i button for details'}</p>\n`;
             code += '    </div>\n';
             code += '</div>\n\n';
             code += '<div id="itabsPopup" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); align-items: center; justify-content: center; padding: 20px;">\n';
             code += '    <div style="position: relative; background-color: white; border-radius: 20px; width: 90%; max-width: 600px; max-height: 80vh; box-shadow: 0 20px 60px rgba(0,0,0,0.4); overflow: hidden;">\n';
             code += '        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; display: flex; justify-content: space-between; align-items: center;">\n';
-            code += '            <h3 style="margin: 0; font-size: 1.8em;">' + productName + '</h3>\n';
+            code += `            <h3 style="margin: 0; font-size: 1.8em;">${productName}</h3>\n`;
             code += '            <button onclick="document.getElementById(\'itabsPopup\').style.display=\'none\'" style="color: white; font-size: 40px; font-weight: bold; cursor: pointer; background: none; border: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">&times;</button>\n';
             code += '        </div>\n';
             code += '        <div style="padding: 35px; max-height: calc(80vh - 120px); overflow-y: auto;">\n';
-            code += popupSections;
+            code += popupHTML;
             code += buttonHTML;
             code += '        </div>\n';
             code += '    </div>\n';
             code += '</div>\n\n';
             code += '<script>\n';
             code += 'var itabsCurrentSlide = 0;\n';
-            code += 'var itabsTotalSlides = ' + images.length + ';\n';
+            code += `var itabsTotalSlides = ${images.length};\n`;
             code += 'var itabsTouchStartX = 0;\n';
             code += 'var itabsTouchEndX = 0;\n\n';
             code += 'function itabsGoToSlide(index) {\n';
@@ -994,21 +1129,17 @@ Keep each section concise, customer-focused, and easy to understand. Write in a 
             code += '    var track = document.getElementById(\'itabsTrack\');\n';
             code += '    var counter = document.getElementById(\'itabsCounter\');\n';
             code += '    var dots = document.querySelectorAll(\'.itabs-dot\');\n';
-            code += '    \n';
             code += '    track.style.transform = \'translateX(-\' + (itabsCurrentSlide * 100) + \'%)\';\n';
             code += '    if (counter) counter.textContent = (itabsCurrentSlide + 1) + \'/\' + itabsTotalSlides;\n';
-            code += '    \n';
             code += '    dots.forEach(function(dot, index) {\n';
             code += '        dot.style.background = index === itabsCurrentSlide ? \'white\' : \'rgba(255,255,255,0.5)\';\n';
             code += '    });\n';
             code += '}\n\n';
-            code += '// Touch swipe navigation\n';
             code += 'var trackElement = document.getElementById(\'itabsTrack\');\n';
             code += 'if (trackElement) {\n';
             code += '    trackElement.addEventListener(\'touchstart\', function(e) {\n';
             code += '        itabsTouchStartX = e.changedTouches[0].screenX;\n';
             code += '    });\n';
-            code += '    \n';
             code += '    trackElement.addEventListener(\'touchend\', function(e) {\n';
             code += '        itabsTouchEndX = e.changedTouches[0].screenX;\n';
             code += '        if (itabsTouchEndX < itabsTouchStartX - 50) {\n';
@@ -1023,18 +1154,26 @@ Keep each section concise, customer-focused, and easy to understand. Write in a 
             code += '        }\n';
             code += '    });\n';
             code += '}\n\n';
-            code += '// Dot click handlers\n';
             code += 'document.querySelectorAll(\'.itabs-dot\').forEach(function(dot) {\n';
             code += '    dot.addEventListener(\'click\', function() {\n';
             code += '        itabsGoToSlide(parseInt(this.getAttribute(\'data-slide\')));\n';
             code += '    });\n';
             code += '});\n\n';
-            code += '// Close popup on outside click\n';
             code += 'document.getElementById(\'itabsPopup\').addEventListener(\'click\', function(e) {\n';
-            code += '    if (e.target.id === \'itabsPopup\') {\n';
-            code += '        this.style.display = \'none\';\n';
-            code += '    }\n';
-            code += '});\n';
+            code += '    if (e.target.id === \'itabsPopup\') this.style.display = \'none\';\n';
+            code += '});\n\n';
+            
+            // Add autoplay if enabled
+            if (autoplayEnabled && images.length > 1) {
+                const speed = document.getElementById('autoplaySpeed').value || 5;
+                code += '// Auto-advance carousel\n';
+                code += 'setInterval(function() {\n';
+                code += '    itabsCurrentSlide++;\n';
+                code += '    if (itabsCurrentSlide >= itabsTotalSlides) itabsCurrentSlide = 0;\n';
+                code += '    itabsUpdateCarousel();\n';
+                code += '}, ' + (speed * 1000) + '); // Change slide every ' + speed + ' seconds\n';
+            }
+            
             code += '<' + '/script>';
             
             return code;
@@ -1042,15 +1181,18 @@ Keep each section concise, customer-focused, and easy to understand. Write in a 
         
         function copyCode() {
             const code = document.getElementById('codeOutput').textContent;
+            const btn = document.querySelector('.copy-btn');
+            
             navigator.clipboard.writeText(code).then(() => {
-                const btn = document.querySelector('.copy-btn');
                 btn.textContent = '✅ Copied!';
                 btn.classList.add('copied');
-                
                 setTimeout(() => {
                     btn.textContent = '📋 Copy Code';
                     btn.classList.remove('copied');
                 }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Copy failed! Please select and copy the code manually.');
             });
         }
     </script>
