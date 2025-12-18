@@ -1373,21 +1373,29 @@ Respond with ONLY the JSON, no other text.`;
             document.getElementById('previewTitle2').textContent = name;
             document.getElementById('popupTitle').textContent = name;
             
-            // Build slides HTML
+            // Count actual photos (not empty slots)
+            const actualPhotos = photoDataUrls.filter(url => url && url.trim() !== '');
+            const photoCount = actualPhotos.length > 0 ? actualPhotos.length : 1; // At least 1 slide
+            
+            // Build slides HTML - only for actual photos
             let slidesHTML = '';
             let dotsHTML = '';
             
-            for (let i = 0; i < 5; i++) {
-                const imageUrl = photoDataUrls[i];
-                
-                if (imageUrl) {
-                    slidesHTML += `<div class="slide"><img src="${imageUrl}" alt="Photo ${i + 1}"></div>`;
-                } else {
-                    slidesHTML += `<div class="slide"><div class="placeholder-content"><div class="num">${i + 1}</div><p>Add photo</p></div></div>`;
-                }
-                
-                const isActive = i === currentSlide ? 'active' : '';
-                dotsHTML += `<div class="dot ${isActive}" onclick="goToSlide(${i})"></div>`;
+            if (actualPhotos.length > 0) {
+                actualPhotos.forEach((imageUrl, index) => {
+                    slidesHTML += `<div class="slide"><img src="${imageUrl}" alt="Photo ${index + 1}"></div>`;
+                    const isActive = index === currentSlide ? 'active' : '';
+                    dotsHTML += `<div class="dot ${isActive}" onclick="goToSlide(${index})"></div>`;
+                });
+            } else {
+                // Show one placeholder if no photos
+                slidesHTML = `<div class="slide"><div class="placeholder-content"><div class="num">1</div><p>Add photo</p></div></div>`;
+                dotsHTML = `<div class="dot active"></div>`;
+            }
+            
+            // Make sure currentSlide is within bounds
+            if (currentSlide >= photoCount) {
+                currentSlide = 0;
             }
             
             // Update both slideshows
@@ -1432,7 +1440,9 @@ Respond with ONLY the JSON, no other text.`;
         }
         
         function nextSlide() {
-            currentSlide = (currentSlide + 1) % 5;
+            const actualPhotos = photoDataUrls.filter(url => url && url.trim() !== '');
+            const photoCount = actualPhotos.length > 0 ? actualPhotos.length : 1;
+            currentSlide = (currentSlide + 1) % photoCount;
             goToSlide(currentSlide);
         }
         
@@ -1471,8 +1481,14 @@ Respond with ONLY the JSON, no other text.`;
             slideshow.addEventListener('touchend', e => {
                 const diff = touchStartX - e.changedTouches[0].screenX;
                 if (Math.abs(diff) > 50) {
-                    if (diff > 0) nextSlide();
-                    else currentSlide = (currentSlide - 1 + 5) % 5; goToSlide(currentSlide);
+                    const actualPhotos = photoDataUrls.filter(url => url && url.trim() !== '');
+                    const photoCount = actualPhotos.length > 0 ? actualPhotos.length : 1;
+                    if (diff > 0) {
+                        nextSlide();
+                    } else {
+                        currentSlide = (currentSlide - 1 + photoCount) % photoCount;
+                        goToSlide(currentSlide);
+                    }
                 }
             }, false);
         }
@@ -1781,4 +1797,4 @@ Respond with ONLY the JSON, no other text.`;
         }
     </script>
 </body>
-    </html>
+            </html>
