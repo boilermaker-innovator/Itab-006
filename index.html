@@ -1012,6 +1012,29 @@ Or just describe your situation:
         </div>
     </div>
 
+    <!-- Preview Before Save -->
+    <div class="section-box">
+        <h3>👀 Preview Your iTabs</h3>
+        <p class="subtitle">This is what people will see</p>
+        
+        <!-- Second Preview Card -->
+        <div class="card" style="margin: 15px auto 0;">
+            <div class="slideshow-container" id="slideshow2">
+                <div class="autoplay-indicator" id="autoplayIndicator2" style="display: none;">
+                    <div class="pulse"></div>
+                    <span>Auto</span>
+                </div>
+                <div class="slides-track" id="slidesTrack2"></div>
+                <div class="dots-container" id="dotsContainer2"></div>
+                <div class="i-button" onclick="openPopup()">i</div>
+            </div>
+            <div class="card-content">
+                <h2 id="previewTitle2">Your Campaign Name</h2>
+                <p>Swipe photos • Tap i for the full story</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Save Section -->
     <div class="section-box save-section">
         <h3>💾 Save Your iTabs</h3>
@@ -1083,7 +1106,7 @@ Or just describe your situation:
         
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            updatePreview();
+            loadExample(); // Start with example loaded
             setupTouchEvents();
             if (document.getElementById('autoplayToggle').checked) {
                 startAutoplay();
@@ -1333,14 +1356,12 @@ Respond with ONLY the JSON, no other text.`;
             const buttonText = document.getElementById('buttonText').value || 'Donate Now';
             const buttonLink = document.getElementById('buttonLink').value || '#';
             
-            // Update title
+            // Update titles (both previews)
             document.getElementById('previewTitle').textContent = name;
+            document.getElementById('previewTitle2').textContent = name;
             document.getElementById('popupTitle').textContent = name;
             
-            // Update slides
-            const slidesTrack = document.getElementById('slidesTrack');
-            const dotsContainer = document.getElementById('dotsContainer');
-            
+            // Build slides HTML
             let slidesHTML = '';
             let dotsHTML = '';
             
@@ -1357,9 +1378,14 @@ Respond with ONLY the JSON, no other text.`;
                 dotsHTML += `<div class="dot ${isActive}" onclick="goToSlide(${i})"></div>`;
             }
             
-            slidesTrack.innerHTML = slidesHTML;
-            dotsContainer.innerHTML = dotsHTML;
-            slidesTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            // Update both slideshows
+            document.getElementById('slidesTrack').innerHTML = slidesHTML;
+            document.getElementById('dotsContainer').innerHTML = dotsHTML;
+            document.getElementById('slidesTrack').style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            document.getElementById('slidesTrack2').innerHTML = slidesHTML;
+            document.getElementById('dotsContainer2').innerHTML = dotsHTML;
+            document.getElementById('slidesTrack2').style.transform = `translateX(-${currentSlide * 100}%)`;
             
             // Update popup
             document.getElementById('popupHook').textContent = hook;
@@ -1382,11 +1408,14 @@ Respond with ONLY the JSON, no other text.`;
         // ========== SLIDESHOW CONTROLS ==========
         function goToSlide(index) {
             currentSlide = index;
-            const slidesTrack = document.getElementById('slidesTrack');
-            slidesTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
             
+            // Update both slideshows
+            document.getElementById('slidesTrack').style.transform = `translateX(-${currentSlide * 100}%)`;
+            document.getElementById('slidesTrack2').style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update dots on both
             document.querySelectorAll('.dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentSlide);
+                dot.classList.toggle('active', i % 5 === currentSlide);
             });
         }
         
@@ -1399,6 +1428,7 @@ Respond with ONLY the JSON, no other text.`;
             stopAutoplay();
             autoplayInterval = setInterval(nextSlide, 3000);
             document.getElementById('autoplayIndicator').style.display = 'flex';
+            document.getElementById('autoplayIndicator2').style.display = 'flex';
         }
         
         function stopAutoplay() {
@@ -1407,6 +1437,7 @@ Respond with ONLY the JSON, no other text.`;
                 autoplayInterval = null;
             }
             document.getElementById('autoplayIndicator').style.display = 'none';
+            document.getElementById('autoplayIndicator2').style.display = 'none';
         }
         
         function toggleAutoplay() {
@@ -1738,4 +1769,4 @@ Respond with ONLY the JSON, no other text.`;
         }
     </script>
 </body>
-</html>
+            </html>
