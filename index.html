@@ -82,20 +82,18 @@
         .slideshow-container {
             position: relative;
             width: 100%;
-            height: 300px;
+            min-height: 200px;
             background: linear-gradient(135deg, var(--gfm-green) 0%, var(--gfm-green-dark) 100%);
             overflow: hidden;
         }
         
         .slides-track {
             display: flex;
-            height: 100%;
             transition: transform 0.4s ease;
         }
         
         .slide {
             min-width: 100%;
-            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -105,13 +103,14 @@
         
         .slide img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
+            display: block;
         }
         
         .slide .placeholder-content {
             text-align: center;
             color: white;
+            padding: 80px 20px;
         }
         
         .slide .placeholder-content .num {
@@ -419,6 +418,23 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        
+        /* URL inputs */
+        .url-input {
+            width: 100%;
+            padding: 11px 12px;
+            border: 2px solid var(--border-light);
+            border-radius: 10px;
+            font-size: 0.85em;
+            font-family: inherit;
+            margin-bottom: 8px;
+            background: var(--bg-white);
+        }
+        
+        .url-input:focus {
+            outline: none;
+            border-color: var(--gfm-green);
         }
         
         /* Context fields */
@@ -922,6 +938,21 @@ Or just describe your situation:
                 <div class="image-thumb" id="thumb4"><span>4</span></div>
                 <div class="image-thumb" id="thumb5"><span>5</span></div>
             </div>
+            
+            <!-- URL paste option -->
+            <details style="margin-top: 16px;">
+                <summary style="font-size: 0.9em; color: var(--gfm-green); cursor: pointer; font-weight: 500;">Or paste image URLs instead ▾</summary>
+                <div style="margin-top: 12px;">
+                    <p style="font-size: 0.8em; color: var(--text-light); margin-bottom: 10px;">
+                        💡 Right-click any image online → "Copy image address" then paste below
+                    </p>
+                    <input type="url" class="url-input" id="imageUrl1" placeholder="Image 1 URL..." oninput="handleUrlInput(1, this.value)">
+                    <input type="url" class="url-input" id="imageUrl2" placeholder="Image 2 URL..." oninput="handleUrlInput(2, this.value)">
+                    <input type="url" class="url-input" id="imageUrl3" placeholder="Image 3 URL..." oninput="handleUrlInput(3, this.value)">
+                    <input type="url" class="url-input" id="imageUrl4" placeholder="Image 4 URL..." oninput="handleUrlInput(4, this.value)">
+                    <input type="url" class="url-input" id="imageUrl5" placeholder="Image 5 URL..." oninput="handleUrlInput(5, this.value)">
+                </div>
+            </details>
         </div>
     </div>
 
@@ -1188,6 +1219,37 @@ Respond with ONLY the JSON, no other text.`;
             const thumb = document.getElementById('thumb' + num);
             thumb.innerHTML = `<span>${num}</span>`;
             thumb.classList.remove('filled');
+        }
+        
+        // Handle URL paste for images
+        function handleUrlInput(num, url) {
+            url = url.trim();
+            
+            if (!url) {
+                photoDataUrls[num - 1] = null;
+                clearThumbnail(num);
+                updatePreview();
+                return;
+            }
+            
+            // Test if image loads
+            const img = new Image();
+            img.onload = function() {
+                photoDataUrls[num - 1] = url;
+                uploadedImageUrls[num - 1] = url; // URLs don't need uploading
+                updateThumbnail(num, url);
+                updatePreview();
+            };
+            img.onerror = function() {
+                // Still save it, might work
+                photoDataUrls[num - 1] = url;
+                uploadedImageUrls[num - 1] = url;
+                const thumb = document.getElementById('thumb' + num);
+                thumb.innerHTML = `<span>?</span>`;
+                thumb.classList.remove('filled');
+                updatePreview();
+            };
+            img.src = url;
         }
         
         // ========== IMAGE COMPRESSION ==========
@@ -1494,10 +1556,10 @@ Respond with ONLY the JSON, no other text.`;
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Poppins',sans-serif;background:#f7f8fa;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
         .card{background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.12);max-width:420px;width:100%}
-        .slideshow{position:relative;width:100%;height:300px;background:linear-gradient(135deg,#01BC66,#00A659);overflow:hidden}
-        .slides-track{display:flex;height:100%;transition:transform 0.4s ease}
-        .slide{min-width:100%;height:100%}
-        .slide img{width:100%;height:100%;object-fit:cover}
+        .slideshow{position:relative;width:100%;min-height:200px;background:linear-gradient(135deg,#01BC66,#00A659);overflow:hidden}
+        .slides-track{display:flex;transition:transform 0.4s ease}
+        .slide{min-width:100%}
+        .slide img{width:100%;height:auto;display:block}
         .dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10}
         .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;border:2px solid #fff;transition:all 0.3s}
         .dot.active{background:#fff;transform:scale(1.25)}
@@ -1609,6 +1671,12 @@ Respond with ONLY the JSON, no other text.`;
             document.getElementById('section4').value = '';
             document.getElementById('buttonText').value = 'Donate Now';
             document.getElementById('buttonLink').value = '';
+            
+            // Clear URL inputs
+            for (let i = 1; i <= 5; i++) {
+                const urlInput = document.getElementById('imageUrl' + i);
+                if (urlInput) urlInput.value = '';
+            }
             
             // Clear photos
             resetPhotos();
