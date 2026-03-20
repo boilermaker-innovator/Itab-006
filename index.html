@@ -1,808 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How Much Does a Fence Cost in Perth? | Jarrah Fencing</title>
-  <meta name="description" content="Free instant fencing estimate for Perth. Pick your fence type, length, and site conditions — get a ballpark in 60 seconds. By Jarrah Fencing Perth.">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="How Much Does a Fence Cost in Perth?">
-  <meta property="og:description" content="Free instant estimate — pick your fence type, get a ballpark in 60 seconds. By Jarrah Fencing Perth.">
-  <meta property="og:image" content="https://boilermaker-innovator.github.io/itabs-quotes/og-images/jarrah-fencing.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:url" content="https://boilermaker-innovator.github.io/itabs-claude-demo/">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#e85d04">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --w-bg:#F5F1EB;--w-card:#FEFCF8;--w-dark:#1a1a1a;
-      --w-primary:#e85d04;--w-secondary:#C2874D;--w-sand:#F5F1EB;
-      --w-slate:#555;--w-danger:#C0392B;--w-warn:#D4840A;--w-info:#2C7A7B;
-      --w-radius:12px;--w-shadow:0 2px 12px rgba(0,0,0,0.10);
-    }
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{font-family:'DM Sans',sans-serif;background:var(--w-bg);color:#333;overflow-x:hidden}
-    #widget-panel{width:100%;max-width:480px;margin:0 auto;background:var(--w-bg);min-height:100vh;display:flex;flex-direction:column;border:2px solid #e8e4dd;box-shadow:0 4px 24px rgba(0,0,0,0.12)}
-    .wp-body{padding:16px;flex:1;padding-bottom:80px}
-    .wp-title{font-family:'Instrument Serif',serif;font-size:1.25rem;text-align:center;margin:8px 0 4px;color:var(--w-dark)}
-    .wp-sub{text-align:center;font-size:.82rem;color:var(--w-slate);margin-bottom:14px}
-    .wp-progress{display:flex;gap:6px;margin-bottom:10px}
-    .wp-dot{flex:1;height:4px;border-radius:2px;background:#ddd;transition:background .3s}
-    .wp-dot.active{background:var(--w-primary)}
-    /* LIVE TICKER */
-    #live-ticker{display:none;text-align:center;margin-bottom:14px;padding:10px 14px;background:var(--w-card);border-radius:10px;border:1px solid #e8e4dd;animation:fadeIn .3s ease}
-    #live-ticker .ticker-label{font-size:.7rem;color:var(--w-slate);letter-spacing:.5px;text-transform:uppercase}
-    #live-ticker .ticker-value{font-family:'Instrument Serif',serif;font-size:1.3rem;color:var(--w-primary);margin-top:1px}
-    /* Step cards */
-    .step-card{background:var(--w-card);border-radius:var(--w-radius);box-shadow:var(--w-shadow);margin-bottom:10px;overflow:hidden;border:1px solid #e8e4dd}
-    .step-header{display:flex;align-items:center;padding:14px;cursor:pointer;gap:10px}
-    .step-num{width:30px;height:30px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;flex-shrink:0;transition:all .3s}
-    .step-card.active .step-num,.step-card.completed .step-num{background:var(--w-primary);color:white}
-    .step-title-txt{font-weight:600;font-size:.92rem;color:var(--w-dark)}
-    .step-sum{margin-left:auto;font-size:.78rem;color:var(--w-slate);white-space:nowrap}
-    .step-body{display:none;padding:0 14px 14px}
-    .step-card.active .step-body{display:block}
-    /* PHOTO FENCE TYPE CARDS */
-    .fence-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
-    .fence-card{border:3px solid #e8e4dd;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s;position:relative;background:#f0ede8}
-    .fence-card:hover{border-color:var(--w-secondary);transform:translateY(-1px)}
-    .fence-card.selected{border-color:var(--w-primary);box-shadow:0 0 0 2px rgba(232,93,4,0.2)}
-    .fence-card.bounce{animation:cardBounce .35s ease}
-    .fence-photo{width:100%;height:90px;object-fit:cover;display:block;background:#d0cbc3}
-    .fence-photo-placeholder{width:100%;height:90px;display:flex;align-items:center;justify-content:center;font-size:2rem;background:linear-gradient(135deg,#d8d0c4,#c8bfb0)}
-    .fence-info{padding:9px 10px 10px}
-    .fence-name{font-weight:700;font-size:.82rem;color:var(--w-dark);line-height:1.2}
-    .fence-price{font-size:.7rem;color:var(--w-slate);margin-top:2px}
-    .fence-tag{display:inline-block;background:var(--w-primary);color:white;font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:10px;margin-top:4px}
-    .fence-check{position:absolute;top:7px;right:7px;width:22px;height:22px;border-radius:50%;background:var(--w-primary);color:white;display:none;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,0.3)}
-    .fence-card.selected .fence-check{display:flex}
-    /* Fields */
-    .field-group{margin-bottom:12px}
-    .field-label{font-weight:600;font-size:.82rem;margin-bottom:5px;display:flex;align-items:center;gap:4px;color:var(--w-dark)}
-    .info-btn{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:transparent;color:var(--w-info);font-size:.65rem;font-weight:700;border:1.5px solid var(--w-info);cursor:pointer}
-    select,input[type="number"],input[type="text"],input[type="email"],input[type="tel"]{width:100%;padding:9px 11px;border:1.5px solid #d0cbc3;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.88rem;background:white;color:#333}
-    select:focus,input:focus{outline:none;border-color:var(--w-primary)}
-    .btn-next{width:100%;padding:13px;border:2px solid var(--w-primary);border-radius:8px;background:var(--w-primary);color:white;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer;margin-top:6px;transition:opacity .2s}
-    .btn-next:hover{opacity:.9}
-    /* Alerts */
-    .alert{padding:9px 11px;border-radius:8px;font-size:.8rem;margin-bottom:8px;line-height:1.5}
-    .alert-danger{background:#FDEDEC;border-left:3px solid var(--w-danger);color:#7B241C}
-    .alert-warn{background:#FEF5E7;border-left:3px solid var(--w-warn);color:#7D6608}
-    .alert-info{background:#E8F8F5;border-left:3px solid var(--w-info);color:#1A5276}
-    /* Chart */
-    .chart-title{font-size:.88rem;font-weight:600;margin-bottom:10px;color:var(--w-dark);display:flex;align-items:center;gap:4px}
-    .bar-row{display:flex;align-items:center;margin-bottom:8px;gap:8px}
-    .bar-label{width:88px;font-size:.75rem;font-weight:500;text-align:right;flex-shrink:0;color:var(--w-dark)}
-    .bar-track{flex:1;height:26px;background:#eee;border-radius:6px;overflow:hidden}
-    .bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:8px;font-size:.7rem;font-weight:700;color:white;transition:width .5s ease;white-space:nowrap}
-    .bar-row.hl .bar-label{font-weight:700}
-    .bar-row.hl .bar-fill{box-shadow:0 0 0 2px var(--w-primary),0 0 0 4px rgba(0,0,0,.08)}
-    /* Lead gate */
-    .lead-gate{background:var(--w-card);border:2px dashed var(--w-secondary);border-radius:var(--w-radius);padding:18px 14px;text-align:center;margin:14px 0}
-    .lead-gate h3{font-family:'Instrument Serif',serif;font-size:1.05rem;margin-bottom:4px;color:var(--w-dark)}
-    .lead-gate p{font-size:.78rem;color:var(--w-slate);margin-bottom:12px}
-    .lead-form{text-align:left}
-    .lead-form input,.lead-form select{margin-bottom:8px}
-    .contact-toggle{display:flex;gap:8px;margin-bottom:8px}
-    .toggle-btn{flex:1;padding:8px;border:2px solid #ddd;border-radius:8px;background:white;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;color:#555}
-    .toggle-btn.active{border-color:var(--w-primary);background:rgba(232,93,4,.06);color:var(--w-primary)}
-    .timeline-btns{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-    .timeline-btn{padding:7px 12px;border:2px solid #ddd;border-radius:20px;background:white;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;color:#555}
-    .timeline-btn.active{border-color:var(--w-primary);background:rgba(232,93,4,.06);color:var(--w-primary)}
-    .btn-submit{width:100%;padding:13px;border:2px solid var(--w-primary);border-radius:8px;background:var(--w-primary);color:white;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer}
-    /* Breakdown */
-    .breakdown{display:none}
-    .breakdown.visible{display:block}
-    .breakdown h3{font-family:'Instrument Serif',serif;margin-bottom:12px;color:var(--w-dark)}
-    .bd-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-bottom:16px}
-    .bd-table th{text-align:left;padding:7px;border-bottom:2px solid var(--w-dark);font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:var(--w-dark)}
-    .bd-table td{padding:7px;border-bottom:1px solid #eee;color:#333}
-    .bd-table tr.total td{font-weight:700;border-top:2px solid var(--w-dark);border-bottom:none;font-size:.92rem;color:var(--w-dark)}
-    .w-cta{background:var(--w-dark);border-radius:var(--w-radius);padding:18px 14px;text-align:center;margin-top:14px}
-    .w-cta h3{font-family:'Instrument Serif',serif;color:white;font-size:1.05rem;margin-bottom:4px}
-    .w-cta p{color:rgba(255,255,255,.6);font-size:.78rem;margin-bottom:12px}
-    .w-cta-btns{display:flex;gap:8px}
-    .btn-call{flex:1;padding:13px;border:2px solid var(--w-primary);border-radius:8px;background:var(--w-primary);color:white;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;text-decoration:none;text-align:center;display:block}
-    .btn-enquire{flex:1;padding:13px;border:2px solid rgba(255,255,255,.25);border-radius:8px;background:transparent;color:white;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;text-decoration:none;text-align:center;display:block}
-    .disclaimer{font-size:.7rem;color:#999;text-align:center;margin-top:10px;line-height:1.5}
-    .wp-footer{text-align:center;padding:12px;font-size:.7rem;color:#bbb;flex-shrink:0}
-    .wp-footer a{color:#bbb}
-    /* INFO MODAL */
-    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1100;align-items:flex-end;justify-content:center}
-    .modal-overlay.open{display:flex}
-    .modal-sheet{background:white;width:100%;max-width:480px;max-height:72vh;border-radius:16px 16px 0 0;overflow-y:auto;padding:8px 20px 32px}
-    .modal-handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:8px auto 16px}
-    .modal-sheet h3{font-family:'Instrument Serif',serif;font-size:1.05rem;margin-bottom:10px;color:var(--w-dark)}
-    .modal-sheet p{font-size:.83rem;line-height:1.7;color:#444;margin-bottom:8px}
-    .modal-sheet strong{color:var(--w-dark)}
-    /* GALLERY MODAL */
-    #gallery-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1200;align-items:center;justify-content:center;flex-direction:column}
-    #gallery-overlay.open{display:flex}
-    .gallery-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:white;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
-    .gallery-counter{position:absolute;top:20px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:.78rem;font-weight:600}
-    .gallery-main{width:100%;max-width:480px;padding:0 52px;position:relative}
-    .gallery-img-wrap{width:100%;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#222;position:relative}
-    .gallery-img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .3s}
-    .gallery-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:rgba(255,255,255,.35)}
-    .gallery-img-placeholder .big-icon{font-size:3rem}
-    .gallery-img-placeholder .caption{font-size:.78rem;text-align:center;padding:0 20px;line-height:1.5}
-    .gallery-caption{text-align:center;color:rgba(255,255,255,.7);font-size:.82rem;margin-top:12px;min-height:20px;padding:0 8px}
-    .gallery-nav{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:white;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
-    .gallery-nav:hover{background:rgba(255,255,255,.28)}
-    .gallery-prev{left:6px}
-    .gallery-next{right:6px}
-    .gallery-dots{display:flex;gap:6px;justify-content:center;margin-top:14px}
-    .gallery-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3);border:none;cursor:pointer;transition:background .2s;padding:0}
-    .gallery-dot.active{background:var(--w-primary)}
-    .gallery-label-strip{display:flex;gap:8px;overflow-x:auto;padding:14px 52px 0;scrollbar-width:none;max-width:480px;width:100%}
-    .gallery-label-strip::-webkit-scrollbar{display:none}
-    .gallery-label-btn{flex-shrink:0;padding:5px 12px;border-radius:20px;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.55);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
-    .gallery-label-btn.active{border-color:var(--w-primary);color:var(--w-primary);background:rgba(232,93,4,.12)}
-    /* STICKY STRIP */
-    #sticky-strip{display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--w-dark);color:white;padding:10px 16px;z-index:500;align-items:center;justify-content:space-between;border-top:2px solid var(--w-primary);box-shadow:0 -4px 20px rgba(0,0,0,0.25)}
-    #sticky-strip.show{display:flex}
-    #sticky-strip .ss-label{font-size:.68rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px}
-    #sticky-strip .ss-value{font-family:'Instrument Serif',serif;font-size:1.1rem;color:var(--w-primary)}
-    #sticky-strip .ss-btn{background:var(--w-primary);border:none;color:white;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;padding:8px 14px;border-radius:6px;cursor:pointer;white-space:nowrap}
-    /* Animations */
-    .step-chevron{font-size:1.3rem;color:#bbb;transition:transform .25s;line-height:1;flex-shrink:0;margin-left:4px;}
-    .step-card.active .step-chevron{transform:rotate(90deg);color:var(--w-primary)}0%{transform:scale(1)}40%{transform:scale(1.03)}70%{transform:scale(0.98)}100%{transform:scale(1)}}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Agentic AI — Claude Code Meetup Perth | iTabs Recap</title>
+
+    <!-- ── OG / Social Metadata ── -->
+    <meta name="description" content="Live recap of the Claude Code Meetup Perth, March 2026. Three speakers including Aidan Morgan (Bankwest) on Agentic SDLC and Vanessa Ennis on Claude Code for non-developers. Built from screenshots taken in the room using Claude.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://boilermaker-innovator.github.io/using-Claude/">
+    <meta property="og:title" content="Agentic AI — Claude Code Meetup Perth 🤖">
+    <meta property="og:description" content="Live interactive recap built from screenshots taken in the room. 3 speakers. Aidan Morgan (Bankwest) on Agentic SDLC + Vanessa Ennis on Claude Code for non-devs. Swipe through 9 cards.">
+    <meta property="og:image" content="https://boilermaker-innovator.github.io/using-Claude/preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="iTabs by itabs.ai">
+    <meta property="og:locale" content="en_AU">
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Agentic AI — Claude Code Meetup Perth 🤖">
+    <meta name="twitter:description" content="Live interactive recap built from screenshots taken in the room. 3 speakers. Swipe through 9 cards covering Agentic SDLC and Claude Code for non-devs.">
+    <meta name="twitter:image" content="https://boilermaker-innovator.github.io/using-Claude/preview.png">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://boilermaker-innovator.github.io/using-Claude/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #111118;
+            --bg-tertiary: #1a1a26;
+            --text-primary: #ffffff;
+            --text-secondary: #8888aa;
+            --accent: #7c3aed;
+            --accent2: #06b6d4;
+            --i-button: #f59e0b;
+            --transition: 0.25s ease;
+        }
+        html, body { height: 100%; overflow: hidden; background: var(--bg-primary); }
+        body { font-family: 'DM Sans', sans-serif; color: var(--text-primary); line-height: 1.5; }
+        .container { max-width: 430px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; position: relative; }
+
+        .progress-container { display: flex; gap: 4px; padding: 14px 18px 10px; position: absolute; top: 0; left: 0; right: 0; z-index: 100; background: linear-gradient(to bottom, rgba(10,10,15,0.95) 60%, transparent); }
+        .progress-segment { flex: 1; height: 3px; background: rgba(255,255,255,0.12); border-radius: 2px; transition: background var(--transition); }
+        .progress-segment.viewed { background: rgba(255,255,255,0.4); }
+        .progress-segment.active { background: var(--accent); box-shadow: 0 0 8px rgba(124,58,237,0.6); }
+
+        .cards-wrapper { flex: 1; position: relative; overflow: hidden; }
+        .card { position: absolute; inset: 0; display: flex; flex-direction: column; opacity: 0; transform: translateX(100%) scale(0.97); transition: all 0.35s cubic-bezier(0.4,0,0.2,1); pointer-events: none; }
+        .card.active { opacity: 1; transform: translateX(0) scale(1); pointer-events: all; }
+        .card.prev { opacity: 0; transform: translateX(-100%) scale(0.97); }
+
+        .card-hero { padding: 56px 22px 22px; min-height: 38%; display: flex; flex-direction: column; justify-content: flex-end; position: relative; overflow: hidden; }
+        .hero-default { background: linear-gradient(145deg, #1a2035 0%, #0a0f1e 100%); }
+        .hero-purple  { background: linear-gradient(145deg, #3b1f7a 0%, #1a1040 100%); }
+        .hero-cyan    { background: linear-gradient(145deg, #0e3d5c 0%, #071e30 100%); }
+        .hero-amber   { background: linear-gradient(145deg, #5c2d0a 0%, #2a1005 100%); }
+        .hero-green   { background: linear-gradient(145deg, #0f3d22 0%, #051810 100%); }
+        .hero-red     { background: linear-gradient(145deg, #5c1515 0%, #280808 100%); }
+
+        .card-hero::before { content: ''; position: absolute; width: 220px; height: 220px; border-radius: 50%; opacity: 0.22; top: -50px; right: -50px; filter: blur(65px); }
+        .hero-purple::before  { background: #7c3aed; }
+        .hero-cyan::before    { background: #06b6d4; }
+        .hero-amber::before   { background: #f59e0b; }
+        .hero-green::before   { background: #10b981; }
+        .hero-red::before     { background: #ef4444; }
+        .hero-default::before { background: #475569; }
+
+        .card-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 10px; position: relative; z-index: 1; }
+        .tag-purple { color: #a78bfa; } .tag-cyan { color: #67e8f9; } .tag-amber { color: #fcd34d; } .tag-green { color: #6ee7b7; } .tag-red { color: #fca5a5; }
+
+        .card-headline { font-family: 'Syne', sans-serif; font-size: clamp(22px, 5.5vw, 28px); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; position: relative; z-index: 1; }
+        .hero-default em { color: #94a3b8; font-style: normal; }
+        .hero-purple  em { color: #c4b5fd; font-style: normal; }
+        .hero-cyan    em { color: #67e8f9; font-style: normal; }
+        .hero-amber   em { color: #fcd34d; font-style: normal; }
+        .hero-green   em { color: #6ee7b7; font-style: normal; }
+        .hero-red     em { color: #fca5a5; font-style: normal; }
+
+        .card-body { flex: 1; background: var(--bg-secondary); padding: 20px 22px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+        .card-body::-webkit-scrollbar { width: 3px; }
+        .card-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+        .card-summary { font-size: 14.5px; color: var(--text-secondary); line-height: 1.75; }
+
+        .analogy-box { background: var(--bg-tertiary); border-radius: 14px; padding: 14px 16px; border-left: 3px solid var(--accent2); }
+        .analogy-title { font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent2); margin-bottom: 7px; }
+        .analogy-text { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+
+        .i-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+        .i-button { display: flex; align-items: center; gap: 7px; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); border-radius: 22px; padding: 7px 13px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; color: #fbbf24; cursor: pointer; transition: all var(--transition); }
+        .i-button:hover { background: rgba(245,158,11,0.15); border-color: rgba(245,158,11,0.45); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(245,158,11,0.15); }
+        .i-dot { width: 17px; height: 17px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #000; flex-shrink: 0; box-shadow: 0 0 8px rgba(245,158,11,0.4); }
+
+        .nav-area { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px 14px; background: var(--bg-secondary); border-top: 1px solid rgba(255,255,255,0.05); }
+        .nav-btn { width: 42px; height: 42px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: var(--text-primary); font-size: 17px; cursor: pointer; transition: all var(--transition); display: flex; align-items: center; justify-content: center; }
+        .nav-btn:hover:not(:disabled) { background: rgba(255,255,255,0.1); }
+        .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+        .card-counter { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.05em; }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px); display: flex; align-items: flex-end; justify-content: center; z-index: 200; opacity: 0; pointer-events: none; transition: opacity var(--transition); }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        .modal-sheet { width: 100%; max-width: 430px; background: #16162a; border-radius: 22px 22px 0 0; padding: 22px 22px 32px; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); border-top: 1px solid rgba(255,255,255,0.07); }
+        .modal-overlay.active .modal-sheet { transform: translateY(0); }
+        .modal-handle { width: 36px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; margin: 0 auto 18px; }
+        .modal-term { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+        .modal-type { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--i-button); margin-bottom: 14px; }
+        .modal-content { font-size: 14px; color: var(--text-secondary); line-height: 1.75; }
+        .modal-close { margin-top: 22px; width: 100%; padding: 13px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: var(--text-primary); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .modal-close:hover { background: rgba(255,255,255,0.1); }
+    </style>
 </head>
 <body>
-
-<div id="widget-panel">
-
-  <!-- HERO HEADER -->
-  <div style="position:relative;height:168px;overflow:hidden;flex-shrink:0;">
-    <div style="width:100%;height:100%;background:linear-gradient(135deg,#2c3e2d 0%,#4a6741 50%,#3d5c3a 100%);"></div>
-    <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(14,14,14,0.78) 0%,rgba(14,14,14,0.28) 100%);"></div>
-    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:rgba(255,255,255,0.12);font-size:0.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;">[ BUSINESS PHOTO GOES HERE ]</div>
-    <div style="position:absolute;inset:0;padding:18px 16px;display:flex;flex-direction:column;justify-content:flex-end;">
-      <!-- OUR WORK — top right -->
-      <button onclick="openGallery(0)" style="position:absolute;top:14px;right:14px;display:flex;align-items:center;gap:6px;background:rgba(232,93,4,0.9);border:none;color:white;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:700;padding:7px 13px;border-radius:20px;cursor:pointer;letter-spacing:.3px;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
-        <span style="font-size:.95rem;">&#128247;</span> Our Work
-      </button>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1.5px;color:white;line-height:1;">JARRAH<span style="color:#e85d04">.</span></div>
-        <button onclick="openModal('bizInfo')" style="width:26px;height:26px;border-radius:50%;background:transparent;color:white;font-size:.78rem;font-weight:700;border:1.5px solid rgba(255,255,255,.8);cursor:pointer;display:flex;align-items:center;justify-content:center;">i</button>
-      </div>
-      <div style="font-size:.78rem;color:rgba(255,255,255,.7);margin-top:4px;">Colorbond &middot; Timber &middot; Pool Fencing &middot; Perth Metro</div>
-      <div style="display:flex;align-items:center;gap:8px;margin-top:5px;">
-        <div style="background:rgba(232,93,4,.9);color:white;font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:3px;letter-spacing:.5px;">4.8&#9733; GOOGLE</div>
-        <div style="font-size:.68rem;color:rgba(255,255,255,.5);">Perth since 2012 &middot; 2,400+ fences</div>
-      </div>
+<div class="container">
+    <div class="progress-container" id="progress"></div>
+    <div class="cards-wrapper" id="cardsWrapper"></div>
+    <div class="nav-area">
+        <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">←</button>
+        <span class="card-counter" id="counter">1 / N</span>
+        <button class="nav-btn" id="nextBtn" onclick="navigate(1)">→</button>
     </div>
-  </div>
-
-  <div class="wp-body">
-    <h2 class="wp-title">How Much Will Your Fence Cost?</h2>
-    <p class="wp-sub">Free estimate in 60 seconds &middot; Perth metro &amp; surrounds</p>
-
-    <div class="wp-progress" id="wp-progress">
-      <div class="wp-dot"></div><div class="wp-dot"></div><div class="wp-dot"></div><div class="wp-dot"></div>
-    </div>
-
-    <div id="live-ticker">
-      <div class="ticker-label">Live estimate</div>
-      <div class="ticker-value" id="ticker-val">~$0</div>
-    </div>
-
-    <!-- STEP 1: PHOTO FENCE TYPE SELECTION -->
-    <div class="step-card" id="wstep1">
-      <div class="step-header" onclick="goStep(1)">
-        <div class="step-num" id="wnum1">1</div>
-        <div class="step-title-txt">Fence Type</div>
-        <div class="step-sum" id="wsum1"></div>
-        <div class="step-chevron" id="chev1">&#8250;</div>
-      </div>
-      <div class="step-body">
-        <div class="field-label">Choose your fence type <button class="info-btn" onclick="openModal('fenceType')">i</button></div>
-        <div class="fence-grid">
-
-          <div class="fence-card selected" id="wopt-colorbond" onclick="selectFence('colorbond',this)">
-            <div class="fence-check">&#10003;</div>
-            <img class="fence-photo" src="https://images.unsplash.com/photo-1591955506264-3f5a6834570a?w=400&h=180&fit=crop&q=75" alt="Colorbond fence" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="fence-photo-placeholder" style="display:none;">&#127968;</div>
-            <div class="fence-info">
-              <div class="fence-name">Colorbond Steel</div>
-              <div class="fence-price">$95–$130/m</div>
-              <div class="fence-tag">Most Popular</div>
-            </div>
-          </div>
-
-          <div class="fence-card" id="wopt-timber" onclick="selectFence('timber',this)">
-            <div class="fence-check">&#10003;</div>
-            <img class="fence-photo" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=180&fit=crop&q=75" alt="Timber fence" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="fence-photo-placeholder" style="display:none;">&#127807;</div>
-            <div class="fence-info">
-              <div class="fence-name">Timber</div>
-              <div class="fence-price">$85–$120/m</div>
-            </div>
-          </div>
-
-          <div class="fence-card" id="wopt-aluminium" onclick="selectFence('aluminium',this)">
-            <div class="fence-check">&#10003;</div>
-            <img class="fence-photo" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=180&fit=crop&q=75" alt="Aluminium slat fence" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="fence-photo-placeholder" style="display:none;">&#10024;</div>
-            <div class="fence-info">
-              <div class="fence-name">Aluminium Slat</div>
-              <div class="fence-price">$150–$220/m</div>
-            </div>
-          </div>
-
-          <div class="fence-card" id="wopt-pool" onclick="selectFence('pool',this)">
-            <div class="fence-check">&#10003;</div>
-            <img class="fence-photo" src="https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=400&h=180&fit=crop&q=75" alt="Pool fencing" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="fence-photo-placeholder" style="display:none;">&#127946;</div>
-            <div class="fence-info">
-              <div class="fence-name">Pool Fencing</div>
-              <div class="fence-price">$180–$350/m</div>
-              <div class="fence-tag">Compliance Req.</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP 2 -->
-    <div class="step-card" id="wstep2">
-      <div class="step-header" onclick="goStep(2)">
-        <div class="step-num" id="wnum2">2</div>
-        <div class="step-title-txt">Dimensions</div>
-        <div class="step-sum" id="wsum2"></div>
-        <div class="step-chevron" id="chev2">&#8250;</div>
-      </div>
-      <div class="step-body">
-        <div class="field-group">
-          <div class="field-label">Fence sections <button class="info-btn" onclick="openModal('length')">i</button></div>
-          <div id="runs-container"></div>
-          <button onclick="addRun()" style="display:flex;align-items:center;gap:6px;background:transparent;border:2px dashed #ddd;border-radius:8px;padding:9px 14px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;color:var(--w-slate);cursor:pointer;margin-top:4px;width:100%;justify-content:center;" onmouseover="this.style.borderColor='var(--w-primary)'" onmouseout="this.style.borderColor='#ddd'">
-            <span style="font-size:1.1rem;line-height:1">+</span> Add another section
-          </button>
-          <div style="margin-top:10px;padding:8px 12px;background:#f0f0f0;border-radius:8px;font-size:.8rem;color:var(--w-slate);display:flex;justify-content:space-between;align-items:center;">
-            <span>Total length</span>
-            <strong id="total-length-display" style="color:var(--w-dark);font-size:.95rem;">20m</strong>
-          </div>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Fence height <button class="info-btn" onclick="openModal('height')">i</button></div>
-          <select id="w-height" onchange="updateLiveTicker()">
-            <option value="1200">1.2m (low boundary)</option>
-            <option value="1500">1.5m</option>
-            <option value="1800" selected>1.8m (standard)</option>
-            <option value="2100">2.1m (tall)</option>
-          </select>
-        </div>
-        <button class="btn-next" onclick="nextStep(2,3)">Next &#8594;</button>
-      </div>
-    </div>
-
-    <!-- STEP 3 -->
-    <div class="step-card" id="wstep3">
-      <div class="step-header" onclick="goStep(3)">
-        <div class="step-num" id="wnum3">3</div>
-        <div class="step-title-txt">Site Conditions</div>
-        <div class="step-sum" id="wsum3"></div>
-        <div class="step-chevron" id="chev3">&#8250;</div>
-      </div>
-      <div class="step-body">
-        <div class="field-group">
-          <div class="field-label">Old fence removal <button class="info-btn" onclick="openModal('removal')">i</button></div>
-          <select id="w-removal" onchange="updateLiveTicker()">
-            <option value="no" selected>No &mdash; nothing to remove</option>
-            <option value="yes">Yes &mdash; remove existing fence</option>
-          </select>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Block slope <button class="info-btn" onclick="openModal('slope')">i</button></div>
-          <select id="w-slope" onchange="updateLiveTicker()">
-            <option value="flat" selected>Flat / level block</option>
-            <option value="gentle">Gentle slope</option>
-            <option value="steep">Steep or rocky</option>
-          </select>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Coastal exposure <button class="info-btn" onclick="openModal('coastal')">i</button></div>
-          <select id="w-coastal" onchange="updateLiveTicker()">
-            <option value="inland" selected>Inland (10km+ from coast)</option>
-            <option value="coastal">Coastal (under 10km)</option>
-          </select>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Gate needed? <button class="info-btn" onclick="openModal('gate')">i</button></div>
-          <select id="w-gate" onchange="updateLiveTicker()">
-            <option value="none" selected>No gate</option>
-            <option value="pedestrian">Pedestrian gate</option>
-            <option value="driveway">Driveway gate</option>
-          </select>
-        </div>
-        <button class="btn-next" onclick="runEstimate()">Get My Estimate &#8594;</button>
-      </div>
-    </div>
-
-    <!-- STEP 4 -->
-    <div class="step-card" id="wstep4">
-      <div class="step-header" onclick="goStep(4)">
-        <div class="step-num" id="wnum4">4</div>
-        <div class="step-title-txt">Your Estimate</div>
-        <div class="step-sum" id="wsum4"></div>
-        <div class="step-chevron" id="chev4">&#8250;</div>
-      </div>
-      <div class="step-body">
-        <div id="w-alerts"></div>
-        <div class="chart-title">How fence types compare <button class="info-btn" onclick="openModal('comparison')">i</button></div>
-        <div id="w-chart" style="margin-bottom:16px"></div>
-        <div class="lead-gate" id="w-leadgate">
-          <h3>See Your Full Breakdown</h3>
-          <p>Get the itemised cost breakdown and send your specs to Jarrah Fencing for an accurate quote.</p>
-          <div class="lead-form">
-            <input type="text" id="w-name" placeholder="Your name *">
-            <input type="email" id="w-email" placeholder="Email address *">
-            <input type="tel" id="w-phone" placeholder="Phone (optional)">
-            <div class="field-label" style="margin-top:2px">Preferred contact</div>
-            <div class="contact-toggle">
-              <button class="toggle-btn active" id="tc-email" onclick="setContact('email')">&#128231; Email</button>
-              <button class="toggle-btn" id="tc-phone" onclick="setContact('phone')">&#128222; Phone</button>
-            </div>
-            <select id="w-suburb" style="margin-bottom:8px">
-              <option value="">Suburb (optional)</option>
-              <option>Joondalup</option><option>Wanneroo</option><option>Stirling</option>
-              <option>Scarborough</option><option>Fremantle</option><option>Rockingham</option>
-              <option>Mandurah</option><option>Armadale</option><option>Midland</option>
-              <option>Kalamunda</option><option>Cockburn</option><option>Melville</option>
-              <option>South Perth</option><option>Baldivis</option><option>Ellenbrook</option>
-              <option>Other</option>
-            </select>
-            <div class="field-label">Timeline</div>
-            <div class="timeline-btns">
-              <button class="timeline-btn active" onclick="setTimeline('asap',this)">ASAP</button>
-              <button class="timeline-btn" onclick="setTimeline('1-3months',this)">1&ndash;3 months</button>
-              <button class="timeline-btn" onclick="setTimeline('planning',this)">Just planning</button>
-            </div>
-            <button class="btn-submit" onclick="submitLead()">Show My Breakdown</button>
-          </div>
-        </div>
-        <div class="breakdown" id="w-breakdown">
-          <h3>Detailed Estimate</h3>
-          <table class="bd-table">
-            <thead><tr><th>Item</th><th style="text-align:right">Estimate</th></tr></thead>
-            <tbody id="w-bd-body"></tbody>
-          </table>
-          <div class="w-cta">
-            <h3>Ready for an Accurate Quote?</h3>
-            <p>This is a ballpark. Jarrah will measure your site and provide a fixed price &mdash; free, no obligation.</p>
-            <div class="w-cta-btns">
-              <a href="tel:0412345678" class="btn-call">&#128222; Call Now</a>
-              <a href="/cdn-cgi/l/email-protection#a4cdcac2cbe4cec5d6d6c5ccc2c1cac7cdcac38ac7cbc98ac5d1" class="btn-enquire">Email Us</a>
-            </div>
-          </div>
-        </div>
-        <p class="disclaimer">Estimates are indicative 2026 Perth prices for guidance only. Actual costs depend on site conditions and access. Always get a professional quote.</p>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="wp-footer" style="display:flex;align-items:center;justify-content:center;gap:6px;">
-    <span>Powered by</span>
-    <a href="https://itabs.ai" target="_blank">iTabs</a>
-    <button onclick="openModal('itabsInfo')" style="width:24px;height:24px;border-radius:50%;background:transparent;color:#e85d04;font-size:.72rem;font-weight:700;border:1.5px solid #e85d04;cursor:pointer;display:flex;align-items:center;justify-content:center;">i</button>
-  </div>
 </div>
 
-<!-- STICKY STRIP -->
-<div id="sticky-strip">
-  <div>
-    <div class="ss-label">Your estimate</div>
-    <div class="ss-value" id="sticky-range">&ndash;</div>
-  </div>
-  <button class="ss-btn" onclick="document.getElementById('wstep4').scrollIntoView({behavior:'smooth',block:'start'})">See breakdown &#8595;</button>
-</div>
-
-<!-- INFO MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <h3 id="modal-title"></h3>
-    <div id="modal-content"></div>
-  </div>
-</div>
-
-<!-- GALLERY MODAL -->
-<div id="gallery-overlay" onclick="if(event.target===this)closeGallery()">
-  <button class="gallery-close" onclick="closeGallery()">&#10005;</button>
-  <div class="gallery-counter" id="gallery-counter">1 / 8</div>
-
-  <div class="gallery-label-strip" id="gallery-cats"></div>
-
-  <div class="gallery-main">
-    <button class="gallery-nav gallery-prev" onclick="galleryNav(-1)">&#8592;</button>
-    <div class="gallery-img-wrap">
-      <img class="gallery-img" id="gallery-img" src="" alt="" onerror="this.style.display='none';document.getElementById('gallery-placeholder').style.display='flex'">
-      <div class="gallery-img-placeholder" id="gallery-placeholder" style="display:none;">
-        <div class="big-icon" id="gallery-ph-icon">&#128247;</div>
-        <div class="caption" id="gallery-ph-caption">Photo loading...</div>
-      </div>
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-term" id="modalTerm"></div>
+        <div class="modal-type" id="modalType"></div>
+        <div class="modal-content" id="modalContent"></div>
+        <button class="modal-close" onclick="closeModal()">Close</button>
     </div>
-    <button class="gallery-nav gallery-next" onclick="galleryNav(1)">&#8594;</button>
-  </div>
-
-  <div class="gallery-caption" id="gallery-caption"></div>
-  <div class="gallery-dots" id="gallery-dots"></div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-(function(){
-
-  // ── CONFIG ──
-  var CONFIG={
-    businessName:'Jarrah Fencing Perth',phone:'0412345678',
-    rates:{colorbond:{min:95,max:130},timber:{min:85,max:120},aluminium:{min:150,max:220},pool:{min:180,max:350}},
-    lineItems:{
-      colorbond:{posts:[18,28],rails:[12,18],panels:[40,58],labour:[25,38]},
-      timber:{posts:[14,22],rails:[10,16],boards:[35,55],labour:[26,40]},
-      aluminium:{posts:[20,32],rails:[15,22],panels:[75,120],labour:[40,60]},
-      pool:{posts:[22,38],panels:[110,220],clips:[10,18],labour:[50,80]}
+<script>
+const cards = [
+    {
+        tag: "01 / TONIGHT 🏢", tagClass: "",
+        headline: "AI That <em>Builds Itself</em> — Spacecubed Perth",
+        heroClass: "hero-default",
+        summary: "Claude Code Meetup Perth, March 2026. Aidan Morgan (Bankwest) on Agentic SDLC. Vanessa Ennis on Claude Code for non-developers. This recap was built live from screenshots taken in the room using Claude.",
+        analogy: null,
+        iButtons: [{ label: "Built how?", type: "context", term: "How This Was Made", content: "Screenshots taken during each talk were fed to Claude in real time. Content was captured, structured, and assembled into this interactive summary on the spot — start to finish during the event. That's iTabs in action." }]
     },
-    extras:{removal:{min:15,max:25},gate_pedestrian:{min:350,max:600},gate_driveway:{min:900,max:1800}},
-    web3Key:'99a11c15-5c61-4765-99c5-673adec64b16',
-    opEmail:'jgwynne7@gmail.com'
-  };
-
-  // ── GALLERY DATA ──
-  // Replace these Unsplash URLs with actual business photos when going live
-  var GALLERY=[
-    {url:'https://images.unsplash.com/photo-1591955506264-3f5a6834570a?w=900&h=675&fit=crop&q=85',caption:'Colorbond steel — Wanneroo, 2025',cat:'Colorbond'},
-    {url:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&h=675&fit=crop&q=85',caption:'Hardwood timber paling — Stirling, 2025',cat:'Timber'},
-    {url:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&h=675&fit=crop&q=85',caption:'Aluminium slat — Scarborough, 2025',cat:'Aluminium'},
-    {url:'https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=900&h=675&fit=crop&q=85',caption:'Frameless glass pool fence — Cottesloe, 2024',cat:'Pool'},
-    {url:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=900&h=675&fit=crop&q=85',caption:'Full perimeter Colorbond — Joondalup, 2025',cat:'Colorbond'},
-    {url:'https://images.unsplash.com/photo-1449247526831-6db0eca93eab?w=900&h=675&fit=crop&q=85',caption:'Treated pine paling — Fremantle, 2024',cat:'Timber'},
-    {url:'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&h=675&fit=crop&q=85',caption:'Privacy aluminium slat — South Perth, 2025',cat:'Aluminium'},
-    {url:'https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=900&h=675&fit=crop&q=85',caption:'Semi-frameless pool fence — Rockingham, 2025',cat:'Pool'}
-  ];
-
-  var galIdx=0;
-  var galFilter='All';
-  var galFiltered=GALLERY;
-
-  function getFiltered(){
-    return galFilter==='All'?GALLERY:GALLERY.filter(function(g){return g.cat===galFilter});
-  }
-
-  window.openGallery=function(startIdx){
-    galFilter='All';galFiltered=getFiltered();
-    galIdx=startIdx||0;
-    renderGalCats();renderGalDots();showGalSlide();
-    document.getElementById('gallery-overlay').classList.add('open');
-    document.body.style.overflow='hidden';
-  };
-
-  window.closeGallery=function(){
-    document.getElementById('gallery-overlay').classList.remove('open');
-    document.body.style.overflow='';
-  };
-
-  function renderGalCats(){
-    var cats=['All','Colorbond','Timber','Aluminium','Pool'];
-    var html='';
-    cats.forEach(function(c){
-      html+='<button class="gallery-label-btn'+(c===galFilter?' active':'')+'" onclick="filterGallery(\''+c+'\')">'+c+'</button>';
-    });
-    document.getElementById('gallery-cats').innerHTML=html;
-  }
-
-  window.filterGallery=function(cat){
-    galFilter=cat;galFiltered=getFiltered();galIdx=0;
-    renderGalCats();renderGalDots();showGalSlide();
-  };
-
-  function renderGalDots(){
-    var html='';
-    galFiltered.forEach(function(_,i){
-      html+='<button class="gallery-dot'+(i===galIdx?' active':'')+'" onclick="galJump('+i+')"></button>';
-    });
-    document.getElementById('gallery-dots').innerHTML=html;
-  }
-
-  window.galJump=function(i){galIdx=i;showGalSlide();renderGalDots();};
-
-  function showGalSlide(){
-    if(!galFiltered.length)return;
-    var item=galFiltered[galIdx];
-    var img=document.getElementById('gallery-img');
-    var ph=document.getElementById('gallery-placeholder');
-    img.style.display='block';ph.style.display='none';
-    img.src=item.url;
-    img.alt=item.caption;
-    document.getElementById('gallery-caption').textContent=item.caption;
-    document.getElementById('gallery-counter').textContent=(galIdx+1)+' / '+galFiltered.length;
-    // update dots
-    var dots=document.querySelectorAll('.gallery-dot');
-    dots.forEach(function(d,i){d.classList.toggle('active',i===galIdx)});
-  }
-
-  window.galleryNav=function(dir){
-    if(!galFiltered.length)return;
-    galIdx=(galIdx+dir+galFiltered.length)%galFiltered.length;
-    showGalSlide();renderGalDots();
-  };
-
-  // Swipe support for gallery
-  var tsX=null;
-  document.getElementById('gallery-overlay').addEventListener('touchstart',function(e){tsX=e.touches[0].clientX},{passive:true});
-  document.getElementById('gallery-overlay').addEventListener('touchend',function(e){
-    if(tsX===null)return;
-    var dx=e.changedTouches[0].clientX-tsX;
-    if(Math.abs(dx)>40)galleryNav(dx<0?1:-1);
-    tsX=null;
-  },{passive:true});
-  // Keyboard nav
-  document.addEventListener('keydown',function(e){
-    if(!document.getElementById('gallery-overlay').classList.contains('open'))return;
-    if(e.key==='ArrowLeft')galleryNav(-1);
-    if(e.key==='ArrowRight')galleryNav(1);
-    if(e.key==='Escape')closeGallery();
-  });
-
-  // ── WIDGET STATE ──
-  var state={fenceType:'colorbond',length:20,height:1800,removal:'no',slope:'flat',coastal:'inland',gate:'none',contactPref:'email',timeline:'asap'};
-  var lastResult=null;
-  var runs=[20];
-
-  var tips={
-    fenceType:{title:'Choosing Your Fence',content:'<p><strong>Colorbond</strong> — Perth\'s #1 fencing. Steel panels that won\'t warp, rot, or need painting. 22 colours. 20–30+ year lifespan.</p><p><strong>Timber</strong> — Natural look, suits gardens and heritage areas. Treated pine lasts 15–20 years. Needs oiling every 2–3 years.</p><p><strong>Aluminium Slat</strong> — Modern, low maintenance, won\'t rust. Great near pools and coastal areas.</p><p><strong>Pool Fencing</strong> — Must comply with AS1926.1. Certified inspection required — we handle all compliance for you.</p>'},
-    length:{title:'Measuring Your Fence Run',content:'<p>Walk the fence line and count your steps — each adult step is roughly 0.75m. So 30 steps ≈ 22 metres.</p><p>Or use Google Maps: right-click your boundary → "Measure distance". For corners, measure each section separately and add together.</p>'},
-    height:{title:'Fence Height & Perth Regulations',content:'<p><strong>1.2m</strong> — Low boundary. Usually no permit needed.</p><p><strong>1.5m</strong> — Common front fence. Check with council.</p><p><strong>1.8m</strong> — Standard privacy fence. May need a building permit.</p><p><strong>2.1m</strong> — Tall fence. Permit likely required in most Perth councils.</p><p><strong>Dividing Fences Act WA:</strong> Neighbours typically split the cost of a standard 1.8m Colorbond dividing fence.</p>'},
-    removal:{title:'Old Fence Removal',content:'<p>Removing an old fence adds $15–$25 per metre, covering labour, post extraction, and tip disposal.</p><p><strong>Asbestos fencing:</strong> Common in pre-1980s Perth homes. Must be handled by a licensed removalist. Get it tested if unsure.</p>'},
-    slope:{title:'Sloping Blocks in Perth',content:'<p><strong>Flat:</strong> Standard pricing applies.</p><p><strong>Gentle slope:</strong> Stepped or raked panels. Adds 10–15%.</p><p><strong>Steep or rocky:</strong> Core drilling into limestone may be needed — common north of the river. Adds 20–25%. We confirm on site.</p>'},
-    coastal:{title:'Coastal Exposure in Perth',content:'<p>Within 10km of the coast, salt air attacks steel finishes faster. We use Colorbond Coastal spec with marine-grade coating. Timber is not recommended near the coast. Budget 8–12% extra for coastal materials.</p>'},
-    gate:{title:'Gates',content:'<p><strong>Pedestrian gate</strong> — Single leaf, 900–1200mm wide. $350–$600 installed.</p><p><strong>Driveway gate</strong> — Double leaf swing or sliding. Manual: $900–$1,800. Add $1,200–$2,500 for motor and remote.</p>'},
-    bizInfo:{title:'About Jarrah Fencing Perth',content:'<p><strong>Family run since 2012.</strong> Over 2,400 fences across Perth metro — Joondalup to Mandurah.</p><p>⭐⭐⭐⭐⭐ <em>"Turned up on time, cleaned up after themselves, and the fence looks absolutely brilliant."</em> — Sarah, Stirling</p><p>⭐⭐⭐⭐⭐ <em>"Fixed our old Colorbond and it looks brand new. Fair price, no dramas."</em> — Mark, Rockingham</p><p>5-year labour warranty. Free measure and quote.</p>'},
-    itabsInfo:{title:'What is iTabs?',content:'<p><strong>iTabs builds instant quote tools for trade businesses.</strong> Instead of a contact form and a 2-day wait — customers get a ballpark in 60 seconds.</p><p>This tool was built specifically for Jarrah Fencing Perth — their colours, their services, their pricing.</p><p><strong>Are you a tradie?</strong> We can build one of these for your business. Free to try.</p><p><a href="https://itabs.ai" style="color:#e85d04;" target="_blank">Find out more at itabs.ai →</a></p>'},
-    comparison:{title:'How Fence Types Compare',content:'<p><strong>Colorbond vs Timber</strong> — Colorbond costs slightly more upfront but zero maintenance. Over 20 years, almost always cheaper total.</p><p><strong>Colorbond vs Aluminium</strong> — Both low maintenance. Aluminium looks more modern and is better near pools.</p><p><strong>Pool Fencing</strong> — Legally required around pools. Glass looks premium, aluminium is the practical option.</p>'}
-  };
-
-  function fmt(n){return n.toLocaleString()}
-
-  function countUp(el,target,duration){
-    var start=null;
-    function step(ts){
-      if(!start)start=ts;
-      var p=Math.min((ts-start)/duration,1);
-      var e=1-Math.pow(1-p,3);
-      el.textContent='$'+fmt(Math.round(target*e));
-      if(p<1)requestAnimationFrame(step);
+    {
+        tag: "02 / AIDAN MORGAN 🏦", tagClass: "tag-purple",
+        headline: "Three <em>Loops</em> — Get Out of the Way",
+        heroClass: "hero-purple",
+        summary: "Aidan's framework from Bankwest: Inner Loop (AI writes and tests code autonomously), Middle Loop (quality gates keep it honest), Outer Loop (integration and release). Size tasks to ~4 hours of human dev work. Design the factory once — then let it run.",
+        analogy: { title: "Think of it like...", text: "A production line with automated quality checkpoints. Design it once — step back." },
+        iButtons: [
+            { label: "Inner Loop", type: "definition", term: "Inner Loop", content: "Write Test → Write Code → Run Tests. Fully automated. The AI iterates without human involvement. As the slide said directly: you aren't needed in this loop." },
+            { label: "Task sizing", type: "why-it-matters", term: "~4 Hour Tasks", content: "Tasks sized to ~4 hours of human dev work give the AI a bounded scope. Too big and it drifts. Too small and you lose efficiency. A deliberate constraint that keeps the loop tight." }
+        ]
+    },
+    {
+        tag: "03 / AIDAN MORGAN ⚡", tagClass: "tag-cyan",
+        headline: "<em>Backpressure</em> — the Signal That Keeps It Honest",
+        heroClass: "hero-cyan",
+        summary: "The Middle Loop creates backpressure — a fast automated signal the LLM is going wrong so it self-corrects. Cannot come from a human (too slow). Must be binary: good or bad, no grey zone. semgrep detects AI slop. ast-grep blocks bad code structures.",
+        analogy: null,
+        iButtons: [
+            { label: "semgrep", type: "definition", term: "semgrep", content: "Scans the codebase for issues beyond syntax — TODO stubs, repeated strings that should be Enums, empty exception handlers, and AI slop patterns (lazy shortcuts LLMs habitually take)." },
+            { label: "JBGE", type: "definition", term: "JBGE", content: "Just Barely Good Enough. Accept JBGE and block the LLM's ability to judge or ignore a problem. Remove subjectivity from the quality gate entirely. Binary only." }
+        ]
+    },
+    {
+        tag: "04 / AIDAN MORGAN 🔄", tagClass: "tag-cyan",
+        headline: "Horizontal <em>Layers</em> Beat Vertical Slices",
+        heroClass: "hero-cyan",
+        summary: "Forget thin vertical slices — wrong model for agentic builds. Use horizontal layers with sub-agents specialised per layer, each with a focused system prompt. MEMORY.md handles context rot. With 1M context windows, drift before compaction is now the bigger risk.",
+        analogy: null,
+        iButtons: [
+            { label: "Context rot", type: "definition", term: "Context Rot", content: "As LLM sessions grow, earlier instructions become less reliable and the model drifts. MEMORY.md re-injects key context at the start of each session to compensate." },
+            { label: "TDD rethink", type: "why-it-matters", term: "TDD for LLMs", content: "TDD was a teaching tool for humans learning testable code. LLMs already know this — so TDD is not required. Testing is still critical. Pyramid becomes a rhombus: more integration and property tests." }
+        ]
+    },
+    {
+        tag: "05 / VANESSA ENNIS 💡", tagClass: "tag-green",
+        headline: "Claude Code Is a <em>Working Differently</em> Tool",
+        heroClass: "hero-green",
+        summary: "Vanessa's reframe as a non-technical PM: stop thinking developer-first. Her stack: Claude for user stories → Lovable for rapid prototyping → Cursor for plans → Claude Code for the full build. Build claude.md first. Treat every output as a first draft.",
+        analogy: null,
+        iButtons: [
+            { label: "claude.md", type: "definition", term: "claude.md", content: "A markdown file giving Claude Code persistent project context — goals, constraints, tech stack, decisions made. Referenced throughout the build. Create this before writing a single line of code." },
+            { label: "3 power prompts", type: "why-it-matters", term: "Genius-Level Prompts", content: "From Sabrina Ramonov: (1) Ask clarifying questions until you are 95% confident. (2) What would a top 0.1% person in this field think? (3) Reframe this to challenge how I see the problem." }
+        ]
+    },
+    {
+        tag: "06 / VANESSA ENNIS 🚀", tagClass: "tag-green",
+        headline: "Built a Real App — <em>No Developer</em>, No Sprint",
+        heroClass: "hero-green",
+        summary: "Vanessa built Golden Hour — habits, finance, exercise dashboard — solo as a non-technical PM. No developer. No sprint. Shipped in hours. Used Claude for code review: not to read every line, but to ask the right questions. Real confidence, not just trust.",
+        analogy: null,
+        iButtons: [{ label: "Key lessons", type: "why-it-matters", term: "Vanessa's Lessons", content: "Start earlier than you think. Pursue personal projects — less pressure to experiment. Build claude.md first. Treat outputs as first drafts and always push further. AI makes mistakes: build in checks." }]
+    },
+    {
+        tag: "07 / ITABS LESSONS 🛠️", tagClass: "tag-amber",
+        headline: "What Tonight Means for <em>iTabs Dev</em>",
+        heroClass: "hero-amber",
+        summary: "iTabs already runs an inner loop — email brief → Claude builds widget → deploys to GitHub Pages. SKILL.md is the equivalent of MEMORY.md. But two things are missing: backpressure before deploy, and a split prompt architecture.",
+        analogy: { title: "Honest audit...", text: "Already doing: inner loop, context injection, treating outputs as drafts. Missing: binary quality gate, split prompt modules." },
+        iButtons: [
+            { label: "Missing: backpressure", type: "why-it-matters", term: "No Quality Gate Yet", content: "Claude output currently goes straight to GitHub deploy with no check. A Make.com filter checking for Web3Forms key, card structure, and no placeholder text is a real backpressure gate. 20 minutes to build." },
+            { label: "Missing: split prompts", type: "why-it-matters", term: "One Prompt Does Too Much", content: "One Claude prompt currently reads the brief, designs cards, writes copy, and builds HTML. Splitting into Brief Interpreter (JSON out) and Builder (HTML from JSON) means cleaner output and easier debugging." }
+        ]
+    },
+    {
+        tag: "08 / NEXT ACTIONS ✅", tagClass: "tag-green",
+        headline: "Three <em>Next Actions</em> From Tonight",
+        heroClass: "hero-green",
+        summary: "Small targeted improvements that tighten the loop and make every iTabs widget build more reliable. Not big projects — focused upgrades to an already-working pipeline.",
+        analogy: null,
+        iButtons: [
+            { label: "Action 1 🎯", type: "definition", term: "Add Backpressure Gate", content: "Make.com filter between Claude output and GitHub deploy. Check HTML contains Web3Forms key, at least 3 card objects, no lorem ipsum. Fail and flag rather than deploying a broken widget." },
+            { label: "Action 2 🎯", type: "definition", term: "Split the Build Prompt", content: "Module 1: reads tradie email, outputs structured JSON (name, services, suburb, theme). Module 2: takes JSON, builds widget HTML. Cleaner, more debuggable, better quality." },
+            { label: "Action 3 🎯", type: "definition", term: "Prompt Injection Guard", content: "Before going public with build@itabs.ai, strip instruction-like patterns from the brief before passing to Claude. A crafted email could otherwise try to override the system prompt." }
+        ]
+    },
+    {
+        tag: "09 / BIG PICTURE 🌱", tagClass: "tag-purple",
+        headline: "The Loop Gets Tighter. <em>So Does the Edge.</em>",
+        heroClass: "hero-purple",
+        summary: "Both talks pointed the same direction: the winners aren't the best coders — they're the people who design the loops, write the guardrails, and let the AI run. A boilermaker building AI tools for tradies from a Spacecubed meetup is exactly that story.",
+        analogy: { title: "The shift in one line...", text: "From: 'I need a developer.' To: 'I need a good brief and a tight loop.'" },
+        iButtons: [{ label: "iTabs is already there", type: "why-it-matters", term: "Validation", content: "The Make.com pipeline IS an agentic inner loop. SKILL.md IS a MEMORY.md. The $290 one-off model IS treating outputs as first drafts. Tonight wasn't a lesson in what to build — it was validation the approach is right." }]
     }
-    requestAnimationFrame(step);
-  }
+];
 
-  window.updateLiveTicker=function(){
-    var ticker=document.getElementById('live-ticker');
-    if(!ticker.classList.contains('showing'))return;
-    var len=runs.reduce(function(a,b){return a+b},0);
-    var h=parseInt(document.getElementById('w-height').value)||state.height;
-    var removal=document.getElementById('w-removal')?document.getElementById('w-removal').value:'no';
-    var slope=document.getElementById('w-slope')?document.getElementById('w-slope').value:'flat';
-    var coastal=document.getElementById('w-coastal')?document.getElementById('w-coastal').value:'inland';
-    var gate=document.getElementById('w-gate')?document.getElementById('w-gate').value:'none';
-    var adj=1.0;
-    if(slope==='gentle')adj+=0.12;if(slope==='steep')adj+=0.25;
-    if(coastal==='coastal')adj+=0.10;if(h>=2100)adj+=0.12;
-    var r=CONFIG.rates[state.fenceType];
-    var tMin=Math.round(r.min*len*adj),tMax=Math.round(r.max*len*adj);
-    if(removal==='yes'){tMin+=Math.round(CONFIG.extras.removal.min*len);tMax+=Math.round(CONFIG.extras.removal.max*len);}
-    if(gate==='pedestrian'){tMin+=CONFIG.extras.gate_pedestrian.min;tMax+=CONFIG.extras.gate_pedestrian.max;}
-    if(gate==='driveway'){tMin+=CONFIG.extras.gate_driveway.min;tMax+=CONFIG.extras.gate_driveway.max;}
-    if(state.fenceType==='pool'){tMin+=250;tMax+=500;}
-    document.getElementById('ticker-val').textContent='~$'+fmt(tMin)+' – $'+fmt(tMax);
-  };
+let currentCard = 0;
+const totalCards = cards.length;
 
-  function showLiveTicker(){
-    var t=document.getElementById('live-ticker');
-    t.style.display='block';t.classList.add('showing');updateLiveTicker();
-  }
-
-  function completeStep(from,to){
-    var fc=document.getElementById('wstep'+from),tc=document.getElementById('wstep'+to);
-    fc.classList.remove('active');fc.classList.add('completed');
-    updateSummary(from);document.getElementById('wnum'+from).textContent='✓';
-    tc.classList.add('active');
-    var dots=document.querySelectorAll('.wp-dot');
-    for(var i=0;i<to;i++)dots[i].classList.add('active');
-    setTimeout(function(){tc.scrollIntoView({behavior:'smooth',block:'start'})},100);
-    if(from===1)showLiveTicker();
-  }
-
-  window.goStep=function(n){
-    var card=document.getElementById('wstep'+n);
-    var isOpen=card.classList.contains('active');
-    document.querySelectorAll('.step-card').forEach(function(c){c.classList.remove('active')});
-    if(!isOpen)card.classList.add('active');
-  };
-
-  window.nextStep=function(from,to){readInputs();completeStep(from,to)};
-
-  function updateSummary(step){
-    var names={colorbond:'Colorbond',timber:'Timber',aluminium:'Aluminium',pool:'Pool'};
-    if(step===1)document.getElementById('wsum1').textContent=names[state.fenceType]||'';
-    else if(step===2){
-      state.length=runs.reduce(function(a,b){return a+b},0);
-      state.height=parseInt(document.getElementById('w-height').value);
-      document.getElementById('wsum2').textContent=state.length+'m × '+(state.height/1000).toFixed(1)+'m';
-    }else if(step===3){
-      var p=[];
-      if(state.removal==='yes')p.push('Removal');
-      if(state.slope!=='flat')p.push(state.slope==='steep'?'Rocky':'Sloped');
-      if(state.coastal==='coastal')p.push('Coastal');
-      if(state.gate!=='none')p.push('Gate');
-      document.getElementById('wsum3').textContent=p.length?p.join(' / '):'Standard';
-    }
-  }
-
-  window.selectFence=function(type,el){
-    state.fenceType=type;
-    document.querySelectorAll('.fence-card').forEach(function(c){c.classList.remove('selected','bounce')});
-    el.classList.add('selected');
-    void el.offsetWidth;
-    el.classList.add('bounce');
-    el.addEventListener('animationend',function(){el.classList.remove('bounce')},{once:true});
-    setTimeout(function(){completeStep(1,2)},350);
-  };
-
-  function readInputs(){
-    state.length=runs.reduce(function(a,b){return a+b},0);
-    state.height=parseInt(document.getElementById('w-height').value);
-    state.removal=document.getElementById('w-removal').value;
-    state.slope=document.getElementById('w-slope').value;
-    state.coastal=document.getElementById('w-coastal').value;
-    state.gate=document.getElementById('w-gate').value;
-  }
-
-  function calculate(){
-    readInputs();
-    var len=state.length,adj=1.0;
-    if(state.slope==='gentle')adj+=0.12;if(state.slope==='steep')adj+=0.25;
-    if(state.coastal==='coastal')adj+=0.10;if(state.height>=2100)adj+=0.12;
-    var r=CONFIG.rates[state.fenceType];
-    var rawMin=Math.round(r.min*len*adj),rawMax=Math.round(r.max*len*adj);
-    var li=CONFIG.lineItems[state.fenceType];
-    var lineItems=[];
-    if(state.fenceType==='colorbond'){
-      lineItems.push({name:'Steel posts & caps',min:Math.round(li.posts[0]*len),max:Math.round(li.posts[1]*len)});
-      lineItems.push({name:'Top & bottom rails',min:Math.round(li.rails[0]*len),max:Math.round(li.rails[1]*len)});
-      lineItems.push({name:'Colorbond panels',min:Math.round(li.panels[0]*len),max:Math.round(li.panels[1]*len)});
-    }else if(state.fenceType==='timber'){
-      lineItems.push({name:'Treated pine posts',min:Math.round(li.posts[0]*len),max:Math.round(li.posts[1]*len)});
-      lineItems.push({name:'Rails (top, mid, bottom)',min:Math.round(li.rails[0]*len),max:Math.round(li.rails[1]*len)});
-      lineItems.push({name:'Timber boards / palings',min:Math.round(li.boards[0]*len),max:Math.round(li.boards[1]*len)});
-    }else if(state.fenceType==='aluminium'){
-      lineItems.push({name:'Aluminium posts',min:Math.round(li.posts[0]*len),max:Math.round(li.posts[1]*len)});
-      lineItems.push({name:'Horizontal rails',min:Math.round(li.rails[0]*len),max:Math.round(li.rails[1]*len)});
-      lineItems.push({name:'Slat panels (powder-coated)',min:Math.round(li.panels[0]*len),max:Math.round(li.panels[1]*len)});
-    }else{
-      lineItems.push({name:'Posts & footings',min:Math.round(li.posts[0]*len),max:Math.round(li.posts[1]*len)});
-      lineItems.push({name:'Glass / aluminium panels',min:Math.round(li.panels[0]*len),max:Math.round(li.panels[1]*len)});
-      lineItems.push({name:'Spigots, clips & hardware',min:Math.round(li.clips[0]*len),max:Math.round(li.clips[1]*len)});
-    }
-    lineItems.push({name:'Labour & installation',min:Math.round(li.labour[0]*len*adj),max:Math.round(li.labour[1]*len*adj)});
-    if(state.removal==='yes'){var rem={min:Math.round(15*len),max:Math.round(25*len)};lineItems.push({name:'Old fence removal & disposal',min:rem.min,max:rem.max});rawMin+=rem.min;rawMax+=rem.max;}
-    if(state.gate==='pedestrian'){lineItems.push({name:'Pedestrian gate (installed)',min:350,max:600});rawMin+=350;rawMax+=600;}
-    if(state.gate==='driveway'){lineItems.push({name:'Driveway gate (installed)',min:900,max:1800});rawMin+=900;rawMax+=1800;}
-    if(state.fenceType==='pool'){lineItems.push({name:'Compliance inspection & cert',min:250,max:500});rawMin+=250;rawMax+=500;}
-    var comparisons=[
-      {label:'Timber',colour:'#8B6914',min:Math.round(85*len*adj),max:Math.round(120*len*adj),hl:state.fenceType==='timber'},
-      {label:'Colorbond',colour:'#4A7C59',min:Math.round(95*len*adj),max:Math.round(130*len*adj),hl:state.fenceType==='colorbond'},
-      {label:'Aluminium',colour:'#3A6B8A',min:Math.round(150*len*adj),max:Math.round(220*len*adj),hl:state.fenceType==='aluminium'},
-      {label:'Pool Glass',colour:'#555',min:Math.round(180*len*adj),max:Math.round(350*len*adj),hl:state.fenceType==='pool'}
-    ].sort(function(a,b){return(a.min+a.max)/2-(b.min+b.max)/2});
-    return{min:rawMin,max:rawMax,range:'$'+fmt(rawMin)+' – $'+fmt(rawMax),lineItems:lineItems,comparisons:comparisons};
-  }
-
-  function renderAlerts(){
-    var html='';
-    if(state.fenceType==='pool')html+='<div class="alert alert-danger"><strong>Pool fencing compliance required.</strong> Must meet AS1926.1. We handle certification and council inspection for you.</div>';
-    if(state.height>=2100)html+='<div class="alert alert-warn"><strong>2.1m fence</strong> — building permit likely required in most Perth councils.</div>';
-    if(state.slope==='steep')html+='<div class="alert alert-warn"><strong>Steep or rocky block.</strong> Core drilling may be needed. We\'ll confirm on the site measure.</div>';
-    if(state.coastal==='coastal')html+='<div class="alert alert-info"><strong>Coastal zone:</strong> Marine-grade materials and hardware included in your estimate.</div>';
-    if(state.fenceType==='timber'&&state.coastal==='coastal')html+='<div class="alert alert-warn"><strong>Timber + coastal</strong> — salt accelerates rot. Colorbond or aluminium holds up better near the coast.</div>';
-    document.getElementById('w-alerts').innerHTML=html;
-  }
-
-  function renderChart(result){
-    var maxC=0;result.comparisons.forEach(function(c){if(c.max>maxC)maxC=c.max});
-    var html='';
-    result.comparisons.forEach(function(c){
-      var pct=Math.max(Math.round(((c.min+c.max)/2/maxC)*100),22);
-      html+='<div class="bar-row'+(c.hl?' hl':'')+'"><div class="bar-label">'+c.label+'</div><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:'+c.colour+'">$'+fmt(c.min)+'–$'+fmt(c.max)+'</div></div></div>';
+function init() {
+    const progress = document.getElementById('progress');
+    const wrapper = document.getElementById('cardsWrapper');
+    cards.forEach((card, i) => {
+        const seg = document.createElement('div');
+        seg.className = 'progress-segment' + (i === 0 ? ' active' : '');
+        progress.appendChild(seg);
+        wrapper.appendChild(buildCard(card, i));
     });
-    document.getElementById('w-chart').innerHTML=html;
-  }
-
-  function renderBreakdown(result){
-    var html='',tMin=0,tMax=0;
-    result.lineItems.forEach(function(item){tMin+=item.min;tMax+=item.max;html+='<tr><td>'+item.name+'</td><td style="text-align:right">$'+fmt(item.min)+' – $'+fmt(item.max)+'</td></tr>';});
-    html+='<tr class="total"><td>Estimated Total</td><td style="text-align:right">$'+fmt(tMin)+' – $'+fmt(tMax)+'</td></tr>';
-    document.getElementById('w-bd-body').innerHTML=html;
-  }
-
-  window.runEstimate=function(){
-    readInputs();updateSummary(3);
-    document.getElementById('wstep3').classList.remove('active');
-    document.getElementById('wstep3').classList.add('completed');
-    document.getElementById('wnum3').textContent='✓';
-    lastResult=calculate();
-    var sumEl=document.getElementById('wsum4');
-    var finalRange=lastResult.range;
-    var tempEl=document.createElement('span');
-    sumEl.textContent='';sumEl.appendChild(tempEl);
-    countUp(tempEl,lastResult.min,900);
-    setTimeout(function(){sumEl.textContent=finalRange;},950);
-    document.getElementById('wstep4').classList.add('active');
-    var dots=document.querySelectorAll('.wp-dot');
-    for(var i=0;i<4;i++)dots[i].classList.add('active');
-    renderAlerts();renderChart(lastResult);
-    document.getElementById('sticky-range').textContent=finalRange;
-    document.getElementById('sticky-strip').classList.add('show');
-    setTimeout(function(){document.getElementById('wstep4').scrollIntoView({behavior:'smooth',block:'start'})},100);
-  };
-
-  window.setContact=function(pref){
-    state.contactPref=pref;
-    document.getElementById('tc-email').classList.toggle('active',pref==='email');
-    document.getElementById('tc-phone').classList.toggle('active',pref==='phone');
-  };
-
-  window.setTimeline=function(val,el){
-    state.timeline=val;
-    document.querySelectorAll('.timeline-btn').forEach(function(b){b.classList.remove('active')});
-    el.classList.add('active');
-  };
-
-  window.submitLead=function(){
-    var name=document.getElementById('w-name').value.trim();
-    var email=document.getElementById('w-email').value.trim();
-    var phone=document.getElementById('w-phone').value.trim();
-    var suburb=document.getElementById('w-suburb').value;
-    if(!name||!email){alert('Please fill in your name and email to see the breakdown.');return}
-    var fenceLabels={colorbond:'Colorbond Steel',timber:'Timber',aluminium:'Aluminium Slat',pool:'Pool Fencing'};
-    var message=['--- CUSTOMER DETAILS ---','Name: '+name,'Email: '+email,'Phone: '+(phone||'Not provided'),'Preferred contact: '+state.contactPref,'Suburb: '+(suburb||'Not provided'),'Timeline: '+state.timeline,'','--- FENCE SPECIFICATIONS ---','Fence type: '+(fenceLabels[state.fenceType]||state.fenceType),'Length: '+state.length+'m','Height: '+(state.height/1000).toFixed(1)+'m','Old fence removal: '+state.removal,'Slope: '+state.slope,'Coastal exposure: '+state.coastal,'Gate: '+state.gate,'','Source: '+(new URLSearchParams(window.location.search).get('src')||'direct')].join('\n');
-    fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:CONFIG.web3Key,subject:'New Fencing Enquiry – '+name+(suburb?' ('+suburb+')':''),from_name:name,replyto:email,to:CONFIG.opEmail,message:message})}).then(function(r){return r.json()}).then(function(d){console.log('Lead sent:',d)}).catch(function(e){console.error(e)});
-    document.getElementById('w-leadgate').style.display='none';
-    document.getElementById('sticky-strip').classList.remove('show');
-    renderBreakdown(lastResult);
-    document.getElementById('w-breakdown').classList.add('visible');
-  };
-
-  window.openModal=function(key){
-    var t=tips[key];if(!t)return;
-    document.getElementById('modal-title').textContent=t.title;
-    document.getElementById('modal-content').innerHTML=t.content;
-    document.getElementById('modal-overlay').classList.add('open');
-  };
-  window.closeModal=function(){document.getElementById('modal-overlay').classList.remove('open')};
-
-  // ── RUNS SYSTEM ──
-  function renderRuns(){
-    var container=document.getElementById('runs-container');var html='';
-    runs.forEach(function(len,i){
-      var labels=['Back fence','Side fence','Front fence','Section '+(i+1)];
-      var label=runs.length===1?'Length':(labels[i]||'Section '+(i+1));
-      html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="font-size:.75rem;color:var(--w-slate);width:72px;flex-shrink:0;">'+label+'</div><input type="range" min="2" max="80" value="'+len+'" style="flex:1;accent-color:var(--w-primary)" oninput="updateRun('+i+',parseInt(this.value))"><div style="font-weight:700;font-size:.88rem;min-width:36px;text-align:right;color:var(--w-dark)">'+len+'m</div>'+(runs.length>1?'<button onclick="removeRun('+i+')" style="background:rgba(192,57,43,.1);border:none;color:var(--w-danger);width:24px;height:24px;border-radius:6px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">×</button>':'')+'</div>';
+    document.getElementById('counter').textContent = `1 / ${totalCards}`;
+    document.getElementById('prevBtn').disabled = true;
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight') navigate(1);
+        if (e.key === 'ArrowLeft') navigate(-1);
+        if (e.key === 'Escape') closeModal();
     });
-    container.innerHTML=html;updateTotalDisplay();
-  }
-  window.updateRun=function(i,val){runs[i]=val;updateTotalDisplay();updateLiveTicker()};
-  function updateTotalDisplay(){
-    var total=runs.reduce(function(a,b){return a+b},0);state.length=total;
-    var el=document.getElementById('total-length-display');if(el)el.textContent=total+'m';
-    updateLiveTicker();
-  }
-  window.add
+    let startX = 0;
+    const cw = document.getElementById('cardsWrapper');
+    cw.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    cw.addEventListener('touchend', e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+    });
+}
+
+function buildCard(card, index) {
+    const el = document.createElement('div');
+    el.className = 'card' + (index === 0 ? ' active' : '');
+    const analogyHTML = card.analogy ? `<div class="analogy-box"><div class="analogy-title">${card.analogy.title}</div><div class="analogy-text">${card.analogy.text}</div></div>` : '';
+    const iButtonsHTML = card.iButtons.length ? `<div class="i-buttons">${card.iButtons.map(b => `<button class="i-button" data-term="${b.term}" data-type="${b.type}" data-content="${encodeURIComponent(b.content)}"><span class="i-dot">i</span>${b.label}</button>`).join('')}</div>` : '';
+    el.innerHTML = `
+        <div class="card-hero ${card.heroClass}">
+            <div class="card-tag ${card.tagClass}">${card.tag}</div>
+            <h2 class="card-headline">${card.headline}</h2>
+        </div>
+        <div class="card-body">
+            <p class="card-summary">${card.summary}</p>
+            ${analogyHTML}
+            ${iButtonsHTML}
+        </div>`;
+    el.querySelectorAll('.i-button').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            openModal(btn.dataset.term, btn.dataset.type, decodeURIComponent(btn.dataset.content));
+        });
+    });
+    return el;
+}
+
+function navigate(dir) {
+    const next = currentCard + dir;
+    if (next >= 0 && next < totalCards) updateCard(next);
+}
+
+function updateCard(index) {
+    document.querySelectorAll('.card').forEach((c, i) => {
+        c.classList.remove('active', 'prev');
+        if (i === index) c.classList.add('active');
+        else if (i < index) c.classList.add('prev');
+    });
+    document.querySelectorAll('.progress-segment').forEach((s, i) => {
+        s.classList.remove('active', 'viewed');
+        if (i === index) s.classList.add('active');
+        else if (i < index) s.classList.add('viewed');
+    });
+    currentCard = index;
+    document.getElementById('counter').textContent = `${index + 1} / ${totalCards}`;
+    document.getElementById('prevBtn').disabled = index === 0;
+    document.getElementById('nextBtn').disabled = index === totalCards - 1;
+}
+
+function openModal(term, type, content) {
+    const labels = { 'definition': 'Definition', 'context': 'Context', 'why-it-matters': 'Why It Matters', 'related': 'Related' };
+    document.getElementById('modalTerm').textContent = term;
+    document.getElementById('modalType').textContent = labels[type] || type;
+    document.getElementById('modalContent').textContent = content;
+    document.getElementById('modalOverlay').classList.add('active');
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+init();
+</script>
+</body>
+</html>
